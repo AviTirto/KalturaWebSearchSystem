@@ -101,11 +101,6 @@ class Scraper():
         
         return self.download_dir
 
-    
-
-
-
-## RUN THE FOLLOWING WHEN YOU WANT TO DOWNLOAD THE SRT FILES
 
 
 
