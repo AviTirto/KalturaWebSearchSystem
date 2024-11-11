@@ -18,7 +18,7 @@ class Embedder(EmbeddingFunction):
         embeddings = genai.embed_content(
             model="models/text-embedding-004",
             content=input,
-            task_type="document"
+            task_type="question_answering"
         )["embedding"]
 
         return embeddings

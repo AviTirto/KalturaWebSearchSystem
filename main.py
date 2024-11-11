@@ -11,11 +11,15 @@ import os
 # embedder = Embedder(download_dir)
 # embedder.embed("/Users/avitirto/Documents/ML/KalturaSearchSystem/lecture_srt/Tyler Caraza-Harter-Agriculture 125-09_04_24-14_18_34 (1).srt")
 
-p = Parser()
-c = p.parse_chunks("/Users/avitirto/Documents/ML/KalturaSearchSystem/lecture_srt/Tyler Caraza-Harter-Agriculture 125-09_04_24-14_18_34 (1).srt")
-print(c)
+# p = Parser()
+# c = p.parse_chunks("/Users/avitirto/Documents/ML/KalturaSearchSystem/lecture_srt/Tyler Caraza-Harter-Agriculture 125-09_04_24-14_18_34 (1).srt")
+# print(c)
 
-# storage = Storage()
+storage = Storage()
 # storage.db.delete_collection("Lectures")
 # print(storage.db.list_collections())
 # storage.add_lecture("/Users/avitirto/Documents/ML/KalturaSearchSystem/lecture_srt/Tyler Caraza-Harter-Agriculture 125-09_04_24-14_18_34 (1).srt")
+
+r = storage.query("What is RAM?")
+print(r)
+print(len(r))

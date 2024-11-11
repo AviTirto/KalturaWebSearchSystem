@@ -42,6 +42,13 @@ class Storage:
                 }]
             )
 
+    def query(self, query):
+        results = self.lectures_tbl.query(
+            query_texts = [query],
+            n_results = 10
+        )
+        return [doc[0] for doc in results['documents']]
+
 
 
     
