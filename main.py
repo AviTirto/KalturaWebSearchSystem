@@ -6,7 +6,9 @@ import os
 
 scraper = Scraper()
 # srt_dir = scraper.execute()
-scraper.get_embed_link("https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-09_04_24-14%3A18%3A34/1_sbftfkbl")
+# scraper.get_embed_link("https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-09_04_24-14%3A18%3A34/1_sbftfkbl")
+filename = scraper.get_srt_file('https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-11_04_24-14%3A23%3A20/1_nvpd3bo8')
+print(filename)
 
 # download_dir = os.getenv('SRT_PATH')
 # embedder = Embedder(download_dir)

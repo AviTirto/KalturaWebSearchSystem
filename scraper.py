@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import time
 import pandas as pd
 import os
@@ -55,33 +57,75 @@ class Scraper():
         finally:
             self.driver.quit()
 
-    # This function 
-    def populate_df(self, url):
-        data = []
-        rows = self.driver.find_elements(By.CLASS_NAME, 'row')
-        for row in rows:
-            cols = row.find_elements(By.CLASS_NAME, 'col-md-4')
-            for col in cols:
-                if 'Watch' in col.text:
-                    links = col.find_elements(By.TAG_NAME, 'a')
-                    for link in links:
-                        lecture_link = link.get_attribute('href')
-                        if 'mediaspace' in lecture_link:
-                            lecture_title = col.find_element(By.TAG_NAME, 'span').text
-                            date = col.find_element(By.TAG_NAME, 'strong').text
-                            embed_link = self.get_embed_link(lecture_link)
-                            data.append({'Date': date, 'Title': lecture_title, 'Link': lecture_link, 'embed_link': embed_link})
+    def get_srt_file(self, url):
+        try:
+            # Navigate to the URL
+            self.driver.get(url)
 
-        self.df = pd.DataFrame(data)
-        self.driver.quit()
+            # Wait for play button and click
+            WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="player-gui"]/div[3]/div[1]/div[3]/button'))
+            ).click()
 
-    def execute(self):
-        self.populate_df(self.url)
-        self.df.to_json('output.json', orient='records', lines=True)
-        for url in self.df["Link"]:
-            print(url)
-            self.download_media(url)
-        return self.download_dir
+            # Wait for download button and click
+            WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button'))
+            ).click()
+
+            # Wait for final button and click
+            WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div/div[3]/div'))
+            ).click()
+
+            # Wait for file to appear in the download folder
+            start_time = time.time()
+            timeout = 20  # Max wait time
+            downloaded_file = None
+
+            while time.time() - start_time < timeout:
+                # Get a list of .srt files in the download directory
+                files = [f for f in os.listdir(self.download_dir) if f.endswith('.srt')]
+                
+                if files:
+                    # Get the most recently modified file
+                    newest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(self.download_dir, f)))
+                    downloaded_file = newest_file
+                    break
+                time.sleep(1)
+
+            if downloaded_file:
+                return os.path.join(self.download_dir, downloaded_file)
+            else:
+                raise FileNotFoundError("SRT file download timed out or failed.")
+
+        finally:
+            self.driver.quit()
+            
+
+    def get_lecture_metadata(self, url):
+        lecture_metadata = []
+        try:
+            # grab all lessons
+            self.driver.get(url)
+            lessons = self.driver.find_elements(By.CSS_SELECTOR, 'div.col-md-4')
+            
+            # filter for the ones with a kaltura lecture
+            lessons = [lesson for lesson in lessons if lesson.find_elements(By.CSS_SELECTOR, 'a[href*="https://mediaspace.wisc.edu"]')]
+
+            lecture_metadata = [
+                {
+                    'title': lesson.find_element(By.TAG_NAME, 'h5').text,
+                    'date': lesson.find_element(By.TAG_NAME, 'h5').find_element(By.TAG_NAME, "strong").text,
+                    'lecture_link': lesson.find_element(By.CSS_SELECTOR, 'a[href*="https://mediaspace.wisc.edu"]').get_attribute('href')
+                }
+                for lesson in lessons
+            ]
+            self.driver.quit()
+            return lecture_metadata
+
+        except Exception as e:
+            return f'Error: {e}'
+
 
     def get_embed_link(self, link):
         try:
