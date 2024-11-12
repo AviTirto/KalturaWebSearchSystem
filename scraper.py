@@ -100,6 +100,13 @@ class Scraper():
             self.download_media(url)
         
         return self.download_dir
+    
+    def get_embed_link(self):
+        self.driver.get("")
+        share_button = self.driver.find_element_by_xpath("//span[@class='tabLabel' and text()='Share']/parent::a")
+        share_button.click()
+        self.driver.quit
+
 
 
 

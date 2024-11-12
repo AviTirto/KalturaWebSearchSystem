@@ -4,8 +4,9 @@ from lecture_parser import Parser
 from db import Storage
 import os
 
-# scraper = Scraper()
+scraper = Scraper()
 # srt_dir = scraper.execute()
+scraper.get_embed_link()
 
 # download_dir = os.getenv('SRT_PATH')
 # embedder = Embedder(download_dir)
@@ -20,6 +21,6 @@ storage = Storage()
 # print(storage.db.list_collections())
 # storage.add_lecture("/Users/avitirto/Documents/ML/KalturaSearchSystem/lecture_srt/Tyler Caraza-Harter-Agriculture 125-09_04_24-14_18_34 (1).srt")
 
-r = storage.query("What is the main difference between a CPU and GPU?")
-print(r)
-print(len(r))
+# r = storage.query("What is the main difference between a CPU and GPU?")
+# print(r)
+# print(len(r))
