@@ -1,0 +1,6285 @@
+1
+00:00:00,000 --> 00:00:01,660
+Here today. Welcome to
+
+2
+00:00:01,660 --> 00:00:04,820
+CS 544 and throw to
+Big Data Systems.
+
+3
+00:00:04,820 --> 00:00:07,200
+I'm really excited to teach
+at this semester because
+
+4
+00:00:07,200 --> 00:00:09,860
+it's our first official
+offering of the course.
+
+5
+00:00:09,860 --> 00:00:11,880
+Last spring we did a trial run.
+
+6
+00:00:11,880 --> 00:00:13,139
+I think it went pretty well.
+
+7
+00:00:13,139 --> 00:00:15,160
+You know, some things
+we're we fighting,
+
+8
+00:00:15,160 --> 00:00:17,240
+but now it's approved with
+a real course number.
+
+9
+00:00:17,240 --> 00:00:20,120
+And so I'm excited to
+do a first official run
+
+10
+00:00:20,120 --> 00:00:21,660
+of the course this semester.
+
+11
+00:00:21,660 --> 00:00:24,099
+I'm going to do some
+introductions of the course of
+
+12
+00:00:24,099 --> 00:00:27,239
+myself td get a sense of
+who's taking the course,
+
+13
+00:00:27,239 --> 00:00:29,279
+talk about some
+logistical things today,
+
+14
+00:00:29,279 --> 00:00:30,999
+and then we will
+have some time to
+
+15
+00:00:30,999 --> 00:00:33,379
+dig into some
+technical topics too.
+
+16
+00:00:33,379 --> 00:00:35,619
+My name's Tyler Carroza Hard.
+
+17
+00:00:35,619 --> 00:00:37,440
+I'm actually a longtime badger.
+
+18
+00:00:37,440 --> 00:00:39,239
+I was undergrad here myself,
+
+19
+00:00:39,239 --> 00:00:42,710
+maybe taking some of the same
+courses you all are taking.
+
+20
+00:00:42,710 --> 00:00:44,610
+My E mail is on the screen.
+
+21
+00:00:44,610 --> 00:00:46,110
+I just drove by my first name.
+
+22
+00:00:46,110 --> 00:00:47,909
+You just call me
+Tyler, and I use
+
+23
+00:00:47,909 --> 00:00:50,110
+male pronouns prior to teaching.
+
+24
+00:00:50,110 --> 00:00:51,229
+I worked with a variety of
+
+25
+00:00:51,229 --> 00:00:52,809
+companies like Google, Facebook,
+
+26
+00:00:52,809 --> 00:00:55,329
+Microsoft, and more recently
+
+27
+00:00:55,329 --> 00:00:57,649
+with some smaller companies,
+Entry and Bow Plan.
+
+28
+00:00:57,649 --> 00:01:00,709
+Happy to talk about that
+if anybody's interested.
+
+29
+00:01:00,709 --> 00:01:02,670
+Also on the side,
+
+30
+00:01:02,670 --> 00:01:04,510
+I'm very interested
+in open source and
+
+31
+00:01:04,510 --> 00:01:07,350
+particularly I'm working on a
+project called Open Lambda.
+
+32
+00:01:07,350 --> 00:01:10,069
+That's open source
+cloud platform
+
+33
+00:01:10,069 --> 00:01:11,329
+where people can just write
+
+34
+00:01:11,329 --> 00:01:13,489
+little functions that
+will run in response
+
+35
+00:01:13,489 --> 00:01:16,129
+to events and is
+highly scalable.
+
+36
+00:01:16,129 --> 00:01:17,170
+If you're interested in
+
+37
+00:01:17,170 --> 00:01:18,830
+Open Source or that
+project in general,
+
+38
+00:01:18,830 --> 00:01:20,380
+happy to chat about that.
+
+39
+00:01:20,380 --> 00:01:22,730
+Let me get a quick
+sense of you all.
+
+40
+00:01:22,730 --> 00:01:25,229
+Do we have any freshmen taking
+the course of semester?
+
+41
+00:01:25,229 --> 00:01:30,449
+What about sophomores?
+Juniors and seniors.
+
+42
+00:01:30,449 --> 00:01:32,369
+So pretty senior heavy too.
+
+43
+00:01:32,369 --> 00:01:33,829
+Very similar to the
+morning section.
+
+44
+00:01:33,829 --> 00:01:34,869
+And what about grad students?
+
+45
+00:01:34,869 --> 00:01:35,849
+Do we have any grad students
+
+46
+00:01:35,849 --> 00:01:37,289
+taking the course of semester?
+
+47
+00:01:37,289 --> 00:01:39,849
+Well, a lot of you
+actually welcome.
+
+48
+00:01:39,849 --> 00:01:41,790
+Right. I think, you know,
+
+49
+00:01:41,790 --> 00:01:43,769
+the course makes
+sense at all levels.
+
+50
+00:01:43,769 --> 00:01:45,350
+I think we're coming
+from a variety
+
+51
+00:01:45,350 --> 00:01:46,669
+of different backgrounds.
+
+52
+00:01:46,669 --> 00:01:49,069
+320 is probably the main
+path end of this course,
+
+53
+00:01:49,069 --> 00:01:50,670
+but 400 is also a path.
+
+54
+00:01:50,670 --> 00:01:52,850
+And I know some of you
+have already gone on and
+
+55
+00:01:52,850 --> 00:01:54,909
+maybe have taken some
+other upper level courses.
+
+56
+00:01:54,909 --> 00:01:56,969
+Even though, of course,
+that's not expected.
+
+57
+00:01:56,969 --> 00:01:58,529
+And I'm going to assume
+that you've taken
+
+58
+00:01:58,529 --> 00:02:00,499
+just something like 320 or 400.
+
+59
+00:02:00,499 --> 00:02:02,610
+But how many have taken the
+operating system course
+
+60
+00:02:02,610 --> 00:02:04,850
+537. So a few of you.
+
+61
+00:02:04,850 --> 00:02:07,469
+What about the
+database course 564,
+
+62
+00:02:07,469 --> 00:02:09,830
+bit less, and has
+anybody taken 640?
+
+63
+00:02:09,830 --> 00:02:12,629
+The networking course. So
+just a handful of you.
+
+64
+00:02:12,629 --> 00:02:15,309
+Great. So it'll be awesome
+if you can all go fill
+
+65
+00:02:15,309 --> 00:02:17,950
+this form today or if you
+join the course slate.
+
+66
+00:02:17,950 --> 00:02:20,210
+As soon as you join
+the course fill that,
+
+67
+00:02:20,210 --> 00:02:22,389
+there's a link on it
+from the website too,
+
+68
+00:02:22,389 --> 00:02:24,569
+that will help me get
+some statistics on this.
+
+69
+00:02:24,569 --> 00:02:27,590
+And also when I'm
+evaluating the course,
+
+70
+00:02:27,590 --> 00:02:30,130
+I want to make sure
+that even if a lot of
+
+71
+00:02:30,130 --> 00:02:31,370
+you have taken these upper
+
+72
+00:02:31,370 --> 00:02:32,809
+level courses that are related,
+
+73
+00:02:32,809 --> 00:02:33,549
+I really want to gear
+
+74
+00:02:33,549 --> 00:02:34,849
+the course towards
+people who have just
+
+75
+00:02:34,849 --> 00:02:37,210
+taken 320 or 400, right?
+
+76
+00:02:37,210 --> 00:02:39,650
+So it will help me kind
+of see where people are
+
+77
+00:02:39,650 --> 00:02:42,429
+and make sure I'm setting the
+difficulty appropriately.
+
+78
+00:02:42,429 --> 00:02:44,189
+Um, if you fill that,
+
+79
+00:02:44,189 --> 00:02:45,690
+that also accounts
+for extra credit,
+
+80
+00:02:45,690 --> 00:02:47,889
+so please be sure to do that.
+
+81
+00:02:48,210 --> 00:02:51,929
+Here are some of those other
+courses and how they fit in.
+
+82
+00:02:51,929 --> 00:02:54,130
+The main computer science track
+
+83
+00:02:54,130 --> 00:02:55,389
+that people take is in Java.
+
+84
+00:02:55,389 --> 00:02:57,709
+That's a CS 200, 300, 400.
+
+85
+00:02:57,709 --> 00:02:59,110
+And there's a variety of courses
+
+86
+00:02:59,110 --> 00:03:00,429
+that people can take after that.
+
+87
+00:03:00,429 --> 00:03:02,030
+Some of the courses
+are maybe what
+
+88
+00:03:02,030 --> 00:03:03,690
+I might call systems courses.
+
+89
+00:03:03,690 --> 00:03:05,149
+There's a systems track in
+
+90
+00:03:05,149 --> 00:03:07,770
+parallel with that,
+with 252.3 54.
+
+91
+00:03:07,770 --> 00:03:09,449
+After you've taken
+all of those five,
+
+92
+00:03:09,449 --> 00:03:11,069
+there's a bunch of
+courses you can take like
+
+93
+00:03:11,069 --> 00:03:13,829
+databases and operating systems.
+
+94
+00:03:13,829 --> 00:03:16,289
+When we were looking at
+big data systems courses
+
+95
+00:03:16,289 --> 00:03:17,470
+at other universities,
+
+96
+00:03:17,470 --> 00:03:19,489
+a lot of them would
+have prerequisites on
+
+97
+00:03:19,489 --> 00:03:21,989
+courses like databases
+or operating systems.
+
+98
+00:03:21,989 --> 00:03:23,350
+And of course, that
+starts to become
+
+99
+00:03:23,350 --> 00:03:25,009
+a very nasty prec chain.
+
+100
+00:03:25,009 --> 00:03:26,909
+You have to take a lot of
+courses to be involved,
+
+101
+00:03:26,909 --> 00:03:28,469
+and I think the
+things we're learning
+
+102
+00:03:28,469 --> 00:03:30,069
+are very applicable
+to data scientists.
+
+103
+00:03:30,069 --> 00:03:33,809
+So we wanted to design it
+so people could take 22320,
+
+104
+00:03:33,809 --> 00:03:36,230
+which is the Python track
+of the data science major,
+
+105
+00:03:36,230 --> 00:03:38,689
+and then directly take 544.
+
+106
+00:03:38,689 --> 00:03:40,509
+Now I think that
+one thing that that
+
+107
+00:03:40,509 --> 00:03:42,630
+means is that the first third of
+
+108
+00:03:42,630 --> 00:03:44,050
+this course has a lot of
+
+109
+00:03:44,050 --> 00:03:47,369
+overlap with some of these
+other upper level CS courses.
+
+110
+00:03:47,369 --> 00:03:49,770
+And what I saw last semester
+is that some of those people
+
+111
+00:03:49,770 --> 00:03:50,970
+coming from the CS side who have
+
+112
+00:03:50,970 --> 00:03:52,389
+taken those upper level courses,
+
+113
+00:03:52,389 --> 00:03:53,410
+maybe got a little bit
+
+114
+00:03:53,410 --> 00:03:54,470
+complacent at the
+beginning because
+
+115
+00:03:54,470 --> 00:03:56,589
+it felt easy and felt familiar.
+
+116
+00:03:56,589 --> 00:03:57,909
+And then when we started doing
+
+117
+00:03:57,909 --> 00:03:59,169
+new stuff and it
+was kind of a jolt.
+
+118
+00:03:59,169 --> 00:04:00,369
+So just don't get lulled into
+
+119
+00:04:00,369 --> 00:04:03,609
+complacency based on the
+first third of the semester.
+
+120
+00:04:03,609 --> 00:04:06,250
+If you've seen some of
+these things before,
+
+121
+00:04:06,250 --> 00:04:09,109
+I know there are a lot
+of grad students here.
+
+122
+00:04:09,109 --> 00:04:13,209
+So I think that the grad big
+data systems that we're in,
+
+123
+00:04:13,209 --> 00:04:14,930
+Intro Big Data Systems.
+
+124
+00:04:14,930 --> 00:04:16,569
+The difference is that
+at the grad level,
+
+125
+00:04:16,569 --> 00:04:17,709
+you're maybe reading research
+
+126
+00:04:17,709 --> 00:04:20,170
+about research papers about
+some of these systems.
+
+127
+00:04:20,170 --> 00:04:21,449
+Maybe you're coming
+up with novel
+
+128
+00:04:21,449 --> 00:04:23,129
+ideas to build new systems.
+
+129
+00:04:23,129 --> 00:04:25,150
+Our main focus here is how to be
+
+130
+00:04:25,150 --> 00:04:27,770
+effective users of
+big data systems.
+
+131
+00:04:27,770 --> 00:04:30,230
+You aren't going to be
+building much like brand
+
+132
+00:04:30,230 --> 00:04:32,809
+new systems from scratch or
+reading research papers.
+
+133
+00:04:32,809 --> 00:04:34,130
+They're going to
+be very hands on
+
+134
+00:04:34,130 --> 00:04:37,210
+getting practice with a lot
+of these different tools.
+
+135
+00:04:37,210 --> 00:04:39,270
+You know, I think
+everybody coming out of
+
+136
+00:04:39,270 --> 00:04:42,170
+the 320 side is going to be
+very comfortable on Python.
+
+137
+00:04:42,170 --> 00:04:43,430
+Those of you who haven't seen
+
+138
+00:04:43,430 --> 00:04:45,910
+Python before that are
+coming from the CS side,
+
+139
+00:04:45,910 --> 00:04:47,420
+here are a couple of books in
+
+140
+00:04:47,420 --> 00:04:49,859
+Python is fairly introductory,
+it's a quick read.
+
+141
+00:04:49,859 --> 00:04:51,759
+If you want to just get a
+flavor of the language,
+
+142
+00:04:51,759 --> 00:04:53,760
+I recommend that fluent Python
+
+143
+00:04:53,760 --> 00:04:55,600
+is more advanced Python book.
+
+144
+00:04:55,600 --> 00:04:57,219
+And honestly, I think
+even if you're very
+
+145
+00:04:57,219 --> 00:04:59,540
+comfortable with Python,
+have used a lot.
+
+146
+00:04:59,540 --> 00:05:01,620
+If you read through that, I
+can guarantee there's going
+
+147
+00:05:01,620 --> 00:05:03,580
+be some interesting things
+you'll learn there as well.
+
+148
+00:05:03,580 --> 00:05:04,759
+I know I certainly learned
+
+149
+00:05:04,759 --> 00:05:07,180
+a lot from reading through that.
+
+150
+00:05:07,180 --> 00:05:09,520
+So this is big data systems,
+
+151
+00:05:09,520 --> 00:05:11,339
+but what are systems in general?
+
+152
+00:05:11,339 --> 00:05:12,680
+We're all programmers, but
+
+153
+00:05:12,680 --> 00:05:14,399
+we write different
+kinds of code.
+
+154
+00:05:14,399 --> 00:05:16,900
+One kind of code we might
+write is for analysis.
+
+155
+00:05:16,900 --> 00:05:18,559
+Maybe I'll give you a dataset
+
+156
+00:05:18,559 --> 00:05:20,359
+and ask you some
+questions about it.
+
+157
+00:05:20,359 --> 00:05:22,400
+And then you write some
+code that probably runs
+
+158
+00:05:22,400 --> 00:05:25,200
+once and produces some
+numbers and some plots.
+
+159
+00:05:25,200 --> 00:05:26,659
+That's one kind of programming.
+
+160
+00:05:26,659 --> 00:05:30,039
+Applications Programming has
+a bit of a different flavor.
+
+161
+00:05:30,039 --> 00:05:33,039
+You can imagine if I have
+like a website where I have
+
+162
+00:05:33,039 --> 00:05:36,040
+a shopping card and I'm
+recommending things to people.
+
+163
+00:05:36,040 --> 00:05:37,440
+That's a program that's running
+
+164
+00:05:37,440 --> 00:05:39,080
+really indefinitely, right?
+
+165
+00:05:39,080 --> 00:05:41,840
+So kind of a different
+kind of programming style.
+
+166
+00:05:41,840 --> 00:05:43,659
+And you might use different
+languages for that.
+
+167
+00:05:43,659 --> 00:05:45,080
+But both of these analysis and
+
+168
+00:05:45,080 --> 00:05:48,499
+applications are
+based on systems.
+
+169
+00:05:48,499 --> 00:05:51,540
+And what systems do is they
+help us manage resources.
+
+170
+00:05:51,540 --> 00:05:53,540
+So you could imagine
+that if I want
+
+171
+00:05:53,540 --> 00:05:55,480
+to do some analysis
+of a CSV file,
+
+172
+00:05:55,480 --> 00:05:57,200
+well, that CSV file is on
+
+173
+00:05:57,200 --> 00:05:58,519
+a hard drive somewhere and coded
+
+174
+00:05:58,519 --> 00:06:00,080
+as a bunch of ones and zeros.
+
+175
+00:06:00,080 --> 00:06:01,619
+What a pain to deal with that
+
+176
+00:06:01,619 --> 00:06:03,379
+thanks to an operating system,
+
+177
+00:06:03,379 --> 00:06:05,640
+one kind of system, we can read
+
+178
+00:06:05,640 --> 00:06:08,660
+that file in more easily, right?
+
+179
+00:06:08,660 --> 00:06:10,100
+So some of you will go on and
+
+180
+00:06:10,100 --> 00:06:12,179
+you're going to be
+building new systems.
+
+181
+00:06:12,179 --> 00:06:14,540
+But even if you don't learning
+
+182
+00:06:14,540 --> 00:06:15,800
+how systems work
+is going to make
+
+183
+00:06:15,800 --> 00:06:17,260
+you a better
+programmer no matter
+
+184
+00:06:17,260 --> 00:06:19,120
+what kind of programming
+you're using,
+
+185
+00:06:19,120 --> 00:06:20,340
+what kind of programming
+you're doing.
+
+186
+00:06:20,340 --> 00:06:22,260
+Because you'll be able to
+learn how to use these systems
+
+187
+00:06:22,260 --> 00:06:24,839
+efficiently and make good
+use of your resources.
+
+188
+00:06:24,839 --> 00:06:27,139
+Okay, so what is a
+big data system?
+
+189
+00:06:27,139 --> 00:06:29,939
+I mean, it's kind of
+a arbitrary threshold
+
+190
+00:06:29,939 --> 00:06:31,080
+here and maybe people might feel
+
+191
+00:06:31,080 --> 00:06:32,440
+differently about
+it over overtime.
+
+192
+00:06:32,440 --> 00:06:34,380
+The way I think of it is
+that I have my laptop
+
+193
+00:06:34,380 --> 00:06:36,999
+here and there's some basic
+things I can do with it.
+
+194
+00:06:36,999 --> 00:06:39,480
+And when I'm kind of pushing
+beyond the limits of what I
+
+195
+00:06:39,480 --> 00:06:42,139
+could do on just one computer
+with regular hardware,
+
+196
+00:06:42,139 --> 00:06:44,019
+I'm going to call that
+a big data system.
+
+197
+00:06:44,019 --> 00:06:45,679
+So for example, if I have to
+
+198
+00:06:45,679 --> 00:06:47,500
+have specialized
+hardware like GPUs,
+
+199
+00:06:47,500 --> 00:06:49,674
+that we can think of that
+as a big data system.
+
+200
+00:06:49,674 --> 00:06:50,830
+Or the more common taste is
+
+201
+00:06:50,830 --> 00:06:52,109
+maybe I need a whole cluster of
+
+202
+00:06:52,109 --> 00:06:54,530
+machines working together
+on the same problem.
+
+203
+00:06:54,530 --> 00:06:56,549
+That would be a big data system.
+
+204
+00:06:56,549 --> 00:06:58,390
+Here's an overview
+of the things that
+
+205
+00:06:58,390 --> 00:07:00,129
+I want you to learn
+this semester.
+
+206
+00:07:00,129 --> 00:07:03,009
+Number one is we have to be
+able to deploy these systems.
+
+207
+00:07:03,009 --> 00:07:04,290
+That means, you
+know, installing it,
+
+208
+00:07:04,290 --> 00:07:05,669
+dotting up and running, getting
+
+209
+00:07:05,669 --> 00:07:07,589
+all the different computers,
+talking to each other.
+
+210
+00:07:07,589 --> 00:07:09,070
+That's actually harder
+than you might think.
+
+211
+00:07:09,070 --> 00:07:11,609
+And it's important role many
+of you will have on jobs
+
+212
+00:07:11,609 --> 00:07:14,369
+some day After you did these
+systems up and running,
+
+213
+00:07:14,369 --> 00:07:17,010
+how do you get data
+into them, right?
+
+214
+00:07:17,010 --> 00:07:18,810
+That can be a lot
+of work as well.
+
+215
+00:07:18,810 --> 00:07:21,850
+Okay, once we're up and running,
+we have some data there,
+
+216
+00:07:21,850 --> 00:07:23,969
+we might want to do
+things like analyze
+
+217
+00:07:23,969 --> 00:07:25,915
+the data or do machine
+learning with it.
+
+218
+00:07:25,915 --> 00:07:28,399
+So there's the next couple
+learning objectives.
+
+219
+00:07:28,399 --> 00:07:30,460
+Of course, we want to do
+all this efficiently.
+
+220
+00:07:30,460 --> 00:07:33,019
+So we want to measure
+how many resources
+
+221
+00:07:33,019 --> 00:07:34,819
+we're using to
+solve our problems.
+
+222
+00:07:34,819 --> 00:07:36,539
+And then find ways
+to optimize and
+
+223
+00:07:36,539 --> 00:07:39,080
+reduce how many
+resources we need.
+
+224
+00:07:39,080 --> 00:07:41,860
+Finally, a lot of
+this has evolved.
+
+225
+00:07:41,860 --> 00:07:43,680
+It might be in the past that
+you would buy a bunch of
+
+226
+00:07:43,680 --> 00:07:44,960
+computers or your company would
+
+227
+00:07:44,960 --> 00:07:46,199
+and you'd run their software.
+
+228
+00:07:46,199 --> 00:07:48,040
+Are there now it's more
+common that you might
+
+229
+00:07:48,040 --> 00:07:50,039
+be running these
+things in the cloud.
+
+230
+00:07:50,039 --> 00:07:52,439
+And I want to talk about
+how we use Cloud services
+
+231
+00:07:52,439 --> 00:07:55,380
+effectively and think about
+the pricing for them.
+
+232
+00:07:55,380 --> 00:07:57,200
+That's the whole semester.
+
+233
+00:07:57,200 --> 00:07:59,460
+Today, I just have a
+few more narrow goes.
+
+234
+00:07:59,460 --> 00:08:00,600
+First, I want to talk about the
+
+235
+00:08:00,600 --> 00:08:02,319
+logistics and policies
+for the course.
+
+236
+00:08:02,319 --> 00:08:03,659
+And then on the technical side,
+
+237
+00:08:03,659 --> 00:08:04,999
+I want to talk about
+different kinds of
+
+238
+00:08:04,999 --> 00:08:06,720
+hardware resources we're going
+
+239
+00:08:06,720 --> 00:08:08,119
+to be managing this semester.
+
+240
+00:08:08,119 --> 00:08:10,560
+And I want to talk about
+how we can either scale up,
+
+241
+00:08:10,560 --> 00:08:13,039
+which means buying more
+expensive machines,
+
+242
+00:08:13,039 --> 00:08:16,939
+or scale out by buying
+clusters of machines.
+
+243
+00:08:16,939 --> 00:08:19,099
+Then finally, we're going
+to talk a bit about
+
+244
+00:08:19,099 --> 00:08:21,399
+how does your code
+actually run on a CPU?
+
+245
+00:08:21,399 --> 00:08:23,520
+Some of you might have
+seen some of these before,
+
+246
+00:08:23,520 --> 00:08:24,480
+but I want to make sure we're
+
+247
+00:08:24,480 --> 00:08:25,579
+all on the same page about what
+
+248
+00:08:25,579 --> 00:08:28,800
+actually happens when you're
+trying to run a program.
+
+249
+00:08:28,800 --> 00:08:30,599
+All right, so there's
+
+250
+00:08:30,599 --> 00:08:33,620
+three main sites that we're
+going to use this semester.
+
+251
+00:08:33,620 --> 00:08:35,620
+One of them is Canvas.
+
+252
+00:08:35,620 --> 00:08:38,400
+And I think most courses
+use Canvas in some ways.
+
+253
+00:08:38,400 --> 00:08:40,579
+How many of you got my
+announcement already?
+
+254
+00:08:40,579 --> 00:08:43,219
+I've been doing announcements
+on Canvas. That's awesome.
+
+255
+00:08:43,219 --> 00:08:45,999
+Make sure that if you're not
+a regular Canvas checker,
+
+256
+00:08:45,999 --> 00:08:47,820
+there's a way to
+turn on an option
+
+257
+00:08:47,820 --> 00:08:49,039
+that'll e mail you whenever
+
+258
+00:08:49,039 --> 00:08:50,299
+there's a Canvas announcement.
+
+259
+00:08:50,299 --> 00:08:51,980
+This is a centralized
+place where I do
+
+260
+00:08:51,980 --> 00:08:55,040
+all just broadcast
+messaging to everybody.
+
+261
+00:08:55,040 --> 00:08:57,280
+Is if people join the
+course late or something,
+
+262
+00:08:57,280 --> 00:08:59,820
+they can just jump on and
+catch up on everything.
+
+263
+00:08:59,820 --> 00:09:02,319
+Make sure you're getting
+those messages there.
+
+264
+00:09:02,319 --> 00:09:05,299
+Other things I use
+Canvas for are quizzes.
+
+265
+00:09:05,299 --> 00:09:09,860
+We're have those weekly
+sync with Top Hat.
+
+266
+00:09:09,860 --> 00:09:11,960
+I'm going to give you
+summaries of your grades
+
+267
+00:09:11,960 --> 00:09:15,759
+here and we'll have some
+office hours over Zoom.
+
+268
+00:09:15,759 --> 00:09:18,159
+That's one site that you
+have to be aware of.
+
+269
+00:09:18,159 --> 00:09:19,560
+The most important site though,
+
+270
+00:09:19,560 --> 00:09:22,400
+is this public facing site
+that I've shared with you
+
+271
+00:09:22,400 --> 00:09:24,180
+All this shows the overview
+
+272
+00:09:24,180 --> 00:09:26,320
+of the course schedule
+and resources per day.
+
+273
+00:09:26,320 --> 00:09:28,279
+For example, you can come
+here and you can see
+
+274
+00:09:28,279 --> 00:09:30,380
+this is the syllabus you're
+supposed to read today.
+
+275
+00:09:30,380 --> 00:09:32,320
+Here, the slides I've posted.
+
+276
+00:09:32,320 --> 00:09:34,540
+And I'm trying something
+new this semester,
+
+277
+00:09:34,540 --> 00:09:36,760
+which is giving you
+all flash cards to
+
+278
+00:09:36,760 --> 00:09:39,120
+just memorize some of
+the basic vocabulary and
+
+279
+00:09:39,120 --> 00:09:44,419
+other basic ideas that are
+related to the course.
+
+280
+00:09:44,419 --> 00:09:46,879
+I have slides up
+from last semester,
+
+281
+00:09:46,879 --> 00:09:48,379
+but I'm going to be
+tweaking those so you
+
+282
+00:09:48,379 --> 00:09:50,240
+can see if I've
+already updated it.
+
+283
+00:09:50,240 --> 00:09:51,800
+This is just if you
+want to peek ahead and
+
+284
+00:09:51,800 --> 00:09:53,840
+did a flavor of what we're
+doing in the course.
+
+285
+00:09:53,840 --> 00:09:56,719
+The syllabus is here. Please
+make sure you read that.
+
+286
+00:09:56,719 --> 00:09:58,440
+I have a page for getting help.
+
+287
+00:09:58,440 --> 00:09:59,799
+There's lots of ways
+you can get help.
+
+288
+00:09:59,799 --> 00:10:00,860
+If you aren't sure where,
+
+289
+00:10:00,860 --> 00:10:02,120
+jump on this page and try to
+
+290
+00:10:02,120 --> 00:10:03,714
+see what is a good fit for you.
+
+291
+00:10:03,714 --> 00:10:08,330
+Questions of general interest
+are a good fit for Piazza.
+
+292
+00:10:08,330 --> 00:10:10,129
+We're going to be
+monitoring that.
+
+293
+00:10:10,129 --> 00:10:12,650
+Just make sure you don't
+post more than five lines of
+
+294
+00:10:12,650 --> 00:10:13,770
+code at a time
+because then people
+
+295
+00:10:13,770 --> 00:10:15,349
+are going to start
+cheating off of you.
+
+296
+00:10:15,349 --> 00:10:17,810
+I'm going to be assigning
+you each an E mail contact.
+
+297
+00:10:17,810 --> 00:10:19,590
+That'll be one of the
+TA's in the course.
+
+298
+00:10:19,590 --> 00:10:21,190
+And then there's
+other details about
+
+299
+00:10:21,190 --> 00:10:22,770
+office hours and accommodations.
+
+300
+00:10:22,770 --> 00:10:24,510
+Below we have a bunch of
+
+301
+00:10:24,510 --> 00:10:27,470
+resources such as datasets,
+office hour schedule.
+
+302
+00:10:27,470 --> 00:10:29,510
+I'll often be posting
+little snippets
+
+303
+00:10:29,510 --> 00:10:32,049
+of code on this
+document as we go.
+
+304
+00:10:32,049 --> 00:10:35,889
+This one right here, I
+already have open over here.
+
+305
+00:10:35,889 --> 00:10:38,989
+You can see that
+I'm on jehubjethub,
+
+306
+00:10:38,989 --> 00:10:41,189
+has organizations
+and repository.
+
+307
+00:10:41,189 --> 00:10:43,530
+My organization is 544 west.
+
+308
+00:10:43,530 --> 00:10:45,950
+This semester is Fall 23.
+
+309
+00:10:45,950 --> 00:10:48,249
+May be posting all
+of the projects.
+
+310
+00:10:48,249 --> 00:10:49,749
+If you look at some of them now,
+
+311
+00:10:49,749 --> 00:10:51,930
+you can see that
+they're just drafts.
+
+312
+00:10:51,930 --> 00:10:53,410
+So this is just to
+get a flavor of it,
+
+313
+00:10:53,410 --> 00:10:56,730
+but it's going to evolve until
+I remove those comments.
+
+314
+00:10:56,730 --> 00:10:58,729
+I'm also going to often
+
+315
+00:10:58,729 --> 00:11:00,790
+be doing examples in
+Jupiter Notebooks,
+
+316
+00:11:00,790 --> 00:11:03,529
+I'm be posting that here
+as well after lectures.
+
+317
+00:11:03,529 --> 00:11:04,890
+A lot of that code
+I'm doing during
+
+318
+00:11:04,890 --> 00:11:07,149
+lecture can help you
+on your projects.
+
+319
+00:11:07,149 --> 00:11:10,990
+There's old exams and stuff
+like that here as well.
+
+320
+00:11:11,110 --> 00:11:15,390
+I mentioned that this
+or has this repo,
+
+321
+00:11:15,390 --> 00:11:17,649
+the way we're going to be
+working this semesters at this
+
+322
+00:11:17,649 --> 00:11:19,829
+or will also have a
+repo for each of you,
+
+323
+00:11:19,829 --> 00:11:21,549
+for every project that you do.
+
+324
+00:11:21,549 --> 00:11:23,110
+That's all. You'll be
+making submissions,
+
+325
+00:11:23,110 --> 00:11:24,290
+you're going to be
+pushing your code to
+
+326
+00:11:24,290 --> 00:11:27,429
+private repos that
+we have access to.
+
+327
+00:11:27,950 --> 00:11:30,270
+All right, so those are
+
+328
+00:11:30,270 --> 00:11:33,230
+the three big websites that
+you should share about most,
+
+329
+00:11:33,230 --> 00:11:36,829
+some other tools that
+we're using a semester to,
+
+330
+00:11:36,829 --> 00:11:39,570
+how have you used Top Hat
+and of course before.
+
+331
+00:11:39,570 --> 00:11:42,350
+Awesome. So hopefully
+that goes smoothly.
+
+332
+00:11:42,350 --> 00:11:44,809
+I already posted a
+canvas announcement
+
+333
+00:11:44,809 --> 00:11:46,750
+about a little practice
+question you can do.
+
+334
+00:11:46,750 --> 00:11:48,609
+I'd say 90% of it is just,
+
+335
+00:11:48,609 --> 00:11:50,650
+you know, participating
+in some way.
+
+336
+00:11:50,650 --> 00:11:53,010
+I'll give you a little
+bit more points
+
+337
+00:11:53,010 --> 00:11:54,150
+like if you actually
+get it right,
+
+338
+00:11:54,150 --> 00:11:55,790
+but it shouldn't really
+be high pressure.
+
+339
+00:11:55,790 --> 00:11:57,569
+It's just mostly are you showing
+
+340
+00:11:57,569 --> 00:12:00,670
+up and kind of
+engaging in lecture.
+
+341
+00:12:00,910 --> 00:12:04,469
+There's always some technical
+difficulties with that.
+
+342
+00:12:04,469 --> 00:12:06,570
+If you have a technical
+difficulty with
+
+343
+00:12:06,570 --> 00:12:07,249
+top hat or there's
+
+344
+00:12:07,249 --> 00:12:08,939
+another reason you
+can't true to lecture,
+
+345
+00:12:08,939 --> 00:12:13,250
+then we have some forms over
+here ahead to these forms,
+
+346
+00:12:13,250 --> 00:12:15,529
+you can report a lecture mass.
+
+347
+00:12:15,529 --> 00:12:16,709
+And that's just on
+the honor system.
+
+348
+00:12:16,709 --> 00:12:18,370
+If you only do it like
+seven or eight times,
+
+349
+00:12:18,370 --> 00:12:19,370
+I'll just trust you.
+
+350
+00:12:19,370 --> 00:12:20,550
+If it starts to get
+more than that,
+
+351
+00:12:20,550 --> 00:12:23,910
+we have to talk and maybe
+think about is there a reason
+
+352
+00:12:23,910 --> 00:12:27,969
+why some obstacle to top
+working or something like that.
+
+353
+00:12:27,969 --> 00:12:29,770
+But in general, if
+it's something rare,
+
+354
+00:12:29,770 --> 00:12:32,709
+just fill that out and
+I'll just trust you on it.
+
+355
+00:12:32,709 --> 00:12:34,930
+I already mentioned Piazza.
+
+356
+00:12:34,930 --> 00:12:36,810
+We'll always have somebody
+monitoring Piazza.
+
+357
+00:12:36,810 --> 00:12:40,649
+Our goal is to respond to every
+question within 24 hours.
+
+358
+00:12:40,649 --> 00:12:42,829
+If something is more specific to
+
+359
+00:12:42,829 --> 00:12:44,870
+just say your project
+or your team,
+
+360
+00:12:44,870 --> 00:12:47,510
+then you'll have a TA
+that you can contact.
+
+361
+00:12:47,510 --> 00:12:51,060
+I'll assign each of you a
+point of contact as a TA.
+
+362
+00:12:51,060 --> 00:12:52,659
+Our goal in that case
+is to respond in
+
+363
+00:12:52,659 --> 00:12:55,160
+less than two business
+hours every semester.
+
+364
+00:12:55,160 --> 00:12:56,299
+I know some TA's get
+
+365
+00:12:56,299 --> 00:12:58,299
+behind because they're
+busy, They're students too.
+
+366
+00:12:58,299 --> 00:13:00,280
+And so if that happens,
+what you should do is you
+
+367
+00:13:00,280 --> 00:13:02,600
+should just see me on
+the thread with them,
+
+368
+00:13:02,600 --> 00:13:05,960
+and I'll kind of nudge them
+to keep up on their E mails.
+
+369
+00:13:05,960 --> 00:13:08,619
+One thing I'll ask
+that you do not do is
+
+370
+00:13:08,619 --> 00:13:10,919
+not start a separate thread
+with me and your TA.
+
+371
+00:13:10,919 --> 00:13:12,539
+Because then we end
+up doing double work,
+
+372
+00:13:12,539 --> 00:13:13,960
+we end up adds it twice,
+
+373
+00:13:13,960 --> 00:13:15,459
+or maybe in an inconsistent way.
+
+374
+00:13:15,459 --> 00:13:17,200
+So for one topic, keep
+
+375
+00:13:17,200 --> 00:13:19,160
+everybody involved
+on the same thread.
+
+376
+00:13:19,160 --> 00:13:21,259
+Don't have multiple
+threads about
+
+377
+00:13:21,259 --> 00:13:25,080
+the same thing I already
+mentioned. Hub classroom.
+
+378
+00:13:25,080 --> 00:13:27,060
+Hub will actually very
+
+379
+00:13:27,060 --> 00:13:28,880
+easily let you just
+flip it to public.
+
+380
+00:13:28,880 --> 00:13:29,920
+Don't do that, because people
+
+381
+00:13:29,920 --> 00:13:31,080
+are going to start
+cheating off of
+
+382
+00:13:31,080 --> 00:13:34,100
+you always leave it private,
+which is the default.
+
+383
+00:13:34,100 --> 00:13:36,519
+We're also going to be
+giving you feedback on
+
+384
+00:13:36,519 --> 00:13:39,460
+your code on Github classroom.
+
+385
+00:13:39,460 --> 00:13:41,040
+And then finally,
+I mentioned these
+
+386
+00:13:41,040 --> 00:13:42,780
+flash cards that I'm posting,
+
+387
+00:13:42,780 --> 00:13:44,580
+these work with a
+tool called Ki.
+
+388
+00:13:44,580 --> 00:13:46,000
+Has anybody used Aki before?
+
+389
+00:13:46,000 --> 00:13:48,260
+Anybody here? A few of
+you. That's awesome.
+
+390
+00:13:48,260 --> 00:13:51,580
+What I love about Ki is
+that as you're doing it,
+
+391
+00:13:51,580 --> 00:13:53,780
+they will, you'll say like,
+
+392
+00:13:53,780 --> 00:13:54,960
+oh, did I get it right or wrong?
+
+393
+00:13:54,960 --> 00:13:56,839
+And if I got it right,
+how hard was it for me?
+
+394
+00:13:56,839 --> 00:13:59,740
+And then they'll space out
+how long you see it again
+
+395
+00:13:59,740 --> 00:14:01,359
+based on how you've
+been doing with
+
+396
+00:14:01,359 --> 00:14:03,400
+it on that iteration
+in the past.
+
+397
+00:14:03,400 --> 00:14:04,440
+And what I found is that if
+
+398
+00:14:04,440 --> 00:14:05,639
+there's like easy stuff for me,
+
+399
+00:14:05,639 --> 00:14:06,720
+I'll do it right a few
+
+400
+00:14:06,720 --> 00:14:07,799
+times and all of a
+sudden I'll be like,
+
+401
+00:14:07,799 --> 00:14:09,500
+I won't ask me again
+for two months.
+
+402
+00:14:09,500 --> 00:14:11,240
+But the stuff that
+I'm really stuck on,
+
+403
+00:14:11,240 --> 00:14:13,719
+he'll keep showing it to me
+until, until I master it.
+
+404
+00:14:13,719 --> 00:14:16,040
+And, you know, I
+
+405
+00:14:16,040 --> 00:14:17,440
+know in education
+they're trying to like,
+
+406
+00:14:17,440 --> 00:14:20,219
+well, how important is
+just raw memorization?
+
+407
+00:14:20,219 --> 00:14:22,380
+I think it's not our end role,
+
+408
+00:14:22,380 --> 00:14:23,920
+but it is important
+because if we're talking
+
+409
+00:14:23,920 --> 00:14:26,179
+about more complicated topics,
+
+410
+00:14:26,179 --> 00:14:27,939
+we have to have a
+common vocabulary.
+
+411
+00:14:27,939 --> 00:14:29,379
+And so some of that
+stuff, you should just
+
+412
+00:14:29,379 --> 00:14:31,189
+do it until you're
+fluent with it.
+
+413
+00:14:31,189 --> 00:14:32,890
+Same thing, like
+there's a bunch of
+
+414
+00:14:32,890 --> 00:14:33,930
+shell commands or Dr.
+
+415
+00:14:33,930 --> 00:14:35,609
+commands I'm going to be
+teaching this semester.
+
+416
+00:14:35,609 --> 00:14:37,090
+You should just
+memorize that stuff.
+
+417
+00:14:37,090 --> 00:14:38,670
+So then as you're
+debugging later,
+
+418
+00:14:38,670 --> 00:14:40,370
+you're just trying to
+comfortable in this environment.
+
+419
+00:14:40,370 --> 00:14:42,090
+So there's a certain just
+
+420
+00:14:42,090 --> 00:14:44,110
+memorization
+everybody should do.
+
+421
+00:14:44,110 --> 00:14:46,230
+And I'm going to do this as
+an experiment this semester.
+
+422
+00:14:46,230 --> 00:14:48,889
+I'm hoping that will help
+people trying to get
+
+423
+00:14:48,889 --> 00:14:51,950
+that base more
+quickly. All right.
+
+424
+00:14:51,950 --> 00:14:53,210
+Do people have any logistical
+
+425
+00:14:53,210 --> 00:14:54,849
+questions about
+the course so far?
+
+426
+00:14:54,849 --> 00:14:56,549
+Anybody should
+always feel free to
+
+427
+00:14:56,549 --> 00:14:58,029
+pop up a hand any time
+if they have questions.
+
+428
+00:14:58,029 --> 00:15:02,670
+Yeah, right here. Oh yeah.
+
+429
+00:15:02,670 --> 00:15:03,910
+Where is the top hat password?
+
+430
+00:15:03,910 --> 00:15:06,450
+So that is 5440.
+
+431
+00:15:06,450 --> 00:15:11,550
+Top password is 5440.
+
+432
+00:15:14,630 --> 00:15:17,590
+I don't know if there's a way
+to get around the password,
+
+433
+00:15:17,590 --> 00:15:20,370
+but this is also
+linked on canvas.
+
+434
+00:15:20,370 --> 00:15:22,229
+Since it's linked on Canvas,
+
+435
+00:15:22,229 --> 00:15:24,130
+everybody at some point has to
+
+436
+00:15:24,130 --> 00:15:26,169
+go through Canvas
+and click it here.
+
+437
+00:15:26,169 --> 00:15:27,910
+Otherwise, it won't associate
+
+438
+00:15:27,910 --> 00:15:29,970
+your top hat with your canvas.
+
+439
+00:15:29,970 --> 00:15:31,250
+So please do that at some point.
+
+440
+00:15:31,250 --> 00:15:33,870
+Yeah, there are
+questions people have.
+
+441
+00:15:35,830 --> 00:15:41,349
+All right, cool. I'm
+going ahead here.
+
+442
+00:15:41,349 --> 00:15:43,129
+Let's talk about resources.
+
+443
+00:15:43,129 --> 00:15:46,509
+Systems are about
+managing resources.
+
+444
+00:15:46,509 --> 00:15:48,290
+Resource is a very broad word
+
+445
+00:15:48,290 --> 00:15:50,090
+and it can mean lots
+of different things.
+
+446
+00:15:50,090 --> 00:15:51,989
+In this course, I'm focus on
+
+447
+00:15:51,989 --> 00:15:54,710
+four big categories of
+computing resources.
+
+448
+00:15:54,710 --> 00:15:56,530
+And those are compute,
+
+449
+00:15:56,530 --> 00:15:58,929
+memory, storage, and networking.
+
+450
+00:15:58,929 --> 00:16:00,950
+And I have all those
+things in my laptop,
+
+451
+00:16:00,950 --> 00:16:03,390
+or any computer would
+have these four things.
+
+452
+00:16:03,390 --> 00:16:05,009
+Let's look at some examples.
+
+453
+00:16:05,009 --> 00:16:07,470
+A CPU central processing unit is
+
+454
+00:16:07,470 --> 00:16:11,930
+the main form of compute
+power we have nowadays.
+
+455
+00:16:11,930 --> 00:16:14,109
+For a lot of big data sets,
+
+456
+00:16:14,109 --> 00:16:15,470
+people actually use GPU's,
+
+457
+00:16:15,470 --> 00:16:18,350
+Graphics processing units,
+originally built for graphics,
+
+458
+00:16:18,350 --> 00:16:19,869
+but also suitable for a lot
+
+459
+00:16:19,869 --> 00:16:22,250
+of scientific computing
+and machine learning.
+
+460
+00:16:22,250 --> 00:16:24,910
+Memory is Ram.
+
+461
+00:16:24,910 --> 00:16:27,009
+Gp's are also a little
+bit on that side too,
+
+462
+00:16:27,009 --> 00:16:29,289
+because GPU's will have
+their own built in Ram.
+
+463
+00:16:29,289 --> 00:16:31,010
+And when you're programming
+this environment,
+
+464
+00:16:31,010 --> 00:16:32,929
+you have to think
+about is my data in
+
+465
+00:16:32,929 --> 00:16:36,000
+my regular system Ram
+or is it in my GPU Ram?
+
+466
+00:16:36,000 --> 00:16:37,469
+We're going to use Ram to hold
+
+467
+00:16:37,469 --> 00:16:38,709
+the active data we're
+
+468
+00:16:38,709 --> 00:16:40,969
+currently working
+with in our program.
+
+469
+00:16:40,969 --> 00:16:43,770
+Storage holds long
+term data and there's
+
+470
+00:16:43,770 --> 00:16:44,770
+two main devices we're
+
+471
+00:16:44,770 --> 00:16:46,070
+going to think about
+this semester.
+
+472
+00:16:46,070 --> 00:16:47,750
+There's hard disk drives,
+
+473
+00:16:47,750 --> 00:16:52,289
+HD HDDs, and solid
+state drives, SSD's.
+
+474
+00:16:52,289 --> 00:16:54,089
+We're going to talk
+more later on about
+
+475
+00:16:54,089 --> 00:16:55,969
+the performance
+tradeoffs between
+
+476
+00:16:55,969 --> 00:16:58,570
+these and where they
+each do well or poorly.
+
+477
+00:16:58,570 --> 00:17:00,529
+But at first Brush,
+
+478
+00:17:00,529 --> 00:17:03,290
+we could just say
+that SSDs are faster.
+
+479
+00:17:03,290 --> 00:17:06,809
+And then finally we
+have network resources.
+
+480
+00:17:06,809 --> 00:17:09,229
+In this case, I have
+a nick which is
+
+481
+00:17:09,229 --> 00:17:11,810
+a network interface card or
+you might say controller.
+
+482
+00:17:11,810 --> 00:17:13,609
+And I can plug an
+either net cable in
+
+483
+00:17:13,609 --> 00:17:15,930
+there and I could connect
+that to a separate switch.
+
+484
+00:17:15,930 --> 00:17:18,070
+And if I connect a bunch of
+computers to that switch,
+
+485
+00:17:18,070 --> 00:17:20,030
+well they can start
+talking to each other.
+
+486
+00:17:20,030 --> 00:17:20,510
+All right?
+
+487
+00:17:20,510 --> 00:17:22,149
+So I have all these
+different kinds of hardware,
+
+488
+00:17:22,149 --> 00:17:23,549
+like all of these
+are flash cards too.
+
+489
+00:17:23,549 --> 00:17:25,569
+So just like kind of remembering
+what these terms are,
+
+490
+00:17:25,569 --> 00:17:27,309
+maybe you know if what CPU is,
+
+491
+00:17:27,309 --> 00:17:29,129
+but maybe you don't
+know what a nick is.
+
+492
+00:17:29,129 --> 00:17:30,510
+If you do those flash cards,
+
+493
+00:17:30,510 --> 00:17:31,750
+you're going to
+practice the ones
+
+494
+00:17:31,750 --> 00:17:33,709
+that you're less familiar with.
+
+495
+00:17:33,709 --> 00:17:35,550
+How many of you have ever opened
+
+496
+00:17:35,550 --> 00:17:37,289
+up a computer and peeked inside?
+
+497
+00:17:37,289 --> 00:17:39,830
+It's a great thing to do
+if you ever did a chance.
+
+498
+00:17:39,830 --> 00:17:42,069
+This is a peek inside of
+
+499
+00:17:42,069 --> 00:17:44,650
+a server and it has those
+four resources right here,
+
+500
+00:17:44,650 --> 00:17:46,089
+we can actually see
+what it looks like.
+
+501
+00:17:46,089 --> 00:17:47,730
+There are some hard
+drives at the top.
+
+502
+00:17:47,730 --> 00:17:50,369
+We have some CPU's down here.
+
+503
+00:17:50,369 --> 00:17:51,610
+Those tend to get
+hot, so there's
+
+504
+00:17:51,610 --> 00:17:53,150
+a big fan on each of them.
+
+505
+00:17:53,150 --> 00:17:56,090
+Over here I have all
+these green sticks of Ram
+
+506
+00:17:56,090 --> 00:18:00,370
+and here's my network interface
+controller right here.
+
+507
+00:18:00,730 --> 00:18:03,469
+All right, so we have all
+these resources and we
+
+508
+00:18:03,469 --> 00:18:06,029
+can use these resources
+to solve problems.
+
+509
+00:18:06,029 --> 00:18:09,129
+But what happens is the problem
+
+510
+00:18:09,129 --> 00:18:10,730
+is around some dataset
+
+511
+00:18:10,730 --> 00:18:12,729
+that's growing and getting
+bigger and bigger.
+
+512
+00:18:12,729 --> 00:18:15,430
+One problem I might run on
+too is that it might take too
+
+513
+00:18:15,430 --> 00:18:19,029
+long to do my computation.
+That's a problem.
+
+514
+00:18:19,029 --> 00:18:21,569
+Even worse, if I don't
+have enough memory,
+
+515
+00:18:21,569 --> 00:18:23,149
+I might not be able
+to run it at all.
+
+516
+00:18:23,149 --> 00:18:27,929
+It might just crash in that
+situation, what can we do?
+
+517
+00:18:27,929 --> 00:18:29,209
+One thing we could do is
+
+518
+00:18:29,209 --> 00:18:31,089
+try to write more
+efficient code.
+
+519
+00:18:31,089 --> 00:18:32,949
+Maybe I go take an
+algorithms class like
+
+520
+00:18:32,949 --> 00:18:35,010
+577 and maybe come
+
+521
+00:18:35,010 --> 00:18:37,129
+up with an algorithm that
+has better complexity.
+
+522
+00:18:37,129 --> 00:18:38,709
+Eventually you'll
+hit the end of that
+
+523
+00:18:38,709 --> 00:18:40,390
+and maybe the data
+is still too big,
+
+524
+00:18:40,390 --> 00:18:42,150
+so eventually you
+just have to throw
+
+525
+00:18:42,150 --> 00:18:44,169
+more resources at it, right?
+
+526
+00:18:44,169 --> 00:18:45,630
+And so here I have a computer.
+
+527
+00:18:45,630 --> 00:18:46,650
+There's different ways I could
+
+528
+00:18:46,650 --> 00:18:48,009
+throw more resources at it.
+
+529
+00:18:48,009 --> 00:18:50,109
+One is within that
+same computer,
+
+530
+00:18:50,109 --> 00:18:51,830
+I could buy better hardware.
+
+531
+00:18:51,830 --> 00:18:54,749
+Maybe I buy faster
+CPUs or more memory.
+
+532
+00:18:54,749 --> 00:18:56,049
+That's called scaling up.
+
+533
+00:18:56,049 --> 00:18:57,569
+When I just have
+like one machine
+
+534
+00:18:57,569 --> 00:19:00,110
+and I give it more
+computing power.
+
+535
+00:19:00,110 --> 00:19:03,409
+The other thing we
+might do is we might
+
+536
+00:19:03,409 --> 00:19:06,209
+just buy more machines
+that maybe independently,
+
+537
+00:19:06,209 --> 00:19:08,549
+none of them is anything
+special, but as a cluster,
+
+538
+00:19:08,549 --> 00:19:11,549
+I have a lot of cumulative
+computing power.
+
+539
+00:19:11,549 --> 00:19:15,449
+Dugal really pushed
+this approach and what
+
+540
+00:19:15,449 --> 00:19:17,129
+they realized early on is that
+
+541
+00:19:17,129 --> 00:19:19,329
+scaling up was often
+expensive, right?
+
+542
+00:19:19,329 --> 00:19:20,989
+If you bought twice
+as much memory,
+
+543
+00:19:20,989 --> 00:19:23,455
+maybe it costs even more
+than twice as much,
+
+544
+00:19:23,455 --> 00:19:24,919
+the smaller amount of memory.
+
+545
+00:19:24,919 --> 00:19:27,400
+So it's very expensive
+buying this fancy hardware,
+
+546
+00:19:27,400 --> 00:19:28,919
+but you could buy what you might
+
+547
+00:19:28,919 --> 00:19:30,239
+call just commodity hardware
+
+548
+00:19:30,239 --> 00:19:31,480
+that's available
+to everybody off
+
+549
+00:19:31,480 --> 00:19:32,980
+the shelf and that's cheap.
+
+550
+00:19:32,980 --> 00:19:34,740
+But you can buy a lot
+of it and still get
+
+551
+00:19:34,740 --> 00:19:38,840
+the same cumulative computing
+power at a cheaper rate.
+
+552
+00:19:38,840 --> 00:19:40,380
+That's called scale out.
+
+553
+00:19:40,380 --> 00:19:41,940
+That's going to be
+most of what we're
+
+554
+00:19:41,940 --> 00:19:43,840
+thinking about this semester.
+
+555
+00:19:43,840 --> 00:19:46,179
+All right, let's take
+a look at each of
+
+556
+00:19:46,179 --> 00:19:48,840
+these four resources now in
+a little bit more detail,
+
+557
+00:19:48,840 --> 00:19:51,060
+now that we've had an overview.
+
+558
+00:19:51,460 --> 00:19:54,080
+Some computers have one CPU,
+
+559
+00:19:54,080 --> 00:19:55,319
+some have multiple CPUs.
+
+560
+00:19:55,319 --> 00:19:57,659
+I see this one right
+here has two CPUs on it.
+
+561
+00:19:57,659 --> 00:19:59,639
+But regardless of how
+many CPUs I have,
+
+562
+00:19:59,639 --> 00:20:03,379
+they might each have multiple
+cores on that same chap.
+
+563
+00:20:03,379 --> 00:20:05,809
+Each of those cores acts like
+
+564
+00:20:05,809 --> 00:20:09,249
+its own little CPU that
+I can run a user's code.
+
+565
+00:20:09,249 --> 00:20:11,250
+Right, so between here
+maybe I might look,
+
+566
+00:20:11,250 --> 00:20:12,830
+maybe who knows. Maybe
+I have eight on each.
+
+567
+00:20:12,830 --> 00:20:14,490
+I might have 16 cores total.
+
+568
+00:20:14,490 --> 00:20:18,629
+So how do cores actually
+run a user's code?
+
+569
+00:20:18,629 --> 00:20:21,010
+So what I'm showing up here
+is four different processes,
+
+570
+00:20:21,010 --> 00:20:24,969
+123.4 a process is
+a running program.
+
+571
+00:20:24,969 --> 00:20:27,230
+I put in parentheses the
+name of the program.
+
+572
+00:20:27,230 --> 00:20:30,289
+So you could totally
+imagine Process 1.4 Maybe I
+
+573
+00:20:30,289 --> 00:20:31,550
+started the same program
+
+574
+00:20:31,550 --> 00:20:33,789
+twice on different shells
+or something like that.
+
+575
+00:20:33,789 --> 00:20:36,889
+Each of these processes
+have some things in common.
+
+576
+00:20:36,889 --> 00:20:39,129
+They have some code
+which is in Ram,
+
+577
+00:20:39,129 --> 00:20:41,569
+and then they have some data
+that they're operating on.
+
+578
+00:20:41,569 --> 00:20:43,509
+And when you're executing code,
+
+579
+00:20:43,509 --> 00:20:44,769
+the first thing you
+need to know is, well,
+
+580
+00:20:44,769 --> 00:20:47,459
+what line of code am I on,
+or what instruction am I on?
+
+581
+00:20:47,459 --> 00:20:50,789
+So each of these processes
+has a little red arrow by it,
+
+582
+00:20:50,789 --> 00:20:52,270
+and that's called an
+instruction pointer.
+
+583
+00:20:52,270 --> 00:20:53,489
+That's telling me, here's
+
+584
+00:20:53,489 --> 00:20:56,729
+the machine code you're
+currently executing.
+
+585
+00:20:56,729 --> 00:20:58,390
+Now, at any given time,
+
+586
+00:20:58,390 --> 00:21:02,789
+CPU core can be running
+one of these processes.
+
+587
+00:21:02,789 --> 00:21:05,949
+And I have more processes
+and I have CPU cores.
+
+588
+00:21:05,949 --> 00:21:07,789
+So the operating system
+
+589
+00:21:07,789 --> 00:21:09,889
+is a piece of software
+that's going to step in.
+
+590
+00:21:09,889 --> 00:21:12,189
+And one of the things
+that does is it decides,
+
+591
+00:21:12,189 --> 00:21:14,650
+okay, now it's your
+turn to run on a core.
+
+592
+00:21:14,650 --> 00:21:16,870
+And when you're running
+code, what does that mean?
+
+593
+00:21:16,870 --> 00:21:19,690
+Well, I have some
+outcomes but also
+
+594
+00:21:19,690 --> 00:21:23,050
+the line of code I'm
+executing on changes.
+
+595
+00:21:23,050 --> 00:21:24,310
+Right, I'm stepping forward,
+
+596
+00:21:24,310 --> 00:21:27,049
+that instruction pointer
+to execute the code.
+
+597
+00:21:27,049 --> 00:21:30,035
+This point I have two
+processes, 1.2 are running.
+
+598
+00:21:30,035 --> 00:21:32,759
+And then some other ones that
+are ready they could run,
+
+599
+00:21:32,759 --> 00:21:34,440
+but I'm not running
+them right now.
+
+600
+00:21:34,440 --> 00:21:36,079
+The operating system will decide
+
+601
+00:21:36,079 --> 00:21:37,700
+when we switch who
+gets to be running.
+
+602
+00:21:37,700 --> 00:21:39,820
+So now maybe I'm running
+these two for a bit.
+
+603
+00:21:39,820 --> 00:21:42,859
+So we can see that the
+more cores we have,
+
+604
+00:21:42,859 --> 00:21:45,640
+the more things we
+can run in parallel
+
+605
+00:21:45,640 --> 00:21:50,219
+across all of these
+different processes.
+
+606
+00:21:50,219 --> 00:21:53,139
+Okay, so what does that
+code actually look like?
+
+607
+00:21:53,139 --> 00:21:54,899
+Well, it's actually
+a machine code.
+
+608
+00:21:54,899 --> 00:21:57,000
+Maybe some of you have
+taken 354. No worries.
+
+609
+00:21:57,000 --> 00:21:59,379
+If not, you'll learn that
+
+610
+00:21:59,379 --> 00:22:00,879
+machine code is these ones and
+
+611
+00:22:00,879 --> 00:22:02,560
+zeros that different
+combinations
+
+612
+00:22:02,560 --> 00:22:05,559
+specify different operations
+like adding or maybe like
+
+613
+00:22:05,559 --> 00:22:07,840
+jumping to a specific place
+
+614
+00:22:07,840 --> 00:22:09,259
+in your code or
+things like that.
+
+615
+00:22:09,259 --> 00:22:10,599
+What I've shown up here is
+
+616
+00:22:10,599 --> 00:22:12,399
+something called assembly code.
+
+617
+00:22:12,399 --> 00:22:13,999
+An assembly code is a very
+
+618
+00:22:13,999 --> 00:22:16,279
+close relationship to
+that machine code.
+
+619
+00:22:16,279 --> 00:22:17,879
+It's not zeros and ones,
+
+620
+00:22:17,879 --> 00:22:20,599
+but I have different
+instructions here that would get
+
+621
+00:22:20,599 --> 00:22:23,579
+translated to those zeros
+and ones in machine code.
+
+622
+00:22:23,579 --> 00:22:25,160
+Right? So that's
+what I have there
+
+623
+00:22:25,160 --> 00:22:26,979
+and very few programmers are
+
+624
+00:22:26,979 --> 00:22:28,940
+ever programming and something
+
+625
+00:22:28,940 --> 00:22:30,560
+like machine code or assembly.
+
+626
+00:22:30,560 --> 00:22:31,959
+So my question is,
+
+627
+00:22:31,959 --> 00:22:33,980
+how do we bridge that
+gap between languages?
+
+628
+00:22:33,980 --> 00:22:36,680
+We commonly write
+code in Python, Java,
+
+629
+00:22:36,680 --> 00:22:39,819
+or whatever, and
+the machine code.
+
+630
+00:22:39,819 --> 00:22:41,719
+Right? And the answer
+
+631
+00:22:41,719 --> 00:22:43,720
+is that there's different
+ways to bridge that gap.
+
+632
+00:22:43,720 --> 00:22:45,179
+And it'll vary depending on
+
+633
+00:22:45,179 --> 00:22:47,340
+what programming
+language you're using.
+
+634
+00:22:47,340 --> 00:22:48,919
+Almost everything
+we're going to be
+
+635
+00:22:48,919 --> 00:22:50,795
+doing this semester
+is in Python.
+
+636
+00:22:50,795 --> 00:22:53,509
+But that doesn't mean
+that all the systems
+
+637
+00:22:53,509 --> 00:22:56,450
+we're using were themselves
+built in Python.
+
+638
+00:22:56,450 --> 00:22:57,810
+For example, the system will
+
+639
+00:22:57,810 --> 00:22:59,589
+probably use most
+is called Spark.
+
+640
+00:22:59,589 --> 00:23:03,250
+Spark was written in a
+language called Scala,
+
+641
+00:23:03,250 --> 00:23:05,169
+and Scala runs on
+
+642
+00:23:05,169 --> 00:23:07,289
+something called the
+Java Virtual Machine.
+
+643
+00:23:07,289 --> 00:23:08,610
+And so one of the things
+that you're going
+
+644
+00:23:08,610 --> 00:23:09,869
+to be seeing when we're
+programming later is
+
+645
+00:23:09,869 --> 00:23:11,450
+you're writing your Python code
+
+646
+00:23:11,450 --> 00:23:13,730
+and then there's an error.
+There's a big stack trace.
+
+647
+00:23:13,730 --> 00:23:15,370
+And you'll read through it
+in that same stack trace,
+
+648
+00:23:15,370 --> 00:23:16,810
+there'll be some Python code,
+
+649
+00:23:16,810 --> 00:23:18,450
+there will be some Scala code,
+
+650
+00:23:18,450 --> 00:23:19,890
+and there'll be some Java code,
+
+651
+00:23:19,890 --> 00:23:21,390
+right? I don't know Scala.
+
+652
+00:23:21,390 --> 00:23:23,409
+But because I understand
+how these pieces kind of
+
+653
+00:23:23,409 --> 00:23:25,469
+fit together and I can get
+a general sense of it,
+
+654
+00:23:25,469 --> 00:23:27,869
+I can still debug a
+bit based on that.
+
+655
+00:23:27,869 --> 00:23:29,049
+And so that's why I want to
+
+656
+00:23:29,049 --> 00:23:30,229
+understand how all these pieces
+
+657
+00:23:30,229 --> 00:23:32,690
+fit together and how
+code actually runs.
+
+658
+00:23:32,690 --> 00:23:35,089
+Because even though we
+aren't doing Java or Scala,
+
+659
+00:23:35,089 --> 00:23:36,729
+we're going to be
+touching it a little bit
+
+660
+00:23:36,729 --> 00:23:39,389
+and being able to read those
+error messages will help us.
+
+661
+00:23:39,389 --> 00:23:40,810
+Okay, so how do we
+bridge that gap?
+
+662
+00:23:40,810 --> 00:23:43,269
+Let's say we wrote some high
+level code, I don't know,
+
+663
+00:23:43,269 --> 00:23:44,949
+let's say it's like C or C,
+
+664
+00:23:44,949 --> 00:23:48,350
+and we want to run
+that on the CPU,
+
+665
+00:23:48,350 --> 00:23:50,449
+which only understands
+machine code.
+
+666
+00:23:50,449 --> 00:23:52,369
+One way we could do
+that is we could feed
+
+667
+00:23:52,369 --> 00:23:55,870
+our program through another
+program called a compiler.
+
+668
+00:23:55,870 --> 00:23:57,330
+And the compiler would translate
+
+669
+00:23:57,330 --> 00:23:59,189
+that high level code down to
+
+670
+00:23:59,189 --> 00:24:01,210
+something that the
+machine understands
+
+671
+00:24:01,210 --> 00:24:02,910
+and that could be run on a CPU.
+
+672
+00:24:02,910 --> 00:24:05,949
+All right, that's the first
+approach, this compilation,
+
+673
+00:24:05,949 --> 00:24:07,930
+another approach that we could
+
+674
+00:24:07,930 --> 00:24:11,279
+do is we would use
+a another program.
+
+675
+00:24:11,279 --> 00:24:14,460
+But this program would be
+called an interpreter.
+
+676
+00:24:14,460 --> 00:24:15,879
+It would be running directly,
+
+677
+00:24:15,879 --> 00:24:20,919
+it's machine code and it's
+running directly on that CPU.
+
+678
+00:24:20,919 --> 00:24:24,600
+And what that interpreter
+program is doing is it's
+
+679
+00:24:24,600 --> 00:24:28,459
+looping over code in
+our high level program.
+
+680
+00:24:28,459 --> 00:24:30,559
+And whenever it finds some code
+
+681
+00:24:30,559 --> 00:24:32,019
+in that high level program,
+
+682
+00:24:32,019 --> 00:24:33,960
+it will figure out
+what actions it needs
+
+683
+00:24:33,960 --> 00:24:36,080
+to take to accomplish
+its end goal,
+
+684
+00:24:36,080 --> 00:24:37,760
+right? That would
+be an interpreter.
+
+685
+00:24:37,760 --> 00:24:41,260
+Now if you ask different people,
+
+686
+00:24:41,260 --> 00:24:43,900
+they'll probably give
+you a simplified answer.
+
+687
+00:24:43,900 --> 00:24:46,459
+It might say something
+like Python is
+
+688
+00:24:46,459 --> 00:24:50,060
+interpreted and
+Java is compiled.
+
+689
+00:24:50,060 --> 00:24:52,559
+And that's not picture is
+a little more complicated.
+
+690
+00:24:52,559 --> 00:24:54,119
+I'm going to show you
+a complicated picture
+
+691
+00:24:54,119 --> 00:24:55,399
+now about how those do.
+
+692
+00:24:55,399 --> 00:24:58,359
+Both of them actually have
+somewhat of a hybrid approach.
+
+693
+00:24:58,359 --> 00:25:01,379
+Okay, and that approach is that
+
+694
+00:25:01,379 --> 00:25:04,239
+we produce an intermediate
+language called byte code.
+
+695
+00:25:04,239 --> 00:25:05,879
+So what we might do
+here is we might
+
+696
+00:25:05,879 --> 00:25:07,659
+write some code up here,
+
+697
+00:25:07,659 --> 00:25:08,860
+feed it through a compiler.
+
+698
+00:25:08,860 --> 00:25:10,799
+And we get something byte code
+
+699
+00:25:10,799 --> 00:25:14,299
+which is closer to the
+machine code, but not quite.
+
+700
+00:25:14,299 --> 00:25:16,440
+And then instead of having
+an interpreter over here,
+
+701
+00:25:16,440 --> 00:25:18,140
+we're going to call this
+a virtual machine now.
+
+702
+00:25:18,140 --> 00:25:19,920
+And what the virtual machine
+will do is it'll help
+
+703
+00:25:19,920 --> 00:25:22,359
+translate this byte
+code into machine code.
+
+704
+00:25:22,359 --> 00:25:24,139
+Lots of nice things about this.
+
+705
+00:25:24,139 --> 00:25:26,289
+One is that compile
+
+706
+00:25:26,289 --> 00:25:27,870
+this Spy code, I could
+share it around,
+
+707
+00:25:27,870 --> 00:25:30,930
+and then if people
+have computers
+
+708
+00:25:30,930 --> 00:25:32,950
+that understand different
+machine code well,
+
+709
+00:25:32,950 --> 00:25:35,649
+as long as they have the
+right virtual machine there,
+
+710
+00:25:35,649 --> 00:25:37,389
+they could run it, right?
+
+711
+00:25:37,389 --> 00:25:42,850
+One language that does
+this is Python, right?
+
+712
+00:25:42,850 --> 00:25:45,350
+We don't often think about
+Python being compiled,
+
+713
+00:25:45,350 --> 00:25:48,329
+but if you run Python three
+in the name of a program,
+
+714
+00:25:48,329 --> 00:25:50,209
+it'll feed your Python code
+
+715
+00:25:50,209 --> 00:25:52,390
+through and it'll create
+Python byte code.
+
+716
+00:25:52,390 --> 00:25:53,610
+Sometimes that'll even show up,
+
+717
+00:25:53,610 --> 00:25:56,230
+You might have noticed a
+YC file at some point,
+
+718
+00:25:56,230 --> 00:25:58,569
+and then the Python
+Virtual Machine
+
+719
+00:25:58,569 --> 00:26:01,529
+is going to start running
+that code for you.
+
+720
+00:26:01,529 --> 00:26:03,549
+Let me just show you
+what this looks like.
+
+721
+00:26:03,549 --> 00:26:07,649
+I'm going to head over here and
+
+722
+00:26:07,649 --> 00:26:10,029
+I'm going to jump into Python.
+
+723
+00:26:10,029 --> 00:26:16,170
+I am going to import disc,
+
+724
+00:26:16,170 --> 00:26:17,550
+which stands for disassembly.
+
+725
+00:26:17,550 --> 00:26:19,450
+And I can say disc, disc.
+
+726
+00:26:19,450 --> 00:26:23,090
+And I can put some Python code
+here and I'm going to say
+
+727
+00:26:23,090 --> 00:26:27,990
+z equals x times two plus y.
+
+728
+00:26:27,990 --> 00:26:30,590
+What that will do is
+it'll print off, well,
+
+729
+00:26:30,590 --> 00:26:34,350
+what is the byte code corresponding
+to my Python program?
+
+730
+00:26:34,350 --> 00:26:36,970
+These last two lines
+here. Ignore those.
+
+731
+00:26:36,970 --> 00:26:38,449
+It always does
+that at the end of
+
+732
+00:26:38,449 --> 00:26:40,829
+any code that doesn't
+really mean anything to us.
+
+733
+00:26:40,829 --> 00:26:42,369
+I'm going to look
+at this up here.
+
+734
+00:26:42,369 --> 00:26:45,390
+What is this doing? It
+has to load in the value
+
+735
+00:26:45,390 --> 00:26:48,389
+corresponding to x. I
+have a name for that,
+
+736
+00:26:48,389 --> 00:26:50,290
+It has to load in a constant.
+
+737
+00:26:50,290 --> 00:26:51,849
+Value which is two, right?
+
+738
+00:26:51,849 --> 00:26:53,090
+So x times two.
+
+739
+00:26:53,090 --> 00:26:55,850
+It has to multiply
+those together, okay?
+
+740
+00:26:55,850 --> 00:26:59,870
+So I've done this, it
+has to load in Y, great.
+
+741
+00:26:59,870 --> 00:27:01,750
+And then it has to add
+those together again,
+
+742
+00:27:01,750 --> 00:27:04,969
+and finally it stores
+that all back in Z.
+
+743
+00:27:04,969 --> 00:27:07,589
+So just looking at this,
+does anybody want to
+
+744
+00:27:07,589 --> 00:27:10,009
+ask what might I
+
+745
+00:27:10,009 --> 00:27:12,109
+reasonably think that
+these X, Y, and Z are?
+
+746
+00:27:12,109 --> 00:27:15,029
+What type might they be?
+There's one of the one.
+
+747
+00:27:15,029 --> 00:27:17,809
+Right answer. So I'm just
+like looking for ideas.
+
+748
+00:27:18,330 --> 00:27:21,489
+Yeah, right here. Yeah, I
+
+749
+00:27:21,489 --> 00:27:22,729
+might think that there's
+some kind of number.
+
+750
+00:27:22,729 --> 00:27:25,369
+Looks like we're kind of doing
+some kind of math with it.
+
+751
+00:27:25,369 --> 00:27:28,269
+Right? Python? Are
+there other things that
+
+752
+00:27:28,269 --> 00:27:32,305
+could be besides numbers?
+Yeah, back here.
+
+753
+00:27:32,305 --> 00:27:34,599
+It could be strings
+and oh, I didn't even
+
+754
+00:27:34,599 --> 00:27:36,219
+think about it being list,
+but that's true too, right?
+
+755
+00:27:36,219 --> 00:27:37,499
+So this could be lots
+of things, right?
+
+756
+00:27:37,499 --> 00:27:39,000
+So if this was a string,
+
+757
+00:27:39,000 --> 00:27:40,319
+then the string by
+
+758
+00:27:40,319 --> 00:27:42,279
+two would just repeat
+the same string twice.
+
+759
+00:27:42,279 --> 00:27:43,919
+And then plus would
+concatenate it.
+
+760
+00:27:43,919 --> 00:27:45,119
+And I guess you
+go to a list two,
+
+761
+00:27:45,119 --> 00:27:47,200
+I'd repeat the list
+multiple times.
+
+762
+00:27:47,200 --> 00:27:49,240
+So this byte, even though
+
+763
+00:27:49,240 --> 00:27:51,899
+it's closer to machine code
+than my original Python,
+
+764
+00:27:51,899 --> 00:27:54,059
+there's lots of things that are
+
+765
+00:27:54,059 --> 00:27:55,279
+kind of missing there, right?
+
+766
+00:27:55,279 --> 00:27:57,919
+I don't know what types I'm
+even dealing with, right?
+
+767
+00:27:57,919 --> 00:28:00,320
+So what I would
+say is that Python
+
+768
+00:28:00,320 --> 00:28:02,719
+has fairly high level
+byte code, right?
+
+769
+00:28:02,719 --> 00:28:04,520
+The Python Virtual
+Machine is going
+
+770
+00:28:04,520 --> 00:28:06,220
+to have to figure out a
+lot when it actually runs,
+
+771
+00:28:06,220 --> 00:28:09,420
+like what types are involved.
+
+772
+00:28:09,420 --> 00:28:12,140
+All right, so let's
+take a look at Java.
+
+773
+00:28:12,140 --> 00:28:15,500
+And at first glance, Java
+looks the same, right?
+
+774
+00:28:15,500 --> 00:28:17,720
+But there are a couple
+of differences.
+
+775
+00:28:17,720 --> 00:28:21,260
+One is that this step of
+running the Java compiler,
+
+776
+00:28:21,260 --> 00:28:23,700
+you actually have to think
+about it as a programmer.
+
+777
+00:28:23,700 --> 00:28:25,079
+You have to run Java C or
+
+778
+00:28:25,079 --> 00:28:27,899
+another Java compiler
+to produce the byroad,
+
+779
+00:28:27,899 --> 00:28:31,239
+That byroad does
+class files and that
+
+780
+00:28:31,239 --> 00:28:32,840
+bytecode is trying
+to have details
+
+781
+00:28:32,840 --> 00:28:34,799
+like what are the
+types involved, right?
+
+782
+00:28:34,799 --> 00:28:39,759
+So it's probably faster
+to run Java byroad on
+
+783
+00:28:39,759 --> 00:28:42,219
+the Java Virtual
+Machine than it is to
+
+784
+00:28:42,219 --> 00:28:45,079
+run Python byroad on the
+Python Virtual Machine.
+
+785
+00:28:45,079 --> 00:28:47,329
+Because this, this byte
+code here is closer
+
+786
+00:28:47,329 --> 00:28:50,069
+to what the machine
+actually wants.
+
+787
+00:28:50,069 --> 00:28:52,489
+All right, so we have
+the picture like that.
+
+788
+00:28:52,489 --> 00:28:55,709
+Now I've shown a
+couple paths now to
+
+789
+00:28:55,709 --> 00:28:57,089
+get from the user's code
+
+790
+00:28:57,089 --> 00:28:59,209
+on somebody actually
+running on the machine.
+
+791
+00:28:59,209 --> 00:29:01,629
+And there's lots of
+different paths to do that.
+
+792
+00:29:01,629 --> 00:29:03,549
+And then I can even add
+them in this picture.
+
+793
+00:29:03,549 --> 00:29:06,729
+For example, Scala is
+
+794
+00:29:06,729 --> 00:29:08,270
+a language that some
+of these systems
+
+795
+00:29:08,270 --> 00:29:09,629
+are built on like Spark.
+
+796
+00:29:09,629 --> 00:29:11,230
+And rather than building a brand
+
+797
+00:29:11,230 --> 00:29:13,349
+new Spark virtual machine,
+
+798
+00:29:13,349 --> 00:29:14,629
+they decided, well, won't we
+
+799
+00:29:14,629 --> 00:29:15,809
+just write this compiler that
+
+800
+00:29:15,809 --> 00:29:18,670
+converts it to JVM
+byte code, right?
+
+801
+00:29:18,670 --> 00:29:21,310
+The Java Virtual Machine has
+been around a long time.
+
+802
+00:29:21,310 --> 00:29:23,189
+People have really optimized it.
+
+803
+00:29:23,189 --> 00:29:24,849
+Why build something
+new when you have
+
+804
+00:29:24,849 --> 00:29:26,650
+this great piece of
+software, right?
+
+805
+00:29:26,650 --> 00:29:30,090
+So Scala fits there. This is
+just kind of a wacky idea.
+
+806
+00:29:30,090 --> 00:29:31,389
+I don't think it's
+gone anywhere,
+
+807
+00:29:31,389 --> 00:29:32,649
+but people have also built
+
+808
+00:29:32,649 --> 00:29:34,189
+something called the
+jython from pilot.
+
+809
+00:29:34,189 --> 00:29:35,729
+I will take Python toad
+
+810
+00:29:35,729 --> 00:29:39,189
+and convert it to
+byte toad, right?
+
+811
+00:29:39,189 --> 00:29:39,749
+So there's lots of
+
+812
+00:29:39,749 --> 00:29:41,389
+different paths here
+that you could imagine,
+
+813
+00:29:41,389 --> 00:29:43,390
+but the end of the day is
+that we have to somehow take
+
+814
+00:29:43,390 --> 00:29:46,649
+our program and run
+it as machine toad.
+
+815
+00:29:46,649 --> 00:29:48,110
+Do you have any questions about
+
+816
+00:29:48,110 --> 00:29:50,509
+all these different ways
+that things can run?
+
+817
+00:29:55,390 --> 00:29:59,739
+All right, great. All of
+that's talking about code that
+
+818
+00:29:59,739 --> 00:30:03,920
+we're running on on CPU
+central processing units.
+
+819
+00:30:03,920 --> 00:30:06,199
+But there are
+alternatives to that.
+
+820
+00:30:06,199 --> 00:30:07,739
+One of the big alternatives,
+
+821
+00:30:07,739 --> 00:30:09,939
+the most popular one is GPUs.
+
+822
+00:30:09,939 --> 00:30:12,840
+They stands for Graphics
+Processing units.
+
+823
+00:30:12,840 --> 00:30:17,460
+Both CPUs and GPUs have
+cores in them, A CPU.
+
+824
+00:30:17,460 --> 00:30:18,859
+Those cores are
+fairly powerful and
+
+825
+00:30:18,859 --> 00:30:20,740
+each core can be
+doing its own thing.
+
+826
+00:30:20,740 --> 00:30:25,180
+On a GPU, we have lots and
+lots of core, maybe thousands,
+
+827
+00:30:25,180 --> 00:30:29,499
+but they're not so fast and
+they're very special purpose,
+
+828
+00:30:29,499 --> 00:30:32,320
+they just work well with floats.
+
+829
+00:30:32,320 --> 00:30:35,420
+I'm assuming that's what
+they needed for graphics,
+
+830
+00:30:35,420 --> 00:30:37,399
+it turns out it also
+helps a lot with
+
+831
+00:30:37,399 --> 00:30:39,560
+machine learning and
+scientific computing.
+
+832
+00:30:39,560 --> 00:30:41,259
+In those kinds of cases,
+
+833
+00:30:41,259 --> 00:30:42,640
+I might be working on lots
+
+834
+00:30:42,640 --> 00:30:44,160
+of different data
+at the same time,
+
+835
+00:30:44,160 --> 00:30:46,540
+but I'm doing the same thing
+to all the different data.
+
+836
+00:30:46,540 --> 00:30:48,059
+So I've illustrated that by
+
+837
+00:30:48,059 --> 00:30:49,639
+tying these course
+together, right?
+
+838
+00:30:49,639 --> 00:30:51,120
+Each core is working
+on different data,
+
+839
+00:30:51,120 --> 00:30:53,179
+but it's doing the
+same operations
+
+840
+00:30:53,179 --> 00:30:54,760
+at the same time, right?
+
+841
+00:30:54,760 --> 00:30:55,920
+So depending on what
+you want, if you want
+
+842
+00:30:55,920 --> 00:30:57,459
+flexibility, you
+might want to CPU.
+
+843
+00:30:57,459 --> 00:31:00,699
+In other cases, the GPU might
+give you a lot more speed.
+
+844
+00:31:00,699 --> 00:31:03,639
+This book here, Python
+Machine Learning
+
+845
+00:31:03,639 --> 00:31:04,979
+by Sebastian Rask,
+
+846
+00:31:04,979 --> 00:31:06,800
+actually used to be
+a professor here,
+
+847
+00:31:06,800 --> 00:31:08,679
+did a comparison just between
+
+848
+00:31:08,679 --> 00:31:12,100
+one example CPU and one GPU.
+
+849
+00:31:12,100 --> 00:31:15,459
+Both of them have a clock
+inside of them that's ticking.
+
+850
+00:31:15,459 --> 00:31:17,619
+And this is how
+fast it's ticking.
+
+851
+00:31:17,619 --> 00:31:21,439
+Giga is billion this
+hertz times per second,
+
+852
+00:31:21,439 --> 00:31:24,359
+so this 3.2 billion
+times per second,
+
+853
+00:31:24,359 --> 00:31:27,519
+we can see that the clock in
+the CPU is ticking faster.
+
+854
+00:31:27,519 --> 00:31:30,040
+That doesn't tell you as
+much as you might think
+
+855
+00:31:30,040 --> 00:31:33,099
+because some cores might
+
+856
+00:31:33,099 --> 00:31:35,539
+take multiple clock ticks
+to do one instruction,
+
+857
+00:31:35,539 --> 00:31:37,639
+and that's not
+always comparable.
+
+858
+00:31:37,639 --> 00:31:41,759
+We can see again that
+the CPU has eight cores,
+
+859
+00:31:41,759 --> 00:31:44,080
+this one has 3,000 cores.
+
+860
+00:31:44,080 --> 00:31:46,580
+If I really want to
+compare these, well,
+
+861
+00:31:46,580 --> 00:31:48,820
+how can I actually say one
+is faster than the other?
+
+862
+00:31:48,820 --> 00:31:51,100
+The only way to really
+do it well is to take
+
+863
+00:31:51,100 --> 00:31:52,859
+an actual program and
+
+864
+00:31:52,859 --> 00:31:55,059
+run it on both and
+see how fast it is.
+
+865
+00:31:55,059 --> 00:31:56,739
+Sometimes we write
+programs that we
+
+866
+00:31:56,739 --> 00:31:58,640
+just run for the sake
+of measuring speed,
+
+867
+00:31:58,640 --> 00:32:01,019
+and those programs are
+called benchmarks,
+
+868
+00:32:01,019 --> 00:32:04,080
+An example of a benchmark
+that will make a GPU.
+
+869
+00:32:04,080 --> 00:32:06,100
+Look really good, is
+one that's doing a lot
+
+870
+00:32:06,100 --> 00:32:08,480
+of operations with floats.
+
+871
+00:32:08,480 --> 00:32:10,359
+And what it might measure is
+
+872
+00:32:10,359 --> 00:32:13,099
+how many floating
+point operations
+
+873
+00:32:13,099 --> 00:32:16,579
+can you do per second, right?
+
+874
+00:32:16,579 --> 00:32:18,259
+You know, some are
+faster, slower.
+
+875
+00:32:18,259 --> 00:32:19,199
+You have to find
+some way to wait it.
+
+876
+00:32:19,199 --> 00:32:19,879
+There's some details
+
+877
+00:32:19,879 --> 00:32:21,200
+that I'm not trying to get into,
+
+878
+00:32:21,200 --> 00:32:22,479
+but I can tell how many floating
+
+879
+00:32:22,479 --> 00:32:24,279
+point operations can
+I do per second?
+
+880
+00:32:24,279 --> 00:32:26,979
+And then we have all
+these suffixes that,
+
+881
+00:32:26,979 --> 00:32:28,759
+or prefixes you might be
+
+882
+00:32:28,759 --> 00:32:30,679
+familiar with from
+the metric system.
+
+883
+00:32:30,679 --> 00:32:32,540
+K is 1,000 is 1 million,
+
+884
+00:32:32,540 --> 00:32:34,859
+G is 1 billion and
+is 1 trillion.
+
+885
+00:32:34,859 --> 00:32:37,019
+Just to make sure we're
+understanding that
+
+886
+00:32:37,019 --> 00:32:40,840
+this one is 11,300 gigaflops.
+
+887
+00:32:40,840 --> 00:32:43,580
+What would that be in teraflops.
+
+888
+00:32:43,580 --> 00:32:46,480
+So we want to just shout it out.
+
+889
+00:32:46,920 --> 00:32:49,719
+11.3 terra flops, right?
+
+890
+00:32:49,719 --> 00:32:51,340
+So those are the
+kinds of conversions
+
+891
+00:32:51,340 --> 00:32:52,900
+I want you to just
+get comfortable doing
+
+892
+00:32:52,900 --> 00:32:54,539
+this semester that's
+trying to show up with
+
+893
+00:32:54,539 --> 00:32:56,900
+Bytes and other units as well.
+
+894
+00:32:56,900 --> 00:32:59,539
+Won't we just do
+
+895
+00:32:59,539 --> 00:33:00,840
+a quick top hat to make sure
+
+896
+00:33:00,840 --> 00:33:02,899
+everybody's on the same
+page with this one.
+
+897
+00:33:02,899 --> 00:33:05,940
+So I'm going to
+bring this up over
+
+898
+00:33:05,940 --> 00:33:07,780
+here and don't worry
+
+899
+00:33:07,780 --> 00:33:09,820
+too much if there's technical
+difficulties today,
+
+900
+00:33:09,820 --> 00:33:14,100
+This is just kind of a
+trial run of using Top Hat.
+
+901
+00:33:14,100 --> 00:33:17,019
+And there we go.
+
+902
+00:33:17,019 --> 00:33:18,800
+Yeah. So we're just going
+to give this a shot.
+
+903
+00:33:18,800 --> 00:33:21,559
+I just want you to convert
+some units for me.
+
+904
+00:33:37,710 --> 00:33:56,910
+Yeah,
+
+905
+00:33:56,910 --> 00:33:58,630
+question right here.
+
+906
+00:34:07,350 --> 00:34:11,110
+Oh, why are they more efficient?
+
+907
+00:34:12,550 --> 00:34:14,930
+Oh, yeah, that's
+a good question.
+
+908
+00:34:14,930 --> 00:34:21,869
+Um, yeah, I'll come back to
+it after we finish the topic.
+
+909
+00:34:40,630 --> 00:34:43,389
+All right, cool. So
+let me check this out.
+
+910
+00:34:43,389 --> 00:34:45,550
+And the answer is 700,
+which is correct,
+
+911
+00:34:45,550 --> 00:34:47,989
+right? So 0.7 teraflops.
+
+912
+00:34:47,989 --> 00:34:50,950
+That is talking about
+trillions of flops.
+
+913
+00:34:50,950 --> 00:34:53,870
+When I'm converting to
+gigaflops, that's billions.
+
+914
+00:34:53,870 --> 00:34:55,450
+So when I go from
+trillions to billions,
+
+915
+00:34:55,450 --> 00:34:57,249
+I have to multiply
+it by 1,000 And that
+
+916
+00:34:57,249 --> 00:34:59,349
+gets me to the 700 again. Right.
+
+917
+00:34:59,349 --> 00:35:01,529
+I know there's more of you
+here than answered this.
+
+918
+00:35:01,529 --> 00:35:04,009
+So just talk about
+practice warm up today.
+
+919
+00:35:04,009 --> 00:35:09,349
+Yeah. And then there was a
+question down here which was,
+
+920
+00:35:09,349 --> 00:35:14,310
+why does tying all of these
+together make it faster?
+
+921
+00:35:14,310 --> 00:35:15,569
+And that's an
+excellent question.
+
+922
+00:35:15,569 --> 00:35:17,110
+Why it does actually
+make it faster?
+
+923
+00:35:17,110 --> 00:35:18,269
+I don't know if I know enough
+
+924
+00:35:18,269 --> 00:35:19,609
+about hardware to
+say like why it is.
+
+925
+00:35:19,609 --> 00:35:21,229
+I can speculate a little bit
+
+926
+00:35:21,229 --> 00:35:24,430
+that when these cords are
+executing instructions,
+
+927
+00:35:24,430 --> 00:35:25,729
+there's a bunch of steps to it.
+
+928
+00:35:25,729 --> 00:35:27,449
+Like you have to load in
+
+929
+00:35:27,449 --> 00:35:29,509
+the instruction itself and you
+have to load in some data,
+
+930
+00:35:29,509 --> 00:35:30,809
+and then you have
+to do a calculation
+
+931
+00:35:30,809 --> 00:35:32,329
+and maybe store something back.
+
+932
+00:35:32,329 --> 00:35:35,009
+And so what I'll speculate
+is that at least
+
+933
+00:35:35,009 --> 00:35:36,249
+some of those steps that they
+
+934
+00:35:36,249 --> 00:35:37,829
+can be sharing that
+same thing, right?
+
+935
+00:35:37,829 --> 00:35:39,370
+They're all doing the
+same instructions.
+
+936
+00:35:39,370 --> 00:35:43,029
+So maybe it's faster to
+load in the instructions,
+
+937
+00:35:43,029 --> 00:35:45,769
+but there's probably
+a better answer
+
+938
+00:35:45,769 --> 00:35:47,849
+to that than I'm able to give.
+
+939
+00:35:47,849 --> 00:35:49,090
+Yeah, excellent question.
+
+940
+00:35:49,090 --> 00:35:50,349
+Other questions
+people have about
+
+941
+00:35:50,349 --> 00:35:55,989
+either the top hat
+or about GP's.
+
+942
+00:35:56,740 --> 00:36:00,140
+All right, cool.
+
+943
+00:36:00,140 --> 00:36:05,119
+Let's talk a bit
+about memory here.
+
+944
+00:36:05,119 --> 00:36:07,819
+I have a bunch of six
+of Ram down here.
+
+945
+00:36:07,819 --> 00:36:10,580
+Ram stands for Random
+Access Memory.
+
+946
+00:36:10,580 --> 00:36:12,259
+What does random Random means?
+
+947
+00:36:12,259 --> 00:36:13,639
+You can jump around
+and read data at
+
+948
+00:36:13,639 --> 00:36:16,699
+different places and that's
+relatively efficient to use.
+
+949
+00:36:16,699 --> 00:36:18,479
+The opposite of that
+would be a device that
+
+950
+00:36:18,479 --> 00:36:20,120
+I can only access sequentially.
+
+951
+00:36:20,120 --> 00:36:21,259
+Right? So I don't
+know how many of you
+
+952
+00:36:21,259 --> 00:36:22,440
+have ever used a tape cassette.
+
+953
+00:36:22,440 --> 00:36:23,659
+But if I'm listening to a song
+
+954
+00:36:23,659 --> 00:36:25,139
+and I want to skip past a song,
+
+955
+00:36:25,139 --> 00:36:26,679
+it actually takes a long time to
+
+956
+00:36:26,679 --> 00:36:28,559
+fast forward past that song.
+
+957
+00:36:28,559 --> 00:36:30,720
+This is not a random
+access device,
+
+958
+00:36:30,720 --> 00:36:32,339
+but Ram would be great at that.
+
+959
+00:36:32,339 --> 00:36:35,980
+I could very quickly switch
+songs with no real delay.
+
+960
+00:36:35,980 --> 00:36:41,419
+Ram contains bits, and bets
+are either zero or one.
+
+961
+00:36:41,419 --> 00:36:43,239
+If I have two bets, then I
+
+962
+00:36:43,239 --> 00:36:44,659
+guess I could get
+different possibilities.
+
+963
+00:36:44,659 --> 00:36:47,639
+I could have 00011011.
+
+964
+00:36:47,639 --> 00:36:50,540
+In general, the formula
+is that if I have bets,
+
+965
+00:36:50,540 --> 00:36:52,480
+there's two different possible
+
+966
+00:36:52,480 --> 00:36:54,539
+values I could have with it.
+
+967
+00:36:54,539 --> 00:36:56,220
+When I have a bunch of bets,
+
+968
+00:36:56,220 --> 00:36:57,999
+there's different ways
+I can represent data.
+
+969
+00:36:57,999 --> 00:37:00,660
+Right here, what I'm
+showing is for three bets,
+
+970
+00:37:00,660 --> 00:37:02,199
+there's eight different
+combinations.
+
+971
+00:37:02,199 --> 00:37:05,539
+And I could say those
+combinations might be indicating
+
+972
+00:37:05,539 --> 00:37:09,060
+a letter or maybe they're
+indicating a positive number.
+
+973
+00:37:09,060 --> 00:37:10,720
+Or maybe they're
+indicating a number
+
+974
+00:37:10,720 --> 00:37:12,800
+that is either
+negative or positive.
+
+975
+00:37:12,800 --> 00:37:15,074
+This idea is representation. And
+
+976
+00:37:15,074 --> 00:37:17,349
+How we actually encode
+and decode our data.
+
+977
+00:37:17,349 --> 00:37:18,770
+That's going to be
+very important.
+
+978
+00:37:18,770 --> 00:37:20,049
+How do we encode and
+decode our data?
+
+979
+00:37:20,049 --> 00:37:21,329
+Because we're going to
+be dealing with a lot
+
+980
+00:37:21,329 --> 00:37:23,090
+of data this semester,
+
+981
+00:37:23,090 --> 00:37:24,509
+so we might see things
+
+982
+00:37:24,509 --> 00:37:27,090
+like when we're doing
+floating point operations,
+
+983
+00:37:27,090 --> 00:37:28,430
+maybe we change our type
+
+984
+00:37:28,430 --> 00:37:30,790
+and we lose a little
+bit of precision,
+
+985
+00:37:30,790 --> 00:37:34,269
+but all of a sudden we
+take half as much Ram.
+
+986
+00:37:34,269 --> 00:37:36,750
+Or maybe we're sending data
+
+987
+00:37:36,750 --> 00:37:39,309
+over a network to another
+computer and there are
+
+988
+00:37:39,309 --> 00:37:40,489
+some formats that will just
+
+989
+00:37:40,489 --> 00:37:41,729
+really squeeze
+that down and send
+
+990
+00:37:41,729 --> 00:37:44,249
+the minimum possible
+bets, right?
+
+991
+00:37:44,249 --> 00:37:45,469
+So this is going
+to be coming back.
+
+992
+00:37:45,469 --> 00:37:48,890
+What are different ways we
+can represent data and bets?
+
+993
+00:37:49,010 --> 00:37:51,310
+A lot of you, I'm guessing
+
+994
+00:37:51,310 --> 00:37:53,050
+all of you have
+heard the word byte.
+
+995
+00:37:53,050 --> 00:37:54,809
+Byte is just referring
+to eight bets.
+
+996
+00:37:54,809 --> 00:37:57,490
+So I could have 256
+different possible values.
+
+997
+00:37:57,490 --> 00:38:01,329
+And what I say about Ram is
+that it's byte addressable.
+
+998
+00:38:01,329 --> 00:38:04,449
+Every different byte
+in Ram has a number or
+
+999
+00:38:04,449 --> 00:38:05,829
+an address associated with
+
+1000
+00:38:05,829 --> 00:38:08,069
+it that I can use to look it up.
+
+1001
+00:38:08,069 --> 00:38:09,729
+It's not bit addressable.
+
+1002
+00:38:09,729 --> 00:38:11,270
+A bit doesn't have
+its own address.
+
+1003
+00:38:11,270 --> 00:38:13,489
+Bytes have an address,
+What does that mean?
+
+1004
+00:38:13,489 --> 00:38:15,629
+That means if I want to
+access a single bit,
+
+1005
+00:38:15,629 --> 00:38:17,689
+then first I have to use
+the address for the byte,
+
+1006
+00:38:17,689 --> 00:38:18,849
+grab that data and then do
+
+1007
+00:38:18,849 --> 00:38:20,849
+some extra steps to
+pull that bit out.
+
+1008
+00:38:20,849 --> 00:38:22,730
+Accessing a single
+bit is actually
+
+1009
+00:38:22,730 --> 00:38:25,489
+slower than accessing
+the whole bite.
+
+1010
+00:38:25,489 --> 00:38:28,329
+We have the same prefixes
+
+1011
+00:38:28,329 --> 00:38:30,409
+that we talked about
+before for Gapp,
+
+1012
+00:38:30,409 --> 00:38:33,009
+where we use those to measure
+how many bytes we have,
+
+1013
+00:38:33,009 --> 00:38:36,610
+1 kilobyte, it could
+be 1,000 bytes,
+
+1014
+00:38:36,610 --> 00:38:39,360
+or it could be 1024 bytes.
+
+1015
+00:38:39,360 --> 00:38:41,729
+Why? Well, I think
+that it's clear how
+
+1016
+00:38:41,729 --> 00:38:44,350
+1,000 is a nice round
+number for humans,
+
+1017
+00:38:44,350 --> 00:38:46,989
+1024 is a power of two,
+
+1018
+00:38:46,989 --> 00:38:49,330
+and that's a nice round
+number for computers.
+
+1019
+00:38:49,330 --> 00:38:51,569
+Good thing is that the
+numbers are fairly close,
+
+1020
+00:38:51,569 --> 00:38:53,129
+but people might mean one
+
+1021
+00:38:53,129 --> 00:38:54,870
+or the other depending
+on the context.
+
+1022
+00:38:54,870 --> 00:38:56,129
+You might have to ask people
+
+1023
+00:38:56,129 --> 00:38:57,649
+to clarify if they don't say,
+
+1024
+00:38:57,649 --> 00:39:00,570
+but usually they're
+pretty close in scale.
+
+1025
+00:39:00,570 --> 00:39:03,129
+What are some
+characteristics of Ram?
+
+1026
+00:39:03,129 --> 00:39:04,990
+It's small so for example,
+
+1027
+00:39:04,990 --> 00:39:06,450
+the most powerful virtual
+
+1028
+00:39:06,450 --> 00:39:07,730
+machines will use this semester,
+
+1029
+00:39:07,730 --> 00:39:09,269
+only have 4 gigabytes of Ram.
+
+1030
+00:39:09,269 --> 00:39:10,230
+It's easy to imagine
+
+1031
+00:39:10,230 --> 00:39:11,949
+our datasets being a
+lot bigger than that.
+
+1032
+00:39:11,949 --> 00:39:15,450
+When we're talking about big
+data systems, it's volatile.
+
+1033
+00:39:15,450 --> 00:39:16,889
+Volatile means that the data
+
+1034
+00:39:16,889 --> 00:39:18,570
+gets lost whenever you reboot.
+
+1035
+00:39:18,570 --> 00:39:20,209
+Whether you reboot
+it intentionally
+
+1036
+00:39:20,209 --> 00:39:21,989
+or from a crash, right?
+
+1037
+00:39:21,989 --> 00:39:24,609
+So not a good place to
+keep your long term data.
+
+1038
+00:39:24,609 --> 00:39:26,209
+And it is fast,
+
+1039
+00:39:26,209 --> 00:39:27,790
+that's, it's redeeming quality.
+
+1040
+00:39:27,790 --> 00:39:30,070
+It's much faster than
+storage devices.
+
+1041
+00:39:30,070 --> 00:39:32,209
+And so as our programs
+are actively running,
+
+1042
+00:39:32,209 --> 00:39:34,389
+we're going to want to
+keep our data in Ram.
+
+1043
+00:39:34,389 --> 00:39:36,089
+All right, so we might
+be keeping things like
+
+1044
+00:39:36,089 --> 00:39:37,929
+Python lists or
+data frames in Ram.
+
+1045
+00:39:37,929 --> 00:39:39,989
+We're going to keep our
+program code in Ram.
+
+1046
+00:39:39,989 --> 00:39:40,849
+Another thing that we're
+
+1047
+00:39:40,849 --> 00:39:41,989
+going to be talking
+about later on
+
+1048
+00:39:41,989 --> 00:39:44,369
+is that we might have
+a huge data set,
+
+1049
+00:39:44,369 --> 00:39:45,929
+say on a hard drive, and
+
+1050
+00:39:45,929 --> 00:39:47,790
+it's too big to
+fit it all in Ram,
+
+1051
+00:39:47,790 --> 00:39:49,109
+but maybe certain parts of that
+
+1052
+00:39:49,109 --> 00:39:51,729
+data are accessed more often.
+
+1053
+00:39:51,729 --> 00:39:53,789
+What we could do then is we
+could keep some of that hot.
+
+1054
+00:39:53,789 --> 00:39:56,169
+Frequently axed data in Ram.
+
+1055
+00:39:56,169 --> 00:39:57,510
+And that's going to
+be called caching.
+
+1056
+00:39:57,510 --> 00:39:58,890
+And that's going to
+be a topic of another
+
+1057
+00:39:58,890 --> 00:40:01,029
+lecture coming up soon.
+
+1058
+00:40:01,029 --> 00:40:03,930
+All right, let's
+talk about storage.
+
+1059
+00:40:03,930 --> 00:40:06,310
+Here. On the left, I
+have hard disk drives,
+
+1060
+00:40:06,310 --> 00:40:07,829
+that's the older technology.
+
+1061
+00:40:07,829 --> 00:40:11,189
+It has this spinning
+magnetic platter here.
+
+1062
+00:40:11,189 --> 00:40:13,250
+Depending on how
+it's magnetized,
+
+1063
+00:40:13,250 --> 00:40:14,409
+it could represent either zero
+
+1064
+00:40:14,409 --> 00:40:16,110
+or one that's
+constantly spinning.
+
+1065
+00:40:16,110 --> 00:40:17,749
+And there's a head over
+here that moves to
+
+1066
+00:40:17,749 --> 00:40:20,509
+read bits at
+different locations.
+
+1067
+00:40:20,509 --> 00:40:22,549
+On the right hand side, I have
+
+1068
+00:40:22,549 --> 00:40:24,869
+an SSD that stands
+for Solid State disk.
+
+1069
+00:40:24,869 --> 00:40:26,430
+It has no moving parts.
+
+1070
+00:40:26,430 --> 00:40:27,789
+Everything is stored as
+
+1071
+00:40:27,789 --> 00:40:30,290
+cells that are either
+charged or not charged.
+
+1072
+00:40:30,290 --> 00:40:33,170
+Because of that, it will
+generally be a lot faster.
+
+1073
+00:40:33,170 --> 00:40:37,390
+Both of these are what we
+would call block devices.
+
+1074
+00:40:37,390 --> 00:40:39,189
+Okay. When I was
+talking about Ram,
+
+1075
+00:40:39,189 --> 00:40:41,109
+I said that Ram is
+byte addressable.
+
+1076
+00:40:41,109 --> 00:40:42,909
+These are not byte addressable,
+
+1077
+00:40:42,909 --> 00:40:44,469
+they're assiblet the unit of
+
+1078
+00:40:44,469 --> 00:40:46,310
+blocks. How big is the block?
+
+1079
+00:40:46,310 --> 00:40:47,950
+Well, different devices define
+
+1080
+00:40:47,950 --> 00:40:49,809
+it differently, but, you know,
+
+1081
+00:40:49,809 --> 00:40:51,189
+a half a kilobyte might be
+
+1082
+00:40:51,189 --> 00:40:53,809
+a reasonable block size
+or a few kilobytes.
+
+1083
+00:40:53,809 --> 00:40:55,369
+So what that means is, as I'm
+
+1084
+00:40:55,369 --> 00:40:56,809
+reading and writing
+data to these,
+
+1085
+00:40:56,809 --> 00:40:58,489
+I will grab a whole block at
+
+1086
+00:40:58,489 --> 00:41:00,909
+a time or write back a
+whole block at a time.
+
+1087
+00:41:00,909 --> 00:41:02,830
+If I just want to
+modify one byte,
+
+1088
+00:41:02,830 --> 00:41:04,350
+that's just as expensive
+
+1089
+00:41:04,350 --> 00:41:06,989
+as modifying the whole
+thing, if not more.
+
+1090
+00:41:06,989 --> 00:41:09,610
+So we have these block devices
+
+1091
+00:41:09,610 --> 00:41:12,109
+where we store data.
+These are huge.
+
+1092
+00:41:12,109 --> 00:41:14,289
+Does anybody have any
+device that's like
+
+1093
+00:41:14,289 --> 00:41:16,830
+a terabyte or beggar
+in your machine?
+
+1094
+00:41:16,830 --> 00:41:18,609
+Anybody? A few people.
+
+1095
+00:41:18,609 --> 00:41:18,829
+Right.
+
+1096
+00:41:18,829 --> 00:41:20,729
+So it's kind of something
+reasonable like you could draw
+
+1097
+00:41:20,729 --> 00:41:23,490
+by a hard drive with a
+terabyte of storage.
+
+1098
+00:41:23,490 --> 00:41:26,210
+It's not insanely
+expensive, it's non vital,
+
+1099
+00:41:26,210 --> 00:41:28,209
+so a great place
+for long term data,
+
+1100
+00:41:28,209 --> 00:41:30,389
+if you reboot your data
+will still be there.
+
+1101
+00:41:30,389 --> 00:41:33,470
+Unfortunately, it's
+very slow to access.
+
+1102
+00:41:33,470 --> 00:41:35,209
+So this might be where
+we're working with
+
+1103
+00:41:35,209 --> 00:41:36,549
+large data sets or
+
+1104
+00:41:36,549 --> 00:41:39,589
+any data that needs to
+be preserved long term.
+
+1105
+00:41:39,790 --> 00:41:41,870
+I've been talking about
+
+1106
+00:41:41,870 --> 00:41:43,569
+the four main
+resource categories,
+
+1107
+00:41:43,569 --> 00:41:45,109
+but a lot of these have really
+
+1108
+00:41:45,109 --> 00:41:46,589
+subcategories I
+could think about.
+
+1109
+00:41:46,589 --> 00:41:49,129
+So when I'm talking
+about storage resources,
+
+1110
+00:41:49,129 --> 00:41:51,189
+one thing I might be
+talking about is just like,
+
+1111
+00:41:51,189 --> 00:41:52,649
+how much space do
+you have? Right?
+
+1112
+00:41:52,649 --> 00:41:54,229
+And that would be measured
+in units of bytes.
+
+1113
+00:41:54,229 --> 00:41:56,589
+I could say, for
+example, my hard drive
+
+1114
+00:41:56,589 --> 00:42:00,085
+has 500 gigabytes
+of storage space.
+
+1115
+00:42:00,085 --> 00:42:02,479
+Another thing I might
+talk about is throughput.
+
+1116
+00:42:02,479 --> 00:42:06,260
+How quickly can I transfer
+data to or from my device?
+
+1117
+00:42:06,260 --> 00:42:07,519
+In that case, it's
+going to be a rate,
+
+1118
+00:42:07,519 --> 00:42:09,400
+it's going to be in terms
+of bytes per second.
+
+1119
+00:42:09,400 --> 00:42:10,760
+I might say, for example,
+
+1120
+00:42:10,760 --> 00:42:12,080
+my hard drive can transfer
+
+1121
+00:42:12,080 --> 00:42:15,139
+200 megabytes/second
+The throughput
+
+1122
+00:42:15,139 --> 00:42:17,539
+is going to depend a lot
+on your pattern, right?
+
+1123
+00:42:17,539 --> 00:42:18,740
+If you're just accessing
+
+1124
+00:42:18,740 --> 00:42:20,520
+all your data
+sequentially in order,
+
+1125
+00:42:20,520 --> 00:42:21,859
+it might be pretty fast.
+
+1126
+00:42:21,859 --> 00:42:24,259
+But if I'm accessing a byte
+here and a byte there,
+
+1127
+00:42:24,259 --> 00:42:26,379
+that throughput is going
+to be much worse, right?
+
+1128
+00:42:26,379 --> 00:42:27,460
+So we have to clarify,
+
+1129
+00:42:27,460 --> 00:42:29,480
+just talking about the
+best case throughput
+
+1130
+00:42:29,480 --> 00:42:31,300
+or for a specific work load.
+
+1131
+00:42:31,300 --> 00:42:33,480
+Another metric is latency.
+
+1132
+00:42:33,480 --> 00:42:34,919
+And latency in this sense
+
+1133
+00:42:34,919 --> 00:42:36,600
+is how long does it
+take to actually
+
+1134
+00:42:36,600 --> 00:42:38,380
+just fetch a small amount
+
+1135
+00:42:38,380 --> 00:42:40,359
+of data, maybe from
+my hard drive.
+
+1136
+00:42:40,359 --> 00:42:43,059
+That might be something
+like ten milliseconds.
+
+1137
+00:42:44,780 --> 00:42:47,779
+Hard drives are much
+cheaper than SSD's.
+
+1138
+00:42:47,779 --> 00:42:49,819
+The gap is closing,
+but there's still
+
+1139
+00:42:49,819 --> 00:42:53,520
+about a six times
+difference in twist.
+
+1140
+00:42:53,520 --> 00:42:56,420
+And so I think that hard
+drives are not going away,
+
+1141
+00:42:56,420 --> 00:42:58,020
+at least in the near future.
+
+1142
+00:42:58,020 --> 00:43:00,019
+Why? Because sometimes all I
+
+1143
+00:43:00,019 --> 00:43:02,099
+care about is buying
+a lot of capacity.
+
+1144
+00:43:02,099 --> 00:43:03,639
+I don't care about other things.
+
+1145
+00:43:03,639 --> 00:43:05,339
+Take for example,
+Youtube, right?
+
+1146
+00:43:05,339 --> 00:43:07,100
+There's some videos on Youtube
+that are very popular.
+
+1147
+00:43:07,100 --> 00:43:08,679
+It's seen all the time, but
+
+1148
+00:43:08,679 --> 00:43:10,200
+there's also just
+a lot of garbage
+
+1149
+00:43:10,200 --> 00:43:11,940
+that maybe a couple of
+people have watched
+
+1150
+00:43:11,940 --> 00:43:13,899
+it a year ago and nobody
+will ever watch it again,
+
+1151
+00:43:13,899 --> 00:43:15,319
+but they can't delete it.
+
+1152
+00:43:15,319 --> 00:43:17,280
+And so what do they
+do if you're Youtube?
+
+1153
+00:43:17,280 --> 00:43:19,379
+You buy an insane number of
+hard drives and that's where
+
+1154
+00:43:19,379 --> 00:43:21,719
+you keep all that cold data.
+
+1155
+00:43:21,719 --> 00:43:23,839
+Right? So I think
+both of these have
+
+1156
+00:43:23,839 --> 00:43:27,419
+a story going forward at
+a, for the near term.
+
+1157
+00:43:27,419 --> 00:43:31,320
+All right. The last resource
+
+1158
+00:43:31,320 --> 00:43:34,479
+I want to talk about
+is network resources.
+
+1159
+00:43:34,479 --> 00:43:36,439
+That's trying to be
+really important when
+
+1160
+00:43:36,439 --> 00:43:38,179
+we have this scale
+out approach, right?
+
+1161
+00:43:38,179 --> 00:43:39,919
+If I want to buy a bunch of
+
+1162
+00:43:39,919 --> 00:43:42,640
+cheap machines and have them
+work together in a cluster,
+
+1163
+00:43:42,640 --> 00:43:45,700
+well, they have to talk to
+each other over a network.
+
+1164
+00:43:45,700 --> 00:43:47,899
+What does that
+network look like?
+
+1165
+00:43:47,899 --> 00:43:50,080
+Well, I could start
+with an individual
+
+1166
+00:43:50,080 --> 00:43:51,540
+server, an individual computer,
+
+1167
+00:43:51,540 --> 00:43:53,119
+and if I need a bunch of them,
+
+1168
+00:43:53,119 --> 00:43:54,779
+I could stack them
+on top of each
+
+1169
+00:43:54,779 --> 00:43:56,980
+other in a box like this.
+That's called a rack.
+
+1170
+00:43:56,980 --> 00:43:59,379
+And I have all these
+servers stacked in here.
+
+1171
+00:43:59,379 --> 00:44:00,779
+And you see at the
+bottom, they all have
+
+1172
+00:44:00,779 --> 00:44:02,939
+cables running down to
+these boxes down here.
+
+1173
+00:44:02,939 --> 00:44:04,925
+Those boxes are called switches
+
+1174
+00:44:04,925 --> 00:44:06,809
+and because they're all
+plugged into the same switch,
+
+1175
+00:44:06,809 --> 00:44:08,829
+they can all communicate
+with each other.
+
+1176
+00:44:08,829 --> 00:44:10,530
+Right? All these
+different servers
+
+1177
+00:44:10,530 --> 00:44:12,269
+are communicating
+with each other.
+
+1178
+00:44:12,269 --> 00:44:14,089
+You know, if I have
+very large data,
+
+1179
+00:44:14,089 --> 00:44:15,689
+maybe one rack is not enough.
+
+1180
+00:44:15,689 --> 00:44:17,730
+And so maybe I have
+to have a data center
+
+1181
+00:44:17,730 --> 00:44:19,189
+with many, many racks in there.
+
+1182
+00:44:19,189 --> 00:44:20,049
+And then each of the racks
+
+1183
+00:44:20,049 --> 00:44:21,609
+might communicate
+with each other.
+
+1184
+00:44:21,609 --> 00:44:23,810
+If I have two computers
+in the same rack,
+
+1185
+00:44:23,810 --> 00:44:25,629
+they can probably
+communicate together more
+
+1186
+00:44:25,629 --> 00:44:28,670
+efficiently than two
+computers in different racks.
+
+1187
+00:44:28,670 --> 00:44:30,489
+And so we have to
+start to think about,
+
+1188
+00:44:30,489 --> 00:44:32,149
+well, where do we
+want to place things,
+
+1189
+00:44:32,149 --> 00:44:33,209
+where do we want
+our code to run,
+
+1190
+00:44:33,209 --> 00:44:34,289
+where do we want our data to
+
+1191
+00:44:34,289 --> 00:44:36,690
+live so that we
+can be efficient?
+
+1192
+00:44:36,690 --> 00:44:38,189
+Right? If I have a few
+computers that are working
+
+1193
+00:44:38,189 --> 00:44:39,909
+together and I put them
+all in the same rack,
+
+1194
+00:44:39,909 --> 00:44:41,410
+that's going to be faster.
+
+1195
+00:44:41,410 --> 00:44:43,049
+Can anybody think
+of a reason I might
+
+1196
+00:44:43,049 --> 00:44:45,510
+not want to do that even
+though it's faster?
+
+1197
+00:44:46,150 --> 00:44:50,309
+Yeah, Right here.
+
+1198
+00:44:50,550 --> 00:44:52,990
+Yeah. The systems
+more vulnerable.
+
+1199
+00:44:52,990 --> 00:44:55,509
+Right. If like, the power
+supply for that rack goes down,
+
+1200
+00:44:55,509 --> 00:44:58,049
+well, my data is
+suddenly unavailable.
+
+1201
+00:44:58,049 --> 00:44:58,269
+Right.
+
+1202
+00:44:58,269 --> 00:45:00,089
+So we're going to be learning
+systems like Cassandra this
+
+1203
+00:45:00,089 --> 00:45:02,709
+semester that can think
+very carefully, like, oh,
+
+1204
+00:45:02,709 --> 00:45:05,190
+I have maybe data centers
+
+1205
+00:45:05,190 --> 00:45:06,969
+in different continents that
+are working with each other,
+
+1206
+00:45:06,969 --> 00:45:08,429
+and then each of those
+might have some racks.
+
+1207
+00:45:08,429 --> 00:45:11,670
+And how do we spread out our
+data to make it more safe,
+
+1208
+00:45:11,670 --> 00:45:14,549
+right, In the case
+of disaster, right?
+
+1209
+00:45:14,549 --> 00:45:16,550
+And there's a fundamental
+trade off there between
+
+1210
+00:45:16,550 --> 00:45:20,084
+performance and the
+safety of our data.
+
+1211
+00:45:20,084 --> 00:45:22,720
+So this whole idea of like
+how are all the computers
+
+1212
+00:45:22,720 --> 00:45:23,879
+connected together
+and which ones are
+
+1213
+00:45:23,879 --> 00:45:25,319
+nearby each other farther away?
+
+1214
+00:45:25,319 --> 00:45:26,779
+That's a question of topology.
+
+1215
+00:45:26,779 --> 00:45:28,400
+One of the systems to
+learn this semester
+
+1216
+00:45:28,400 --> 00:45:29,900
+is the Hadoop file system.
+
+1217
+00:45:29,900 --> 00:45:31,159
+And when you're configuring it,
+
+1218
+00:45:31,159 --> 00:45:32,799
+you can tell it that, okay,
+
+1219
+00:45:32,799 --> 00:45:34,519
+maybe I have this
+router up here and
+
+1220
+00:45:34,519 --> 00:45:36,459
+that's connecting a couple
+of racks over here,
+
+1221
+00:45:36,459 --> 00:45:38,279
+each of which has a
+bunch of machines in it.
+
+1222
+00:45:38,279 --> 00:45:39,899
+Right? Those are the
+kinds of things you might
+
+1223
+00:45:39,899 --> 00:45:42,079
+configure if you're working
+
+1224
+00:45:42,079 --> 00:45:44,179
+at the scale of a data center.
+
+1225
+00:45:44,179 --> 00:45:47,060
+What are some metrics that
+we have for networking?
+
+1226
+00:45:47,060 --> 00:45:48,059
+They're actually very similar
+
+1227
+00:45:48,059 --> 00:45:49,620
+to what we have for storage.
+
+1228
+00:45:49,620 --> 00:45:54,199
+Latency is generally the time
+
+1229
+00:45:54,199 --> 00:45:56,519
+it takes to send a message
+from point A to point B.
+
+1230
+00:45:56,519 --> 00:45:59,580
+You could also talk about
+the round trip time latency,
+
+1231
+00:45:59,580 --> 00:46:01,060
+which would be maybe
+sending a message
+
+1232
+00:46:01,060 --> 00:46:02,879
+and then getting
+the answer back.
+
+1233
+00:46:02,879 --> 00:46:05,399
+We also have an
+idea of throughput,
+
+1234
+00:46:05,399 --> 00:46:06,819
+which another word for that in
+
+1235
+00:46:06,819 --> 00:46:08,980
+the networking world that
+we could use as bandwidth.
+
+1236
+00:46:08,980 --> 00:46:10,739
+And that's a question
+of how many bits
+
+1237
+00:46:10,739 --> 00:46:12,180
+we could send per second.
+
+1238
+00:46:12,180 --> 00:46:15,679
+So for example, I
+might say I can
+
+1239
+00:46:15,679 --> 00:46:19,059
+send 10 million bits
+per second, right?
+
+1240
+00:46:19,059 --> 00:46:22,020
+When I have this acronym MBPS.
+
+1241
+00:46:22,020 --> 00:46:23,799
+Notice that's a little
+bit different than
+
+1242
+00:46:23,799 --> 00:46:26,299
+the throughput measure
+we have over here.
+
+1243
+00:46:26,299 --> 00:46:28,439
+This is capitalized on
+the right hand side.
+
+1244
+00:46:28,439 --> 00:46:30,320
+This is talking about bytes.
+
+1245
+00:46:30,320 --> 00:46:32,800
+If I wanted to
+rewrite this number
+
+1246
+00:46:32,800 --> 00:46:36,359
+as MBPS, what would
+the number be?
+
+1247
+00:46:36,359 --> 00:46:39,219
+Yeah, right here it
+would be 80, right?
+
+1248
+00:46:39,219 --> 00:46:42,280
+Because there's
+eight bits per byte.
+
+1249
+00:46:42,280 --> 00:46:43,320
+So that's something
+to be careful
+
+1250
+00:46:43,320 --> 00:46:44,340
+if you're kind of like comparing
+
+1251
+00:46:44,340 --> 00:46:46,359
+like how fast is my for
+hard drives, right?
+
+1252
+00:46:46,359 --> 00:46:48,159
+People talking about
+megabytes per second.
+
+1253
+00:46:48,159 --> 00:46:49,999
+For something like
+this, networking people
+
+1254
+00:46:49,999 --> 00:46:51,519
+usually talk about
+megabits per second.
+
+1255
+00:46:51,519 --> 00:46:52,779
+So be aware of that as you're
+
+1256
+00:46:52,779 --> 00:46:55,119
+comparing and maybe
+that'll all affect you
+
+1257
+00:46:55,119 --> 00:46:56,319
+all in your personal lives as
+
+1258
+00:46:56,319 --> 00:46:59,659
+you're paying for
+Internet service as well.
+
+1259
+00:46:59,659 --> 00:47:01,860
+Often if you have lower latency,
+
+1260
+00:47:01,860 --> 00:47:03,579
+you probably have better
+throughput as well,
+
+1261
+00:47:03,579 --> 00:47:04,979
+but that's not always true.
+
+1262
+00:47:04,979 --> 00:47:06,639
+Maybe I have two
+computers that are
+
+1263
+00:47:06,639 --> 00:47:08,519
+very near each other
+with a weak link,
+
+1264
+00:47:08,519 --> 00:47:10,300
+and maybe these two computers
+
+1265
+00:47:10,300 --> 00:47:11,960
+are on opposite ends
+of the Internet.
+
+1266
+00:47:11,960 --> 00:47:14,040
+But I have a high bandwidth
+
+1267
+00:47:14,040 --> 00:47:15,299
+to send data across it, right?
+
+1268
+00:47:15,299 --> 00:47:17,880
+So it might take a long time
+for the data to get across,
+
+1269
+00:47:17,880 --> 00:47:20,559
+but when it does, it'll
+be a flood of data.
+
+1270
+00:47:20,780 --> 00:47:23,099
+All right, those
+are the overview of
+
+1271
+00:47:23,099 --> 00:47:24,719
+the resources and we're
+spending a third of
+
+1272
+00:47:24,719 --> 00:47:25,919
+the semester to
+look at all these
+
+1273
+00:47:25,919 --> 00:47:27,980
+resources in more detail.
+
+1274
+00:47:27,980 --> 00:47:30,480
+The other piece I want to talk
+about today is deployment.
+
+1275
+00:47:30,480 --> 00:47:33,580
+How do we actually run
+our code somewhere?
+
+1276
+00:47:33,580 --> 00:47:35,119
+What we're going
+to be doing this
+
+1277
+00:47:35,119 --> 00:47:36,619
+semester is we're going to be
+
+1278
+00:47:36,619 --> 00:47:39,899
+renting virtual machines
+on Google's cloud, right?
+
+1279
+00:47:39,899 --> 00:47:42,719
+And by renting, well, you
+will get $100 of free credit.
+
+1280
+00:47:42,719 --> 00:47:44,159
+So you aren't going to
+have to pay for it.
+
+1281
+00:47:44,159 --> 00:47:45,519
+But what Google
+does is they'll buy
+
+1282
+00:47:45,519 --> 00:47:46,839
+these physical machines and
+
+1283
+00:47:46,839 --> 00:47:48,479
+then rent virtual
+machines on them,
+
+1284
+00:47:48,479 --> 00:47:49,459
+and you're going to be running
+
+1285
+00:47:49,459 --> 00:47:50,799
+a Linux virtual machine on that.
+
+1286
+00:47:50,799 --> 00:47:52,799
+I think everybody
+has hopefully used
+
+1287
+00:47:52,799 --> 00:47:55,000
+a virtual machine
+either from 320 or 400,
+
+1288
+00:47:55,000 --> 00:47:56,979
+otherwise I'm sure folks
+will figure it out.
+
+1289
+00:47:56,979 --> 00:47:59,660
+So we're going to have those
+and we can't really afford
+
+1290
+00:47:59,660 --> 00:48:01,339
+100 credits is not enough for us
+
+1291
+00:48:01,339 --> 00:48:03,540
+all to have like a cluster
+of virtual machines.
+
+1292
+00:48:03,540 --> 00:48:05,539
+So we're going to
+use another piece
+
+1293
+00:48:05,539 --> 00:48:08,860
+of software called Container.
+
+1294
+00:48:08,860 --> 00:48:13,339
+We're multiple lectures
+actually on containers.
+
+1295
+00:48:13,340 --> 00:48:15,700
+For now, you can
+think of containers
+
+1296
+00:48:15,700 --> 00:48:17,200
+as a lightweight
+virtual machine.
+
+1297
+00:48:17,200 --> 00:48:18,539
+And the easiest way to run
+
+1298
+00:48:18,539 --> 00:48:21,259
+containers is with a tool
+called Docker, right?
+
+1299
+00:48:21,259 --> 00:48:23,179
+So going to have these
+Docker containers and
+
+1300
+00:48:23,179 --> 00:48:25,399
+what we'll do is you'll have
+your virtual machine and
+
+1301
+00:48:25,399 --> 00:48:27,579
+you'll have all these
+little containers on it
+
+1302
+00:48:27,579 --> 00:48:30,280
+representing almost
+
+1303
+00:48:30,280 --> 00:48:31,660
+like different machines
+in your cluster.
+
+1304
+00:48:31,660 --> 00:48:32,919
+So what it'll feel
+like is you have
+
+1305
+00:48:32,919 --> 00:48:34,979
+a small cluster of
+computers and you can get
+
+1306
+00:48:34,979 --> 00:48:36,599
+comfortable working
+in this kind of
+
+1307
+00:48:36,599 --> 00:48:41,619
+environment and practice
+with that accordingly.
+
+1308
+00:48:41,619 --> 00:48:43,719
+Right, So a few
+
+1309
+00:48:43,719 --> 00:48:45,420
+responsibilities you're
+going to have this semester.
+
+1310
+00:48:45,420 --> 00:48:47,519
+I may be relatively hands
+off with this because I
+
+1311
+00:48:47,519 --> 00:48:48,639
+think everybody has seen virtual
+
+1312
+00:48:48,639 --> 00:48:50,059
+machines in other
+classes before.
+
+1313
+00:48:50,059 --> 00:48:52,120
+You're going to have to
+create your virtual machine
+
+1314
+00:48:52,120 --> 00:48:54,199
+and when we switch size,
+you'll have to recreate it.
+
+1315
+00:48:54,199 --> 00:48:55,979
+You can choose what
+region you want to go in.
+
+1316
+00:48:55,979 --> 00:48:57,920
+I go with Iowa
+because it's nearby
+
+1317
+00:48:57,920 --> 00:49:02,019
+and it's a low CO
+two emissions site.
+
+1318
+00:49:02,019 --> 00:49:04,040
+You're going to figure out
+how to connect it with SSH.
+
+1319
+00:49:04,040 --> 00:49:05,339
+And you can help with
+all of this too,
+
+1320
+00:49:05,339 --> 00:49:06,699
+like during office
+hours and stuff too.
+
+1321
+00:49:06,699 --> 00:49:07,899
+But this is just general stuff
+
+1322
+00:49:07,899 --> 00:49:09,459
+that I expect people to know how
+
+1323
+00:49:09,459 --> 00:49:12,539
+to know or learn right,
+how to work with.
+
+1324
+00:49:12,539 --> 00:49:14,040
+You're going to have
+to install software
+
+1325
+00:49:14,040 --> 00:49:16,140
+and do reboots after updates.
+
+1326
+00:49:16,140 --> 00:49:18,380
+You're going to have to back
+up your work somewhere.
+
+1327
+00:49:18,380 --> 00:49:20,919
+Like you could back it up
+on a private repository on
+
+1328
+00:49:20,919 --> 00:49:22,579
+Thub or the tool
+
+1329
+00:49:22,579 --> 00:49:24,779
+SCP that I'm going to
+talk about next time.
+
+1330
+00:49:24,779 --> 00:49:26,219
+And then sometimes
+Drew will have
+
+1331
+00:49:26,219 --> 00:49:27,579
+various issues with you
+for whatever reason.
+
+1332
+00:49:27,579 --> 00:49:28,680
+They always think everybody's
+
+1333
+00:49:28,680 --> 00:49:30,099
+trying to crypto
+mine, who knows?
+
+1334
+00:49:30,099 --> 00:49:31,619
+Maybe they are, but
+they'll like shut you
+
+1335
+00:49:31,619 --> 00:49:33,439
+down and then you have to
+appeal sometimes and say,
+
+1336
+00:49:33,439 --> 00:49:34,579
+I wasn't doing it And
+then they're like,
+
+1337
+00:49:34,579 --> 00:49:35,539
+okay, we believe you.
+
+1338
+00:49:35,539 --> 00:49:37,419
+Anyway, I can't really
+get involved in that.
+
+1339
+00:49:37,419 --> 00:49:39,159
+I've tried to, and
+they don't like me to.
+
+1340
+00:49:39,159 --> 00:49:40,479
+So that happens, you'll work
+
+1341
+00:49:40,479 --> 00:49:42,239
+with Google to sort that out.
+
+1342
+00:49:42,239 --> 00:49:43,879
+But, you know, I think most of
+
+1343
+00:49:43,879 --> 00:49:45,200
+the time it goes
+pretty smoothly.
+
+1344
+00:49:45,200 --> 00:49:46,339
+And we're always
+here to help during
+
+1345
+00:49:46,339 --> 00:49:47,840
+office hours if there's issues.
+
+1346
+00:49:47,840 --> 00:49:49,759
+So awesome, I'll be
+sending messages soon
+
+1347
+00:49:49,759 --> 00:49:51,920
+about how to get started
+with your virtual machine,
+
+1348
+00:49:51,920 --> 00:49:54,760
+and otherwise, have
+a great evening.
