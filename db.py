@@ -7,6 +7,8 @@ from lecture_parser import Parser
 
 load_dotenv()
 
+# check out pylance
+
 class Storage:
     def __init__(self):
         self.db = chromadb.PersistentClient(
@@ -18,7 +20,23 @@ class Storage:
             embedding_function=Embedder()
         )
 
+        self.lessons_tbl = self.db.get_or_create_collection(
+            name="Lessons",
+        )
+
         self.parser = Parser()
+
+    def add_lesson(self, lesson):
+        try:
+            self.lessons_tbl.add(
+                metadata=[lesson]
+            )
+            return True
+        except Exception as e:
+            return False
+
+    def get_lectures(self):
+        pass
 
     def add_lecture(self, lecture_path: str):
         chunks = self.parser.parse_chunks(lecture_path)
