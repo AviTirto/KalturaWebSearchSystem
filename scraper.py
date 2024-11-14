@@ -171,25 +171,25 @@ class Scraper():
         wait=wait_fixed(2)  # Wait 2 seconds between retries
     )
     def get_embed_link(self):
-        """Retrieves the embed link from the page with retries."""
+        """Retrieves the embed link from the page with retries and refreshes."""
 
         # Refresh the page at the start of each retry
         self.driver.refresh()
 
-        # Wait for the share button and click
-        share_button = WebDriverWait(self.driver, 10).until(
+        # Attempt to locate and click the share button
+        share_button = WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable((By.XPATH, "/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[1]/div/div[1]/ul/li[2]/a/span"))
         )
         share_button.click()
 
-        # Wait for the embed button and click
-        embed_button = WebDriverWait(self.driver, 10).until(
+        # Attempt to locate and click the embed button
+        embed_button = WebDriverWait(self.driver, 5).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[3]/div/div[2]/div/div/div[1]/ul/li[2]'))
         )
         embed_button.click()
 
-        # Wait for the embed text area to be present
-        embed_text_area = WebDriverWait(self.driver, 10).until(
+        # Wait for the embed text area to be present and retrieve the embed link
+        embed_text_area = WebDriverWait(self.driver, 5).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="embedTextArea"]'))
         )
         embed_text = embed_text_area.get_attribute("value")
