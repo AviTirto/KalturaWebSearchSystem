@@ -24,12 +24,11 @@ class Storage:
             name="Lessons",
         )
 
-        self.parser = Parser()
 
-    def add_lesson(self, lesson):
+    def add_lesson(self, lesson, id):
         try:
             self.lessons_tbl.add(
-                ids = [lesson['lecture_link']],
+                ids = [id],
                 documents = [lesson['title']],
                 metadatas=[lesson]
             )
@@ -41,27 +40,12 @@ class Storage:
     def get_lessons(self):
         return [lesson['lecture_link'] for lesson in self.lessons_tbl.get()['metadatas']]
 
-    def add_lecture(self, lecture_path: str):
-        chunks = self.parser.parse_chunks(lecture_path)
- 
-        for index, chunk in enumerate(chunks):
-            content = chunk['content']
-            start_time = chunk['start_time']
-            end_time = chunk['end_time']
-            seconds = chunk['seconds']
-
-            print("INDEX", index)
-
-            self.lectures_tbl.add(
-                documents=[content], 
-                ids=[str(index)],
-                metadatas=[{
-                    "lecture":lecture_path,
-                    "start_time": start_time,
-                    "end_time": end_time,
-                    "seconds": seconds
-                }]
-            )
+    def add_lecture(self, metadata, content, id):
+        self.lectures_tbl.add(
+            documents=[content], 
+            ids=[id],
+            metadatas=[metadata]
+        )
 
     def query(self, query):
         results = self.lectures_tbl.query(
