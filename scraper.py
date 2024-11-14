@@ -44,23 +44,37 @@ class Scraper():
         attempts = 3
         for _ in range(attempts):
             try:
-                WebDriverWait(self.driver, 10).until(
+                element = WebDriverWait(self.driver, 10).until(
                     EC.element_to_be_clickable((By.XPATH, xpath))
-                ).click()
+                )
+
+                self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+                
+                element.click()
+
                 return  # Exit if successful
             except StaleElementReferenceException:
                 pass  # Retry if stale
+            except TimeoutError:
+                pass
 
     def id_safe_click(self, id):
         attempts = 3
         for _ in range(attempts):
             try:
-                WebDriverWait(self.driver, 10).until(
+                element = WebDriverWait(self.driver, 10).until(
                     EC.element_to_be_clickable((By.ID, id))
-                ).click()
+                )
+
+                self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+                
+                element.click()
+
                 return  # Exit if successful
             except StaleElementReferenceException:
                 pass  # Retry if stale
+            except TimeoutError:
+                pass
 
     def get_srt_file(self):
         self.driver.refresh()
