@@ -2,18 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import (
-    StaleElementReferenceException,
-    TimeoutException,
-    NoSuchElementException)
+from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
-from tenacity import(
-    retry,
-    stop_after_attempt,
-    wait_exponential,
-    retry_if_exception_type,
-    wait_fixed
-)
 import time
 import pandas as pd
 import os
@@ -49,26 +39,35 @@ class Scraper():
         self.driver = webdriver.Firefox(options=self.options)
         self.url = "https://tyler.caraza-harter.com/cs544/f24/schedule.html"
 
-    @retry(
-        retry=retry_if_exception_type(NoSuchElementException),
-        stop=stop_after_attempt(3),  # Retry up to 3 times
-        wait=wait_exponential(multiplier=1, min=2, max=10)  # Exponential backoff from 2s to 10s
-    )
+
+    def xpath_safe_click(self, xpath):
+        attempts = 3
+        for _ in range(attempts):
+            try:
+                WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, xpath))
+                ).click()
+                return  # Exit if successful
+            except StaleElementReferenceException:
+                pass  # Retry if stale
+
+    def id_safe_click(self, id):
+        attempts = 3
+        for _ in range(attempts):
+            try:
+                WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.ID, id))
+                ).click()
+                return  # Exit if successful
+            except StaleElementReferenceException:
+                pass  # Retry if stale
+
     def get_srt_file(self):
-        # Wait for play button and click
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="player-gui"]/div[3]/div[1]/div[3]/button'))
-        ).click()
+        self.driver.refresh()
 
-        # Wait for download button and click
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button'))
-        ).click()
-
-        # Wait for final button and click
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div/div[3]/div'))
-        ).click()
+        self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[3]/button')
+        self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button')
+        self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div/div[3]/div')
 
         # Wait for file to appear in the download folder
         start_time = time.time()
@@ -88,11 +87,6 @@ class Scraper():
         return downloaded_file
         
 
-    @retry(
-        retry=retry_if_exception_type(StaleElementReferenceException),
-        stop=stop_after_attempt(3),  # Retry up to 3 times
-        wait=wait_fixed(1)  # Wait 1 second between retries
-    )
     def get_date(self):
         # Locate and retrieve the text of the date
         date = WebDriverWait(self.driver, 10).until(
@@ -102,11 +96,6 @@ class Scraper():
         return date
 
 
-    @retry(
-        retry=retry_if_exception_type(NoSuchElementException),
-        stop=stop_after_attempt(3),  # Retry up to 3 times
-        wait=wait_exponential(multiplier=1, min=2, max=10)  # Exponential backoff from 2s to 10s
-    )
     def scrape_lecture_page(self, url):
         try:
             # Navigate to the URL
@@ -133,11 +122,6 @@ class Scraper():
             # self.driver.quit()
 
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutException, NoSuchElementException)),
-        stop=stop_after_attempt(3),  # Retry up to 3 times
-        wait=wait_fixed(2)  # Wait 2 seconds between retries
-    )
     def get_lessons(self, url):
         lecture_metadata = []
 
@@ -165,25 +149,14 @@ class Scraper():
             return f'Error: {e}'
 
 
-    @retry(
-        retry=retry_if_exception_type((TimeoutException, NoSuchElementException)),
-        stop=stop_after_attempt(3),  # Retry up to 3 times
-        wait=wait_fixed(2)  # Wait 2 seconds between retries
-    )
     def get_embed_link(self):
         """Retrieves the embed link from the page with retries and refreshes."""
 
-        # Attempt to locate and click the share button
-        share_button = WebDriverWait(self.driver, 5).until(
-            EC.element_to_be_clickable((By.ID, 'tab-share-tab'))
-        )
-        share_button.click()
 
-        # Attempt to locate and click the embed button
-        embed_button = WebDriverWait(self.driver, 5).until(
-            EC.element_to_be_clickable((By.ID, 'embedTextArea-pane-tab'))
-        )
-        embed_button.click()
+        self.id_safe_click('tab-share-tab')
+
+        self.id_safe_click('embedTextArea-pane-tab')
+
 
         # Wait for the embed text area to be present and retrieve the embed link
         embed_text_area = WebDriverWait(self.driver, 5).until(
