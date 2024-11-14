@@ -5,13 +5,20 @@ from lecture_manager import LectureManager
 from db import Storage
 import os
 
-scraper = Scraper()
-storage = Storage()
 manager = LectureManager()
+manager.update_lectures()
+
+storage = Storage()
+print(storage.get_lessons())
+
+# storage = Storage()
+# storage.db.delete_collection('Lessons')
+# storage.db.delete_collection('Lectures')
+# print(storage.db.list_collections())
+
 
 # srt_dir = scraper.execute()
 # scraper.get_embed_link("https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-09_04_24-14%3A18%3A34/1_sbftfkbl")
-print(manager.find_unsaved_lectures())
 
 # download_dir = os.getenv('SRT_PATH')
 # embedder = Embedder(download_dir)

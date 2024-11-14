@@ -115,7 +115,8 @@ class Scraper():
                 raise FileNotFoundError("SRT file download timed out or failed.")
 
         finally:
-            self.driver.quit()
+            pass
+            # self.driver.quit()
 
 
     def get_lessons(self, url):
@@ -135,7 +136,7 @@ class Scraper():
                 }
                 for lesson in lessons
             ]
-            self.driver.quit()
+            # self.driver.quit()
             return lecture_metadata
 
         except Exception as e:
