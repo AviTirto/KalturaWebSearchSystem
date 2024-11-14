@@ -118,7 +118,7 @@ class Scraper():
             self.driver.quit()
 
 
-    def get_lecture_metadata(self, url):
+    def get_lessons(self, url):
         lecture_metadata = []
         try:
             # grab all lessons

@@ -29,14 +29,17 @@ class Storage:
     def add_lesson(self, lesson):
         try:
             self.lessons_tbl.add(
-                metadata=[lesson]
+                ids = [lesson['lecture_link']],
+                documents = [lesson['title']],
+                metadatas=[lesson]
             )
             return True
         except Exception as e:
+            print(e)
             return False
 
-    def get_lectures(self):
-        pass
+    def get_lessons(self):
+        return [lesson['lecture_link'] for lesson in self.lessons_tbl.get()['metadatas']]
 
     def add_lecture(self, lecture_path: str):
         chunks = self.parser.parse_chunks(lecture_path)
