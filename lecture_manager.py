@@ -35,8 +35,10 @@ class LectureManager():
         return unsaved_lectures
 
     def remove_file(self, filename):
-        os.remove(self.download_dir + '/' + filename)
+        os.remove(filename)
 
+
+    # note! a way to remove failed lecture uploads from the db must be implemented
     def update_lectures(self):
         unsaved_lectures = self.find_unsaved_lectures()
 
@@ -52,8 +54,10 @@ class LectureManager():
                 uuid = self.generate_unique_id(link, index)
                 self.db.add_lecture(chunk, content, uuid)
 
+            self.remove_file(page_info['file_name'])
+
             del page_info['file_name']
             del lecture['lecture_link']
             
             self.db.add_lesson({**page_info, **lecture}, link)
-            time.sleep(10)
+            print(lecture)

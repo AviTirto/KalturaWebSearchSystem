@@ -2,7 +2,18 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import (
+    StaleElementReferenceException,
+    TimeoutException,
+    NoSuchElementException)
+from selenium.common.exceptions import NoSuchElementException
+from tenacity import(
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+    wait_fixed
+)
 import time
 import pandas as pd
 import os
@@ -38,6 +49,11 @@ class Scraper():
         self.driver = webdriver.Firefox(options=self.options)
         self.url = "https://tyler.caraza-harter.com/cs544/f24/schedule.html"
 
+    @retry(
+        retry=retry_if_exception_type(NoSuchElementException),
+        stop=stop_after_attempt(3),  # Retry up to 3 times
+        wait=wait_exponential(multiplier=1, min=2, max=10)  # Exponential backoff from 2s to 10s
+    )
     def get_srt_file(self):
         # Wait for play button and click
         WebDriverWait(self.driver, 10).until(
@@ -71,28 +87,26 @@ class Scraper():
 
         return downloaded_file
         
-    def get_date(self):
-        # Retry loop for getting the date text
-        max_attempts = 3
-        date = None
 
-        for attempt in range(max_attempts):
-            try:
-                # Locate and retrieve the text of the date
-                date = WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.ID, "js-entry-create-at"))
-                ).find_element(By.TAG_NAME, "span").text
-                break  # Exit loop if successful
-            except StaleElementReferenceException:
-                # If a stale reference occurs, wait briefly and retry
-                if attempt < max_attempts - 1:
-                    time.sleep(1)  # Wait 1 second before retrying
-                else:
-                    raise  # Raise the exception if all attempts fail
+    @retry(
+        retry=retry_if_exception_type(StaleElementReferenceException),
+        stop=stop_after_attempt(3),  # Retry up to 3 times
+        wait=wait_fixed(1)  # Wait 1 second between retries
+    )
+    def get_date(self):
+        # Locate and retrieve the text of the date
+        date = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.ID, "js-entry-create-at"))
+        ).find_element(By.TAG_NAME, "span").text
 
         return date
 
 
+    @retry(
+        retry=retry_if_exception_type(NoSuchElementException),
+        stop=stop_after_attempt(3),  # Retry up to 3 times
+        wait=wait_exponential(multiplier=1, min=2, max=10)  # Exponential backoff from 2s to 10s
+    )
     def scrape_lecture_page(self, url):
         try:
             # Navigate to the URL
@@ -119,16 +133,25 @@ class Scraper():
             # self.driver.quit()
 
 
+    @retry(
+        retry=retry_if_exception_type((TimeoutException, NoSuchElementException)),
+        stop=stop_after_attempt(3),  # Retry up to 3 times
+        wait=wait_fixed(2)  # Wait 2 seconds between retries
+    )
     def get_lessons(self, url):
         lecture_metadata = []
+
+        # Refresh the page at the start of each retry
+        self.driver.get(url)
+
         try:
-            # grab all lessons
-            self.driver.get(url)
+            # Grab all lessons
             lessons = self.driver.find_elements(By.CSS_SELECTOR, 'div.col-md-4')
             
-            # filter for the ones with a kaltura lecture
+            # Filter for lessons containing a Kaltura lecture link
             lessons = [lesson for lesson in lessons if lesson.find_elements(By.CSS_SELECTOR, 'a[href*="https://mediaspace.wisc.edu"]')]
 
+            # Extract metadata for each lesson with a Kaltura link
             lecture_metadata = [
                 {
                     'title': lesson.find_element(By.TAG_NAME, 'h5').text,
@@ -136,42 +159,38 @@ class Scraper():
                 }
                 for lesson in lessons
             ]
-            # self.driver.quit()
             return lecture_metadata
 
         except Exception as e:
             return f'Error: {e}'
 
 
+    @retry(
+        retry=retry_if_exception_type((TimeoutException, NoSuchElementException)),
+        stop=stop_after_attempt(3),  # Retry up to 3 times
+        wait=wait_fixed(2)  # Wait 2 seconds between retries
+    )
     def get_embed_link(self):
         """Retrieves the embed link from the page with retries."""
-        retries = 3
-        for attempt in range(retries):
-            try:
 
-                # Wait for the share button and click
-                share_button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[1]/div/div[1]/ul/li[2]/a/span"))
-                )
-                share_button.click()
+        # Refresh the page at the start of each retry
+        self.driver.refresh()
 
-                # Wait for the embed button and click
-                embed_button = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, '/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[3]/div/div[2]/div/div/div[1]/ul/li[2]'))
-                )
-                embed_button.click()
+        # Wait for the share button and click
+        share_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[1]/div/div[1]/ul/li[2]/a/span"))
+        )
+        share_button.click()
 
-                # Wait for the embed text area to be present
-                embed_text_area = WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, '//*[@id="embedTextArea"]'))
-                )
-                embed_text = embed_text_area.get_attribute("value")
-                return embed_text
+        # Wait for the embed button and click
+        embed_button = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[3]/div/div[2]/div/div/div[1]/ul/li[2]'))
+        )
+        embed_button.click()
 
-            except Exception as e:
-                if attempt < retries - 1:
-                    print(f"Attempt {attempt + 1} failed, retrying... Error: {e}")
-                    time.sleep(2)  # Wait briefly before retrying
-                else:
-                    print(f"All attempts failed. Error: {e}")
-                    return None
+        # Wait for the embed text area to be present
+        embed_text_area = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="embedTextArea"]'))
+        )
+        embed_text = embed_text_area.get_attribute("value")
+        return embed_text

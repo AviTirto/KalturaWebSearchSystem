@@ -1,0 +1,5783 @@
+1
+00:00:00,000 --> 00:00:02,820
+Last time we were learning
+about the Linux Shell
+
+2
+00:00:02,820 --> 00:00:05,320
+and some various programs
+we could run in that Shell.
+
+3
+00:00:05,320 --> 00:00:06,680
+Today we're going to be talking
+
+4
+00:00:06,680 --> 00:00:08,980
+about pipe lines and
+with a pipeline,
+
+5
+00:00:08,980 --> 00:00:11,640
+we can take a lot of
+those little programs and
+
+6
+00:00:11,640 --> 00:00:13,299
+combine them together
+in a chain and
+
+7
+00:00:13,299 --> 00:00:15,559
+do some more interesting
+things in that way.
+
+8
+00:00:15,559 --> 00:00:17,299
+There are some
+optional readings.
+
+9
+00:00:17,299 --> 00:00:19,479
+All these readings this
+semester are optional.
+
+10
+00:00:19,479 --> 00:00:21,140
+They're all in the
+Riley collection,
+
+11
+00:00:21,140 --> 00:00:22,399
+which means you
+can get them free
+
+12
+00:00:22,399 --> 00:00:24,120
+online if you have
+a library card.
+
+13
+00:00:24,120 --> 00:00:27,040
+How many of you have got
+a library card already?
+
+14
+00:00:27,040 --> 00:00:30,559
+A handful of you. I'd really
+encourage you to do that.
+
+15
+00:00:30,559 --> 00:00:32,439
+There's lots of good
+resources there
+
+16
+00:00:32,439 --> 00:00:34,480
+besides just what we're
+using in this course.
+
+17
+00:00:34,480 --> 00:00:35,919
+But, you know, if
+you click these,
+
+18
+00:00:35,919 --> 00:00:38,099
+it's right to take you over
+here and then you just
+
+19
+00:00:38,099 --> 00:00:40,659
+have to type in
+your number for me.
+
+20
+00:00:40,659 --> 00:00:42,259
+I just had to go to the library
+
+21
+00:00:42,259 --> 00:00:43,479
+in person and I showed them
+
+22
+00:00:43,479 --> 00:00:44,879
+a piece of mail
+that had my address
+
+23
+00:00:44,879 --> 00:00:46,499
+on it that was enough
+proof for them.
+
+24
+00:00:46,499 --> 00:00:49,320
+Added 5 minutes, I was walking
+out with a library card,
+
+25
+00:00:49,320 --> 00:00:50,860
+so I just get it dotted.
+
+26
+00:00:50,860 --> 00:00:53,299
+That'll serve you well for
+the rest of the semester,
+
+27
+00:00:53,299 --> 00:00:54,620
+but you know, in the worst case.
+
+28
+00:00:54,620 --> 00:00:56,419
+Right. These are
+optional readings,
+
+29
+00:00:56,419 --> 00:00:59,179
+so you'll be okay if
+you don't have it yet.
+
+30
+00:00:59,179 --> 00:01:02,599
+I head over here to some slides.
+
+31
+00:01:02,599 --> 00:01:06,160
+1 other thing I wanted to
+point out before I go,
+
+32
+00:01:06,160 --> 00:01:08,360
+last time we had a
+worksheet and there was
+
+33
+00:01:08,360 --> 00:01:10,940
+also some flash cards for that.
+
+34
+00:01:10,940 --> 00:01:14,180
+All of those covered both
+last time and today,
+
+35
+00:01:14,180 --> 00:01:16,819
+right on this
+worksheet, for example.
+
+36
+00:01:16,819 --> 00:01:19,260
+A lot of these later ones are
+
+37
+00:01:19,260 --> 00:01:22,579
+related to some of the
+things we're covering today.
+
+38
+00:01:22,579 --> 00:01:24,199
+So if you still have
+that, whip it out.
+
+39
+00:01:24,199 --> 00:01:25,720
+Otherwise you could
+just be taking
+
+40
+00:01:25,720 --> 00:01:27,080
+notes on a piece of paper.
+
+41
+00:01:27,080 --> 00:01:29,080
+But today is a little bit
+similar to last time,
+
+42
+00:01:29,080 --> 00:01:30,199
+but that I'd maybe
+throw you a lot of
+
+43
+00:01:30,199 --> 00:01:31,560
+things at you that you're
+just going to have to
+
+44
+00:01:31,560 --> 00:01:33,339
+write down and then memorize
+
+45
+00:01:33,339 --> 00:01:36,139
+to be able to use it,
+draw you forward.
+
+46
+00:01:36,139 --> 00:01:38,380
+All right, So there's
+
+47
+00:01:38,380 --> 00:01:40,299
+a few things I want
+you to learn today.
+
+48
+00:01:40,299 --> 00:01:42,179
+First is how do we
+actually trade together
+
+49
+00:01:42,179 --> 00:01:43,699
+all these different
+programs and do
+
+50
+00:01:43,699 --> 00:01:46,060
+a pipeline that's up there?
+
+51
+00:01:46,060 --> 00:01:47,560
+I see a lot, not just
+
+52
+00:01:47,560 --> 00:01:49,499
+at this point where we're
+working on the shell,
+
+53
+00:01:49,499 --> 00:01:50,640
+but later on when you're doing
+
+54
+00:01:50,640 --> 00:01:52,589
+some more data engineering tasks
+
+55
+00:01:52,589 --> 00:01:55,499
+similar to that is if I
+have this big pipeline,
+
+56
+00:01:55,499 --> 00:01:57,959
+instead of just having all
+the output go to the street,
+
+57
+00:01:57,959 --> 00:01:59,260
+how can I have that end up in
+
+58
+00:01:59,260 --> 00:02:01,440
+some file that's
+called a redirection?
+
+59
+00:02:01,440 --> 00:02:04,320
+And then finally,
+we're very interested
+
+60
+00:02:04,320 --> 00:02:05,540
+in resource consumption of
+
+61
+00:02:05,540 --> 00:02:06,859
+anything we're doing
+this semester.
+
+62
+00:02:06,859 --> 00:02:10,740
+How can we measure the CPU
+memory storage network
+
+63
+00:02:10,740 --> 00:02:14,140
+that we're using as we're
+running these things.
+
+64
+00:02:14,380 --> 00:02:17,820
+All right, so this idea
+of having the pipeline
+
+65
+00:02:17,820 --> 00:02:20,660
+comes from something called
+the Unix philosophy.
+
+66
+00:02:20,660 --> 00:02:22,420
+What is Ux? Utix is actually
+
+67
+00:02:22,420 --> 00:02:24,920
+a whole family of different
+operating systems.
+
+68
+00:02:24,920 --> 00:02:27,939
+Lituxst probably famous
+one that people think
+
+69
+00:02:27,939 --> 00:02:29,940
+of the operating system running
+
+70
+00:02:29,940 --> 00:02:32,000
+on my Mac is also
+a type of Utix.
+
+71
+00:02:32,000 --> 00:02:34,499
+There's other lesser
+known ones like BSD,
+
+72
+00:02:34,499 --> 00:02:36,639
+lots of different Unix is out
+there that are all kind of
+
+73
+00:02:36,639 --> 00:02:39,279
+similar and built out
+a similar philosophy.
+
+74
+00:02:39,279 --> 00:02:41,879
+And so the Lipman book
+that I recommended is
+
+75
+00:02:41,879 --> 00:02:43,340
+reading today talks about
+
+76
+00:02:43,340 --> 00:02:44,939
+some of that philosophy
+in more detail.
+
+77
+00:02:44,939 --> 00:02:47,179
+And I just want to pull
+two main points out
+
+78
+00:02:47,179 --> 00:02:49,759
+of that book of this philosophy.
+
+79
+00:02:49,759 --> 00:02:52,399
+The first point is that
+every program you make
+
+80
+00:02:52,399 --> 00:02:55,179
+should just do one
+thing really well.
+
+81
+00:02:55,179 --> 00:02:57,320
+And if you find
+yourself wanting to
+
+82
+00:02:57,320 --> 00:02:59,999
+do a second thing or
+a third thing well,
+
+83
+00:02:59,999 --> 00:03:01,420
+you should be
+writing new programs
+
+84
+00:03:01,420 --> 00:03:02,499
+that do those things instead of
+
+85
+00:03:02,499 --> 00:03:05,520
+making your original
+program more complicated.
+
+86
+00:03:05,520 --> 00:03:08,759
+That's in contrast to a
+lot of programs we know,
+
+87
+00:03:08,759 --> 00:03:10,599
+like think about Excel, right?
+
+88
+00:03:10,599 --> 00:03:12,919
+Excel lets you try
+to manage your data,
+
+89
+00:03:12,919 --> 00:03:14,959
+It lets you get statistics
+over that data.
+
+90
+00:03:14,959 --> 00:03:16,140
+It lets you create plots,
+
+91
+00:03:16,140 --> 00:03:18,140
+it lets you cyc across
+different computers.
+
+92
+00:03:18,140 --> 00:03:19,559
+It does all kinds of
+different things.
+
+93
+00:03:19,559 --> 00:03:21,779
+It's a big complicated
+piece of software.
+
+94
+00:03:21,779 --> 00:03:24,340
+And there's good and
+bad in that, right?
+
+95
+00:03:24,340 --> 00:03:27,099
+Whether you think that's
+a good design or not,
+
+96
+00:03:27,099 --> 00:03:29,000
+it's in violation of
+
+97
+00:03:29,000 --> 00:03:33,320
+this principle that Unix
+tries to shoot for.
+
+98
+00:03:33,320 --> 00:03:35,599
+The second thing
+is that if we have
+
+99
+00:03:35,599 --> 00:03:38,499
+all these little programs
+that each do one thing, well,
+
+100
+00:03:38,499 --> 00:03:40,740
+we have to have
+them work together
+
+101
+00:03:40,740 --> 00:03:43,780
+easily in order to do
+more complicated things.
+
+102
+00:03:43,780 --> 00:03:45,200
+And so the way we do that is
+
+103
+00:03:45,200 --> 00:03:47,139
+that we're just going to
+expect from the start that
+
+104
+00:03:47,139 --> 00:03:49,039
+any output from a program is
+
+105
+00:03:49,039 --> 00:03:51,620
+going to be the input
+to another program.
+
+106
+00:03:51,620 --> 00:03:53,479
+As we're feeding that
+what we call it,
+
+107
+00:03:53,479 --> 00:03:55,500
+intermediate data
+between two programs.
+
+108
+00:03:55,500 --> 00:03:56,739
+We don't want it cluttered with
+
+109
+00:03:56,739 --> 00:03:58,939
+extra information or
+anything like that because
+
+110
+00:03:58,939 --> 00:04:00,499
+that makes it more difficult for
+
+111
+00:04:00,499 --> 00:04:03,099
+the receiving program
+to work with that.
+
+112
+00:04:03,099 --> 00:04:04,459
+We also don't want
+to be too strict
+
+113
+00:04:04,459 --> 00:04:05,560
+about what formats we're doing,
+
+114
+00:04:05,560 --> 00:04:09,079
+so lots of different programs
+can work with each other.
+
+115
+00:04:09,079 --> 00:04:12,760
+In the Ted book,
+there's a nice example.
+
+116
+00:04:12,760 --> 00:04:16,300
+They walk through and they
+introduce this idea of a pipe.
+
+117
+00:04:16,300 --> 00:04:19,999
+And a pipe is how we realize
+that Tix philosophy.
+
+118
+00:04:19,999 --> 00:04:21,480
+And the cool thing about a pipe
+
+119
+00:04:21,480 --> 00:04:22,860
+is that can have all
+these different programs.
+
+120
+00:04:22,860 --> 00:04:24,119
+Some of these you've
+seen like you've
+
+121
+00:04:24,119 --> 00:04:25,859
+seen cat and you've seen head.
+
+122
+00:04:25,859 --> 00:04:27,620
+Other hears that I
+won't talk about today,
+
+123
+00:04:27,620 --> 00:04:29,920
+like walk unique,
+
+124
+00:04:29,920 --> 00:04:33,539
+this little vertical bar that's
+called a pipe character.
+
+125
+00:04:33,539 --> 00:04:35,420
+And they walk through this
+example about how I can
+
+126
+00:04:35,420 --> 00:04:38,099
+chain all these together to
+do something interesting.
+
+127
+00:04:38,099 --> 00:04:40,299
+In this case, what
+are they doing?
+
+128
+00:04:40,299 --> 00:04:43,019
+Well, they have these web
+logs of people visiting
+
+129
+00:04:43,019 --> 00:04:45,399
+some website and they're
+trying to see what are
+
+130
+00:04:45,399 --> 00:04:47,839
+the most popular pages
+on this website.
+
+131
+00:04:47,839 --> 00:04:50,020
+Kind of a basic
+data science task.
+
+132
+00:04:50,020 --> 00:04:52,640
+And what's neat here is
+that if you know a bunch of
+
+133
+00:04:52,640 --> 00:04:54,359
+different Unix
+commands and you know
+
+134
+00:04:54,359 --> 00:04:56,379
+how to combine them together
+in interesting ways,
+
+135
+00:04:56,379 --> 00:04:58,619
+you can do that data science
+work without writing
+
+136
+00:04:58,619 --> 00:05:02,700
+a single slide of code and
+pth or whatever, right?
+
+137
+00:05:02,700 --> 00:05:04,020
+So they kind of
+walk through that.
+
+138
+00:05:04,020 --> 00:05:05,780
+But I think it's worth
+reading if you're
+
+139
+00:05:05,780 --> 00:05:08,515
+interested in drawing a
+little deeper on that.
+
+140
+00:05:08,515 --> 00:05:11,189
+So how do these pipes
+
+141
+00:05:11,189 --> 00:05:13,469
+work that connect one
+program to another?
+
+142
+00:05:13,469 --> 00:05:15,029
+Well, they operate on something
+
+143
+00:05:15,029 --> 00:05:17,589
+called standard input
+and standard output.
+
+144
+00:05:17,589 --> 00:05:20,710
+If I write a program
+and then I run it,
+
+145
+00:05:20,710 --> 00:05:22,470
+then I have a process.
+
+146
+00:05:22,470 --> 00:05:24,230
+A process is just a
+running program and
+
+147
+00:05:24,230 --> 00:05:26,849
+every process will have a
+standard and standard output.
+
+148
+00:05:26,849 --> 00:05:29,049
+And standard is just kind of
+
+149
+00:05:29,049 --> 00:05:31,450
+a stream of information
+ing from my keyboard.
+
+150
+00:05:31,450 --> 00:05:33,030
+And standard out is a stream of
+
+151
+00:05:33,030 --> 00:05:35,829
+information drawing to the
+street that I can actually
+
+152
+00:05:35,829 --> 00:05:39,310
+see what happens when
+
+153
+00:05:39,310 --> 00:05:41,410
+I want to run two programs
+and connect them.
+
+154
+00:05:41,410 --> 00:05:43,669
+What I'll do is I'll type
+something like this down here.
+
+155
+00:05:43,669 --> 00:05:46,470
+I'll say a pipe character B.
+
+156
+00:05:46,470 --> 00:05:49,849
+And it'll start running both
+processes at the same time.
+
+157
+00:05:49,849 --> 00:05:52,450
+Maybe on the same core,
+if I only have one core,
+
+158
+00:05:52,450 --> 00:05:53,890
+maybe it's altered between them,
+
+159
+00:05:53,890 --> 00:05:56,849
+but basically they're both
+running at the same time.
+
+160
+00:05:56,849 --> 00:05:59,390
+And what it'll do is it'll
+automatically connect for me.
+
+161
+00:05:59,390 --> 00:06:01,710
+The standard output of
+the first process is
+
+162
+00:06:01,710 --> 00:06:02,989
+going to feed into the standard
+
+163
+00:06:02,989 --> 00:06:04,330
+end of the second process.
+
+164
+00:06:04,330 --> 00:06:06,210
+And I could do something
+more complicated than
+
+165
+00:06:06,210 --> 00:06:09,410
+either program could do
+individually, right?
+
+166
+00:06:09,410 --> 00:06:11,470
+So that's a really fundamental
+
+167
+00:06:11,470 --> 00:06:13,450
+building block for what
+we're doing today.
+
+168
+00:06:13,450 --> 00:06:15,570
+So to get more
+complicated where I
+
+169
+00:06:15,570 --> 00:06:17,870
+do have examples of the shell,
+
+170
+00:06:17,870 --> 00:06:19,269
+but we really have
+to understand that.
+
+171
+00:06:19,269 --> 00:06:20,989
+So I'm just trying to pause
+here and let you absorb
+
+172
+00:06:20,989 --> 00:06:23,789
+that and see if people have
+any questions already.
+
+173
+00:06:28,310 --> 00:06:33,469
+Yeah, question right
+here, process.
+
+174
+00:06:33,750 --> 00:06:36,289
+Oh yeah, yeah. So
+yeah, that's great.
+
+175
+00:06:36,289 --> 00:06:38,210
+Let's differentiate a few
+of these words, right?
+
+176
+00:06:38,210 --> 00:06:41,129
+So first I just write a
+program that's like my code.
+
+177
+00:06:41,129 --> 00:06:42,669
+If I start running it,
+
+178
+00:06:42,669 --> 00:06:44,770
+that it's a process now.
+
+179
+00:06:44,770 --> 00:06:46,650
+But where does it actually run?
+
+180
+00:06:46,650 --> 00:06:49,130
+Right? Well, my computer
+has CPUs in it.
+
+181
+00:06:49,130 --> 00:06:51,290
+Maybe it has one CPU, many CPUs,
+
+182
+00:06:51,290 --> 00:06:52,790
+and then those CPU's,
+
+183
+00:06:52,790 --> 00:06:55,149
+it's like a chip with
+a core inside of it.
+
+184
+00:06:55,149 --> 00:06:57,309
+And so a core is where one of
+
+185
+00:06:57,309 --> 00:07:01,350
+these processes could
+be running, right?
+
+186
+00:07:01,350 --> 00:07:04,289
+Maybe I have the same number
+of cores as processes,
+
+187
+00:07:04,289 --> 00:07:06,070
+and they're all running
+at the same time.
+
+188
+00:07:06,070 --> 00:07:08,030
+Maybe I have more
+processes than cores.
+
+189
+00:07:08,030 --> 00:07:09,670
+They have to take turns, right?
+
+190
+00:07:09,670 --> 00:07:11,130
+But I'd say like for
+this point of the class,
+
+191
+00:07:11,130 --> 00:07:13,389
+that's to have enough detail
+about what's happening.
+
+192
+00:07:13,389 --> 00:07:15,210
+Does that make sense?
+Yeah. Thank you.
+
+193
+00:07:15,210 --> 00:07:16,129
+That's a great question.
+
+194
+00:07:16,129 --> 00:07:18,469
+Yeah. All are
+questions people have.
+
+195
+00:07:18,790 --> 00:07:21,430
+All right? Yeah. Question
+right over here.
+
+196
+00:07:21,430 --> 00:07:24,930
+How could it run at
+the same time here?
+
+197
+00:07:24,930 --> 00:07:26,590
+Oh, that's a good question.
+How could they run at
+
+198
+00:07:26,590 --> 00:07:28,470
+the same time if B is
+what, relying on A.
+
+199
+00:07:28,470 --> 00:07:30,390
+All right, so we have
+this arrow here where
+
+200
+00:07:30,390 --> 00:07:32,450
+they have this
+intermediate data, right?
+
+201
+00:07:32,450 --> 00:07:35,270
+And the operating system is
+in charge of that, right?
+
+202
+00:07:35,270 --> 00:07:37,050
+And so what might
+happen is that process
+
+203
+00:07:37,050 --> 00:07:39,449
+is to start generating
+some intermediate data.
+
+204
+00:07:39,449 --> 00:07:41,449
+And before it's trying
+
+205
+00:07:41,449 --> 00:07:42,750
+to build up that
+intermediate data,
+
+206
+00:07:42,750 --> 00:07:43,870
+before it's even finished,
+
+207
+00:07:43,870 --> 00:07:46,129
+B might start eating some
+of that intermediate data,
+
+208
+00:07:46,129 --> 00:07:47,310
+and then A might generate some
+
+209
+00:07:47,310 --> 00:07:48,940
+more and B might
+generate some more.
+
+210
+00:07:48,940 --> 00:07:50,589
+Imagine they could get
+into a state where they're
+
+211
+00:07:50,589 --> 00:07:52,429
+just kind of both running
+at the same time.
+
+212
+00:07:52,429 --> 00:07:54,450
+You could also
+imagine a situation
+
+213
+00:07:54,450 --> 00:07:56,470
+where one is like
+faster than the other,
+
+214
+00:07:56,470 --> 00:07:57,889
+then one will
+occasionally have to
+
+215
+00:07:57,889 --> 00:07:59,870
+be waiting for the
+other to catch up.
+
+216
+00:07:59,870 --> 00:08:02,390
+But basically they could run
+at the same time because
+
+217
+00:08:02,390 --> 00:08:03,630
+operating system is helping us
+
+218
+00:08:03,630 --> 00:08:05,229
+hang out to that
+intermediate data.
+
+219
+00:08:05,229 --> 00:08:08,610
+One of the cool things is
+that that intermediate data,
+
+220
+00:08:08,610 --> 00:08:10,429
+if I look at all
+of it, it might be
+
+221
+00:08:10,429 --> 00:08:12,990
+bigger than the Ram I
+have on my computer.
+
+222
+00:08:12,990 --> 00:08:15,750
+But because it's never all
+in Ram at the same time,
+
+223
+00:08:15,750 --> 00:08:17,089
+then I can actually do this in
+
+224
+00:08:17,089 --> 00:08:18,290
+a very memory efficient way.
+
+225
+00:08:18,290 --> 00:08:19,789
+I can work with
+data that's much,
+
+226
+00:08:19,789 --> 00:08:22,129
+much bigger than the
+Ram of my computer.
+
+227
+00:08:22,129 --> 00:08:24,350
+Yeah. Excellent question
+about intermediate data.
+
+228
+00:08:24,350 --> 00:08:27,530
+Yeah. Other questions
+people have.
+
+229
+00:08:27,930 --> 00:08:32,179
+Oh, all right. You know,
+
+230
+00:08:32,179 --> 00:08:33,839
+this is getting more and
+more complicated, right?
+
+231
+00:08:33,839 --> 00:08:35,679
+There's nothing that stops
+you from writing, you know,
+
+232
+00:08:35,679 --> 00:08:37,960
+a pipes in, pipes into.
+
+233
+00:08:37,960 --> 00:08:41,160
+Totally fine. All right.
+
+234
+00:08:41,160 --> 00:08:43,559
+Now when we do this,
+
+235
+00:08:43,559 --> 00:08:45,200
+right, it's good for
+all these programs
+
+236
+00:08:45,200 --> 00:08:46,420
+that are operating
+to each other.
+
+237
+00:08:46,420 --> 00:08:47,760
+But from the human perspective,
+
+238
+00:08:47,760 --> 00:08:50,579
+there might be additional
+error information
+
+239
+00:08:50,579 --> 00:08:51,659
+or troubleshooting stuff that we
+
+240
+00:08:51,659 --> 00:08:53,040
+don't want to feed
+along the pipeline.
+
+241
+00:08:53,040 --> 00:08:55,700
+We just want to immediately
+surface it to the user.
+
+242
+00:08:55,700 --> 00:08:57,139
+And so we're going
+to add a third thing
+
+243
+00:08:57,139 --> 00:08:59,559
+in called standard error, right?
+
+244
+00:08:59,559 --> 00:09:00,760
+So we have one kind of input,
+
+245
+00:09:00,760 --> 00:09:03,000
+which is standard input
+and two kinds of output,
+
+246
+00:09:03,000 --> 00:09:04,540
+Standard output and
+standard error.
+
+247
+00:09:04,540 --> 00:09:07,220
+The standard in and out are
+just chaining along together.
+
+248
+00:09:07,220 --> 00:09:09,739
+And then if I was running
+a command like this,
+
+249
+00:09:09,739 --> 00:09:11,239
+the standard error of all of
+
+250
+00:09:11,239 --> 00:09:13,959
+them would be going
+straight to the strain.
+
+251
+00:09:13,959 --> 00:09:16,099
+All right, so for example,
+
+252
+00:09:16,099 --> 00:09:17,740
+let's say you write
+a Python program
+
+253
+00:09:17,740 --> 00:09:19,459
+and you just print
+something out.
+
+254
+00:09:19,459 --> 00:09:21,420
+That print statement
+is going to go
+
+255
+00:09:21,420 --> 00:09:23,800
+by default to stand out,
+
+256
+00:09:23,800 --> 00:09:25,400
+but let's say that program then
+
+257
+00:09:25,400 --> 00:09:26,499
+has an exception
+and there's like
+
+258
+00:09:26,499 --> 00:09:27,860
+a stack trace that gets dumped
+
+259
+00:09:27,860 --> 00:09:30,920
+out that would be going
+to standard error.
+
+260
+00:09:31,900 --> 00:09:34,519
+You know, there's
+some more nuance
+
+261
+00:09:34,519 --> 00:09:36,159
+to that when you're
+doing a print statement.
+
+262
+00:09:36,159 --> 00:09:38,099
+If you as a programmer
+know that this is just
+
+263
+00:09:38,099 --> 00:09:40,360
+like an error message and
+not the normal output.
+
+264
+00:09:40,360 --> 00:09:41,900
+If you Google it,
+there's a way you
+
+265
+00:09:41,900 --> 00:09:43,279
+can say like I specifically want
+
+266
+00:09:43,279 --> 00:09:45,020
+this print statement to go to
+
+267
+00:09:45,020 --> 00:09:46,199
+standard error instead of
+
+268
+00:09:46,199 --> 00:09:47,459
+standard out so you
+can control it.
+
+269
+00:09:47,459 --> 00:09:49,780
+It's just that by default
+you're normally just
+
+270
+00:09:49,780 --> 00:09:50,940
+writing the standard out because
+
+271
+00:09:50,940 --> 00:09:52,999
+that's usually what
+you want to do.
+
+272
+00:09:52,999 --> 00:09:56,959
+All right? So we have that
+standard error there as well.
+
+273
+00:09:56,959 --> 00:09:59,980
+Okay? All that we've
+talked about so far is
+
+274
+00:09:59,980 --> 00:10:04,380
+piping is going about drawing
+from process to process.
+
+275
+00:10:04,380 --> 00:10:08,539
+A second word that people
+often mix up with,
+
+276
+00:10:08,539 --> 00:10:11,400
+piping is similar,
+is redirection.
+
+277
+00:10:11,400 --> 00:10:13,840
+Piping was process to process.
+
+278
+00:10:13,840 --> 00:10:16,740
+Redirection is process to file.
+
+279
+00:10:16,740 --> 00:10:18,939
+Sometimes we will want
+to take the output of
+
+280
+00:10:18,939 --> 00:10:20,099
+our program and
+save it in a file
+
+281
+00:10:20,099 --> 00:10:21,340
+if it's running a
+long time, right?
+
+282
+00:10:21,340 --> 00:10:23,780
+We might want to do that and
+then check back on it later.
+
+283
+00:10:23,780 --> 00:10:26,199
+The way we'll do
+that is we'll say
+
+284
+00:10:26,199 --> 00:10:29,520
+the program name and then
+we'll say greater than sign.
+
+285
+00:10:29,520 --> 00:10:31,119
+The greater sign. I'd really
+
+286
+00:10:31,119 --> 00:10:32,420
+just like to see it
+as an arrow, right?
+
+287
+00:10:32,420 --> 00:10:35,000
+So a arrow and then output.
+
+288
+00:10:35,000 --> 00:10:38,280
+And that will redirect the
+output from standard out
+
+289
+00:10:38,280 --> 00:10:41,520
+over to this output file.
+
+290
+00:10:41,520 --> 00:10:43,520
+All right, and I could
+check on that later.
+
+291
+00:10:43,520 --> 00:10:45,939
+Maybe I just wait until it's
+all done and I check on it.
+
+292
+00:10:45,939 --> 00:10:48,430
+Or if this program is
+running for a long time.
+
+293
+00:10:48,430 --> 00:10:50,660
+Last time we learned
+about this tail command.
+
+294
+00:10:50,660 --> 00:10:52,999
+With the tail command,
+you can follow a file.
+
+295
+00:10:52,999 --> 00:10:54,560
+So I could be running this in
+
+296
+00:10:54,560 --> 00:10:55,899
+the background and I
+might just jump on
+
+297
+00:10:55,899 --> 00:10:57,279
+and start tailing that file to
+
+298
+00:10:57,279 --> 00:10:59,760
+see what's coming
+out of this program.
+
+299
+00:11:00,200 --> 00:11:05,320
+We sometimes want to redirect
+our errors too, okay?
+
+300
+00:11:05,320 --> 00:11:07,200
+I won't get into too
+much detail why,
+
+301
+00:11:07,200 --> 00:11:08,959
+but these three
+things are numbered.
+
+302
+00:11:08,959 --> 00:11:13,800
+It goes 012 for standard
+standard out and standard error.
+
+303
+00:11:13,800 --> 00:11:16,279
+Standard error is number two.
+
+304
+00:11:16,279 --> 00:11:17,299
+And the way you would
+
+305
+00:11:17,299 --> 00:11:18,779
+redirect that down
+here is you could
+
+306
+00:11:18,779 --> 00:11:21,340
+say two and then arrow, right?
+
+307
+00:11:21,340 --> 00:11:23,699
+So you could see, I'm just
+wondering one program A,
+
+308
+00:11:23,699 --> 00:11:26,400
+but I'm separately
+redirecting standard out to
+
+309
+00:11:26,400 --> 00:11:29,980
+output and then standard
+error to error.
+
+310
+00:11:29,980 --> 00:11:32,420
+You know, somebody was
+asking, could you put
+
+311
+00:11:32,420 --> 00:11:34,939
+one in front of that greater
+than I'm not really sure.
+
+312
+00:11:34,939 --> 00:11:37,480
+That would kind of make sense
+from a logical perspective.
+
+313
+00:11:37,480 --> 00:11:39,000
+But you know, we don't
+
+314
+00:11:39,000 --> 00:11:40,539
+because they're just
+trying to save typing and
+
+315
+00:11:40,539 --> 00:11:41,999
+90% of the time you're
+
+316
+00:11:41,999 --> 00:11:44,759
+interested in redirecting
+the standard out.
+
+317
+00:11:45,760 --> 00:11:48,399
+The third thing we
+can do is we might
+
+318
+00:11:48,399 --> 00:11:50,539
+want those inner leave
+within the same file.
+
+319
+00:11:50,539 --> 00:11:53,700
+In that case we would say dollar
+
+320
+00:11:53,700 --> 00:11:55,659
+greater than and we'd send
+
+321
+00:11:55,659 --> 00:11:58,280
+both standard out and standard
+error to the same file.
+
+322
+00:11:58,280 --> 00:11:59,419
+Right? So all these
+things should be in
+
+323
+00:11:59,419 --> 00:12:00,240
+your notes because you're going
+
+324
+00:12:00,240 --> 00:12:01,040
+to be doing them a bunch, right?
+
+325
+00:12:01,040 --> 00:12:02,740
+There's just like
+the simple arrow,
+
+326
+00:12:02,740 --> 00:12:04,860
+two arrow and arrow.
+
+327
+00:12:04,860 --> 00:12:07,120
+I expect you to know
+what they're each doing.
+
+328
+00:12:07,120 --> 00:12:11,240
+Do people have any questions
+about redirection?
+
+329
+00:12:20,470 --> 00:12:25,649
+All right, so we might be
+doing all these things, right?
+
+330
+00:12:25,649 --> 00:12:27,469
+We might be having a
+pipeline or having
+
+331
+00:12:27,469 --> 00:12:29,909
+this long running program
+that's dumping into a file.
+
+332
+00:12:29,909 --> 00:12:31,870
+And those things might
+take a long time.
+
+333
+00:12:31,870 --> 00:12:33,290
+And so we might
+want to be running
+
+334
+00:12:33,290 --> 00:12:35,189
+these things really
+in the background.
+
+335
+00:12:35,189 --> 00:12:37,149
+I want to be able to be
+able to do other things in
+
+336
+00:12:37,149 --> 00:12:39,530
+the shell while it's happening.
+
+337
+00:12:39,530 --> 00:12:41,050
+When I normally just type
+
+338
+00:12:41,050 --> 00:12:42,889
+a program name in the
+shell and I run it,
+
+339
+00:12:42,889 --> 00:12:44,550
+then it'll run for a while.
+
+340
+00:12:44,550 --> 00:12:46,590
+And when it's all done, I'm
+going to get prompt back.
+
+341
+00:12:46,590 --> 00:12:47,789
+That's called synchronous.
+
+342
+00:12:47,789 --> 00:12:50,570
+It means that I'm
+waiting until it's done.
+
+343
+00:12:50,570 --> 00:12:52,330
+And what we want to
+have is a way to
+
+344
+00:12:52,330 --> 00:12:53,790
+do things that are asynchronous.
+
+345
+00:12:53,790 --> 00:12:55,770
+And the way I do things
+asynchronous is I just put
+
+346
+00:12:55,770 --> 00:12:58,610
+this ampersand at the
+end of the program.
+
+347
+00:12:58,610 --> 00:13:02,510
+And when I do that, it'll
+basically in the background.
+
+348
+00:13:02,510 --> 00:13:04,730
+I can type other
+things in the shell.
+
+349
+00:13:04,730 --> 00:13:06,750
+This ampersand here, I guess we
+
+350
+00:13:06,750 --> 00:13:08,549
+saw that with the
+redirection too,
+
+351
+00:13:08,549 --> 00:13:10,030
+but it's just another
+use of it, right?
+
+352
+00:13:10,030 --> 00:13:12,190
+There's no relation there.
+
+353
+00:13:12,230 --> 00:13:14,769
+All right, so let's
+try to put all of
+
+354
+00:13:14,769 --> 00:13:17,510
+this together, all right?
+
+355
+00:13:17,510 --> 00:13:19,210
+I have everything that
+I've taught you about
+
+356
+00:13:19,210 --> 00:13:21,690
+this morning in this
+one little command.
+
+357
+00:13:21,690 --> 00:13:22,910
+And let me just look at this and
+
+358
+00:13:22,910 --> 00:13:24,270
+try to absorb it for a while.
+
+359
+00:13:24,270 --> 00:13:25,690
+And when you think
+you understand
+
+360
+00:13:25,690 --> 00:13:27,610
+it well enough that
+you could explain it,
+
+361
+00:13:27,610 --> 00:13:29,310
+then pop up a hand
+and then I'll take
+
+362
+00:13:29,310 --> 00:13:33,230
+a volunteer and we'll talk
+through what this is doing.
+
+363
+00:14:08,940 --> 00:14:12,019
+I've seen a few hands pop
+up and draw back down.
+
+364
+00:14:12,019 --> 00:14:13,119
+Right now, there's no hands off.
+
+365
+00:14:13,119 --> 00:14:14,360
+Does anybody want
+to volunteer to
+
+366
+00:14:14,360 --> 00:14:17,019
+explain what's going on?
+Yeah, right back here.
+
+367
+00:14:18,300 --> 00:14:22,420
+Okay, great.
+
+368
+00:14:22,420 --> 00:14:24,020
+I'm just trying to echo what
+you're saying. Sorry, here.
+
+369
+00:14:24,020 --> 00:14:25,699
+As you're saying, the
+output of A is being piped
+
+370
+00:14:25,699 --> 00:14:27,499
+into B. Yep,
+
+371
+00:14:35,340 --> 00:14:36,560
+great.
+
+372
+00:14:36,560 --> 00:14:40,200
+So both standard error and
+standard out. Going to out.
+
+373
+00:14:40,200 --> 00:14:45,199
+Yep, yep.
+
+374
+00:14:45,199 --> 00:14:46,839
+And the whole thing is
+running a synchrony.
+
+375
+00:14:46,839 --> 00:14:48,660
+Exactly. That's what exactly
+what it's doing and so
+
+376
+00:14:48,660 --> 00:14:51,000
+this is what the
+picture looks like.
+
+377
+00:14:51,000 --> 00:14:52,420
+We're just changing that a long,
+
+378
+00:14:52,420 --> 00:14:54,880
+collecting all this output
+
+379
+00:14:54,880 --> 00:14:57,700
+here so we could see
+what happens in the end.
+
+380
+00:14:57,700 --> 00:15:01,000
+The only thing that is directly
+going into the screen is
+
+381
+00:15:01,000 --> 00:15:04,260
+the standard error from
+the first one, right?
+
+382
+00:15:04,260 --> 00:15:05,660
+So if I wanted to,
+
+383
+00:15:05,660 --> 00:15:07,660
+I could redirect that to
+a separate file, right?
+
+384
+00:15:07,660 --> 00:15:08,860
+So there's no reason I couldn't
+
+385
+00:15:08,860 --> 00:15:12,290
+have redirects after
+each of these,
+
+386
+00:15:12,290 --> 00:15:15,049
+right, for their standard error.
+
+387
+00:15:15,049 --> 00:15:17,870
+But this is what it would
+look like in the end, right?
+
+388
+00:15:17,870 --> 00:15:19,889
+So I expect that if I
+show you a command,
+
+389
+00:15:19,889 --> 00:15:21,269
+you can kind of see
+what the picture
+
+390
+00:15:21,269 --> 00:15:23,649
+looks like or vice versa.
+
+391
+00:15:24,370 --> 00:15:26,730
+Cool, So that one's a little bit
+
+392
+00:15:26,730 --> 00:15:27,870
+of a more complicated example.
+
+393
+00:15:27,870 --> 00:15:31,770
+Yeah, questions people have
+right here. Yeah, go ahead.
+
+394
+00:15:33,810 --> 00:15:37,769
+The double arrow,
+you mean like this
+
+395
+00:15:37,769 --> 00:15:44,269
+or after the redirect?
+
+396
+00:15:44,269 --> 00:15:47,490
+There's two. You mean
+
+397
+00:15:47,490 --> 00:15:50,089
+like in the command
+or in the picture.
+
+398
+00:15:51,330 --> 00:15:53,730
+I'm just trying to
+see what do you
+
+399
+00:15:53,730 --> 00:15:56,450
+mean for like the double arrow?
+
+400
+00:15:57,690 --> 00:16:00,929
+Oh, up here? Yeah. You know,
+
+401
+00:16:00,929 --> 00:16:02,289
+I think Okay. I see
+what you're saying.
+
+402
+00:16:02,289 --> 00:16:03,430
+Yeah, it looks that way up here.
+
+403
+00:16:03,430 --> 00:16:05,289
+It doesn't look that way on
+my monitor and that's why I'm
+
+404
+00:16:05,289 --> 00:16:07,170
+like my losing my mind.
+I don't see arrow.
+
+405
+00:16:07,170 --> 00:16:08,670
+Yeah, I think it's just
+like an artifact of
+
+406
+00:16:08,670 --> 00:16:11,690
+how the monitors or
+the projectors sling,
+
+407
+00:16:11,690 --> 00:16:13,770
+but it's just meant to be one
+arrow there. Nothing there.
+
+408
+00:16:13,770 --> 00:16:15,170
+Yeah, and I saw a couple
+of other hands up.
+
+409
+00:16:15,170 --> 00:16:16,730
+Yeah, right here.
+
+410
+00:16:24,370 --> 00:16:29,010
+If I had two there.
+Oh, like two arrows.
+
+411
+00:16:29,010 --> 00:16:30,590
+Oh, yeah, that's
+a great question.
+
+412
+00:16:30,590 --> 00:16:32,010
+So I'll talk about that
+a little bit more.
+
+413
+00:16:32,010 --> 00:16:33,770
+I'll do a live example later,
+
+414
+00:16:33,770 --> 00:16:36,809
+but I'll just briefly answer
+the question too, right?
+
+415
+00:16:36,809 --> 00:16:39,429
+So I have this out, and
+
+416
+00:16:39,429 --> 00:16:42,110
+if that doesn't already
+exist, it's created.
+
+417
+00:16:42,110 --> 00:16:44,610
+If it does exist, it
+just gets wiped clean.
+
+418
+00:16:44,610 --> 00:16:45,950
+If I do two arrows,
+
+419
+00:16:45,950 --> 00:16:48,270
+then I can say like I want
+to add to that existing one.
+
+420
+00:16:48,270 --> 00:16:50,210
+Is that what you were
+asking? Okay. So sorry.
+
+421
+00:16:50,210 --> 00:16:51,469
+I was just actually
+confused there.
+
+422
+00:16:51,469 --> 00:16:53,089
+Yeah. Okay. Got it. Got it.
+
+423
+00:16:53,089 --> 00:16:55,090
+And I saw another hand
+up somewhere. Okay.
+
+424
+00:16:55,090 --> 00:16:57,090
+Judge, was that the same thing?
+
+425
+00:16:57,090 --> 00:16:59,370
+Everybody had the same
+question. Yeah, right here.
+
+426
+00:16:59,370 --> 00:17:03,369
+So here, related to
+
+427
+00:17:03,369 --> 00:17:12,390
+the exactly like this one
+only applies to B. Yep.
+
+428
+00:17:12,390 --> 00:17:15,809
+Yep. Yeah. Other
+questions, people?
+
+429
+00:17:15,809 --> 00:17:18,649
+Yeah, right over here.
+
+430
+00:17:18,649 --> 00:17:25,350
+Slide yeah.
+
+431
+00:17:25,350 --> 00:17:26,989
+I think from last semester and
+
+432
+00:17:26,989 --> 00:17:29,430
+my old slides I had a
+mistake on this one, Right.
+
+433
+00:17:29,430 --> 00:17:31,629
+I think previously I had
+shown this trying down and
+
+434
+00:17:31,629 --> 00:17:32,990
+I was like looking at
+it more this morning,
+
+435
+00:17:32,990 --> 00:17:34,049
+right before a lecture.
+
+436
+00:17:34,049 --> 00:17:35,290
+And I did a little test,
+
+437
+00:17:35,290 --> 00:17:36,790
+and this is what
+it actually does.
+
+438
+00:17:36,790 --> 00:17:40,009
+So thank you for catching
+that. Yeah, right back here.
+
+439
+00:17:43,850 --> 00:17:50,470
+Oh, you're saying,
+
+440
+00:17:50,470 --> 00:17:51,630
+what happens if I redirect
+
+441
+00:17:51,630 --> 00:17:55,409
+the standard error of
+this one out as well?
+
+442
+00:17:55,409 --> 00:17:57,530
+I don't know. Actually, it's
+
+443
+00:17:57,530 --> 00:17:59,469
+a good question. I don't know.
+
+444
+00:17:59,469 --> 00:18:00,890
+I don't know if
+it does something
+
+445
+00:18:00,890 --> 00:18:02,430
+reasonable and its both of them
+
+446
+00:18:02,430 --> 00:18:06,930
+or if one just like
+overwrites the other.
+
+447
+00:18:06,930 --> 00:18:10,050
+I'd be nervous about I guess
+we should try it, right?
+
+448
+00:18:10,050 --> 00:18:12,809
+I'm not sure. Yeah, I'd imagine
+what you'd probably do.
+
+449
+00:18:12,809 --> 00:18:14,710
+Yeah, So I don't
+know that question,
+
+450
+00:18:14,710 --> 00:18:16,229
+but I guess maybe
+what you could do
+
+451
+00:18:16,229 --> 00:18:17,849
+to be safe would be to
+redirect it somewhere else.
+
+452
+00:18:17,849 --> 00:18:18,770
+But yeah, it's a good question.
+
+453
+00:18:18,770 --> 00:18:19,629
+I don't know the answer to.
+
+454
+00:18:19,629 --> 00:18:21,069
+Yeah. Over here is
+
+455
+00:18:21,069 --> 00:18:25,909
+the Wifi is how many
+people have the Wi fi do?
+
+456
+00:18:25,909 --> 00:18:27,510
+Yeah, I think that makes sense.
+
+457
+00:18:27,510 --> 00:18:30,270
+We'll skip top at if
+the Wi fi is done,
+
+458
+00:18:30,270 --> 00:18:32,629
+that's a shame anyway.
+
+459
+00:18:32,629 --> 00:18:33,829
+Yeah. Other questions
+people have.
+
+460
+00:18:33,829 --> 00:18:42,989
+Yeah, right here. Could you?
+
+461
+00:18:42,989 --> 00:18:47,550
+Yeah. So I'm just I n pick
+on some vocabulary, right?
+
+462
+00:18:47,550 --> 00:18:50,109
+So if it's drawing to another
+program, it's a pipe.
+
+463
+00:18:50,109 --> 00:18:54,310
+And if it's a file,
+redirect, right?
+
+464
+00:18:54,310 --> 00:18:56,410
+Okay. But you were
+asking about C, so Okay.
+
+465
+00:18:56,410 --> 00:19:00,890
+So can we pipe to another
+file? Yes, absolutely.
+
+466
+00:19:00,890 --> 00:19:03,169
+Yep. You could pipe to A
+to B to C. And so, I mean,
+
+467
+00:19:03,169 --> 00:19:04,209
+there's different
+ways you could do,
+
+468
+00:19:04,209 --> 00:19:05,549
+but I think like a
+common pattern, right,
+
+469
+00:19:05,549 --> 00:19:07,350
+is that you're going
+to have a long chain
+
+470
+00:19:07,350 --> 00:19:08,850
+of things piped and
+then at the very end,
+
+471
+00:19:08,850 --> 00:19:10,590
+you're going to dump
+it into a file.
+
+472
+00:19:10,590 --> 00:19:12,310
+Yep, exactly. That's
+the common tase.
+
+473
+00:19:12,310 --> 00:19:13,929
+Yeah. All right. Here.
+
+474
+00:19:13,929 --> 00:19:23,769
+All right. I'm going to take
+a question here first. Yep.
+
+475
+00:19:27,010 --> 00:19:30,309
+Oh, oh, maybe that's
+what you're asking too.
+
+476
+00:19:30,309 --> 00:19:32,310
+So you have to send
+
+477
+00:19:32,310 --> 00:19:34,170
+that standard out and standard
+error somewhere, right?
+
+478
+00:19:34,170 --> 00:19:37,330
+It can either go to
+a file or it can,
+
+479
+00:19:37,330 --> 00:19:40,409
+or it can be piped
+to another process.
+
+480
+00:19:40,409 --> 00:19:42,490
+But you can't do both.
+
+481
+00:19:42,490 --> 00:19:44,230
+There are programs that help
+
+482
+00:19:44,230 --> 00:19:47,369
+you achieve the
+equivalent of that.
+
+483
+00:19:47,369 --> 00:19:48,289
+It's like you're trying to
+
+484
+00:19:48,289 --> 00:19:49,410
+send it off in two
+different ways.
+
+485
+00:19:49,410 --> 00:19:50,970
+It's called a T, so you could
+
+486
+00:19:50,970 --> 00:19:52,930
+do a T and send it off
+in two different ways,
+
+487
+00:19:52,930 --> 00:19:54,709
+but like with these operators,
+it doesn't do that.
+
+488
+00:19:54,709 --> 00:19:55,109
+You have to have
+
+489
+00:19:55,109 --> 00:19:56,889
+a special program that
+helps you do that.
+
+490
+00:19:56,889 --> 00:20:00,289
+Yeah. Yeah. Great question.
+Question back here.
+
+491
+00:20:02,050 --> 00:20:07,010
+What's that? With
+the with the pipe.
+
+492
+00:20:07,010 --> 00:20:08,289
+Yeah. It draws left to right.
+
+493
+00:20:08,289 --> 00:20:11,930
+Yep, yeah, Follow up here or
+
+494
+00:20:11,930 --> 00:20:16,650
+get does a standard
+error get piped?
+
+495
+00:20:21,210 --> 00:20:24,889
+There is a way to, I don't
+remember the syntax for it,
+
+496
+00:20:24,889 --> 00:20:26,529
+but there is a way to take
+your standard error and
+
+497
+00:20:26,529 --> 00:20:28,329
+then merge it in with
+your standard output.
+
+498
+00:20:28,329 --> 00:20:30,150
+And that way you could
+get it to both go along.
+
+499
+00:20:30,150 --> 00:20:32,010
+But in general like it's
+drawing somewhere else.
+
+500
+00:20:32,010 --> 00:20:35,089
+Because that's why they
+designed standard error, right?
+
+501
+00:20:35,089 --> 00:20:36,409
+Is because they wanted to have
+
+502
+00:20:36,409 --> 00:20:38,730
+a separate channel that
+would not get piped along.
+
+503
+00:20:38,730 --> 00:20:40,029
+But there's ways you
+could force it to do
+
+504
+00:20:40,029 --> 00:20:45,130
+that program a correct,
+
+505
+00:20:45,130 --> 00:20:47,410
+a standard error is
+drawing straight here.
+
+506
+00:20:47,410 --> 00:20:48,409
+That's something I tested
+
+507
+00:20:48,409 --> 00:20:49,709
+this morning to
+make sure I had it
+
+508
+00:20:49,709 --> 00:20:50,949
+right because I had a mistake
+
+509
+00:20:50,949 --> 00:20:52,110
+on my slides from last year.
+
+510
+00:20:52,110 --> 00:20:54,889
+Yep, yeah, lots of
+great questions.
+
+511
+00:20:54,889 --> 00:20:57,069
+I love all the questions
+today that people are asking.
+
+512
+00:20:57,069 --> 00:21:00,229
+They've all been excellent
+other questions people have.
+
+513
+00:21:00,229 --> 00:21:03,569
+All right, cool.
+
+514
+00:21:03,650 --> 00:21:08,310
+I want to pop over here
+and do some live demos.
+
+515
+00:21:08,310 --> 00:21:12,929
+Now what I'm going
+to do is I'm SSH and
+
+516
+00:21:12,929 --> 00:21:18,009
+I'm just hit control R and I
+can SSH back in sometimes,
+
+517
+00:21:18,009 --> 00:21:19,330
+just use this clear command when
+
+518
+00:21:19,330 --> 00:21:21,264
+there's too much
+stuff on the screen.
+
+519
+00:21:21,264 --> 00:21:23,159
+And so I'm going to
+introduce a command
+
+520
+00:21:23,159 --> 00:21:24,680
+I often use as part
+of a pipeline.
+
+521
+00:21:24,680 --> 00:21:25,979
+And it's called C,
+
+522
+00:21:25,979 --> 00:21:28,280
+and it stands for word count.
+
+523
+00:21:28,280 --> 00:21:30,719
+What word count
+does is it lets me
+
+524
+00:21:30,719 --> 00:21:32,600
+type things on standard
+and then they'll
+
+525
+00:21:32,600 --> 00:21:34,220
+tell me things about
+how many words I've
+
+526
+00:21:34,220 --> 00:21:35,380
+typed and how many letters
+
+527
+00:21:35,380 --> 00:21:36,219
+I've typed and stuff like that.
+
+528
+00:21:36,219 --> 00:21:38,879
+So I'm going to say hello world.
+
+529
+00:21:38,879 --> 00:21:41,419
+And then the way I say
+I'm done with standard,
+
+530
+00:21:41,419 --> 00:21:43,999
+I'm done typing something
+is I do control D,
+
+531
+00:21:43,999 --> 00:21:45,279
+so I'm going to hit control D
+
+532
+00:21:45,279 --> 00:21:47,439
+now and then it
+exits out of this.
+
+533
+00:21:47,439 --> 00:21:51,040
+What this is telling me
+is that I typed one line,
+
+534
+00:21:51,040 --> 00:21:54,439
+two words, and 12
+characters, right?
+
+535
+00:21:54,439 --> 00:21:56,759
+So I can do a word
+count with that.
+
+536
+00:21:56,759 --> 00:21:59,019
+It's very useful for
+counting things.
+
+537
+00:21:59,019 --> 00:22:01,400
+So for example, last time we had
+
+538
+00:22:01,400 --> 00:22:05,399
+this big file under data
+and it was station.
+
+539
+00:22:05,399 --> 00:22:07,239
+So remember this one.
+
+540
+00:22:07,239 --> 00:22:08,740
+So maybe what I
+want to do is count
+
+541
+00:22:08,740 --> 00:22:10,780
+how many stations there
+are in that file.
+
+542
+00:22:10,780 --> 00:22:12,779
+So I could do that,
+I could cat it,
+
+543
+00:22:12,779 --> 00:22:14,120
+I could say data stations
+
+544
+00:22:14,120 --> 00:22:17,480
+dot and then pipe
+that along, right?
+
+545
+00:22:17,480 --> 00:22:21,559
+So the standard output
+of cat will be whatever
+
+546
+00:22:21,559 --> 00:22:23,379
+was in that file and
+I can feed that to
+
+547
+00:22:23,379 --> 00:22:25,839
+the standard end of
+word count like that.
+
+548
+00:22:25,839 --> 00:22:28,659
+And I see I get a
+bunch of output.
+
+549
+00:22:28,659 --> 00:22:30,720
+Maybe you can help me
+interpret this, right?
+
+550
+00:22:30,720 --> 00:22:31,880
+I want to see how many stations
+
+551
+00:22:31,880 --> 00:22:33,379
+there are. I got three numbers.
+
+552
+00:22:33,379 --> 00:22:34,639
+You hold up one finger if
+
+553
+00:22:34,639 --> 00:22:36,119
+this tells me how many stations,
+
+554
+00:22:36,119 --> 00:22:38,739
+Two if the second number
+tells me how many stations,
+
+555
+00:22:38,739 --> 00:22:41,240
+and three, if the
+third one does.
+
+556
+00:22:45,440 --> 00:22:49,720
+I'm seeing a few ones
+which is track. Right?
+
+557
+00:22:49,720 --> 00:22:51,099
+So the first one is
+the number of lines.
+
+558
+00:22:51,099 --> 00:22:53,199
+In this case I have one
+line per station, right?
+
+559
+00:22:53,199 --> 00:22:54,600
+So if I'm just trying
+to count the lines,
+
+560
+00:22:54,600 --> 00:22:56,880
+I'd use that first one
+right there, right?
+
+561
+00:22:56,880 --> 00:22:59,539
+So about 123,000 stations
+
+562
+00:22:59,539 --> 00:23:01,379
+and this data set
+are being monitored.
+
+563
+00:23:01,379 --> 00:23:03,119
+There's other flags
+you can do to try to
+
+564
+00:23:03,119 --> 00:23:05,460
+filter it down and just
+get one number output.
+
+565
+00:23:05,460 --> 00:23:06,919
+But if you remember
+the order of them,
+
+566
+00:23:06,919 --> 00:23:07,999
+then I think it's
+fine to just have
+
+567
+00:23:07,999 --> 00:23:09,959
+a little bit of
+extra information.
+
+568
+00:23:09,959 --> 00:23:15,340
+All right, so let's take a
+look at these stations again.
+
+569
+00:23:15,340 --> 00:23:17,909
+And let's say I'm interested in
+
+570
+00:23:17,909 --> 00:23:20,810
+the ones that have the
+word Madison in them.
+
+571
+00:23:20,810 --> 00:23:23,750
+I have to pipe those to some
+kind of search program.
+
+572
+00:23:23,750 --> 00:23:25,570
+And a search program
+that's super
+
+573
+00:23:25,570 --> 00:23:27,709
+useful in this environment
+is called grap.
+
+574
+00:23:27,709 --> 00:23:29,209
+Grap does search for us,
+
+575
+00:23:29,209 --> 00:23:31,289
+so I'm going to
+grap to search for
+
+576
+00:23:31,289 --> 00:23:33,769
+everything that has the
+word Madison in it.
+
+577
+00:23:33,769 --> 00:23:37,310
+And I can do all this output
+like that. All right?
+
+578
+00:23:37,310 --> 00:23:38,630
+So I could do that and I
+
+579
+00:23:38,630 --> 00:23:40,270
+could do things
+like I could say,
+
+580
+00:23:40,270 --> 00:23:41,569
+pipe it further, right?
+
+581
+00:23:41,569 --> 00:23:46,970
+I could say show me the first
+ten that are in Madison.
+
+582
+00:23:46,970 --> 00:23:49,109
+Now, you might have
+noticed that some of
+
+583
+00:23:49,109 --> 00:23:52,370
+these are not actually Madison,
+this one's Madisonville.
+
+584
+00:23:52,370 --> 00:23:56,450
+And so what I could do is
+there's no reason I can't
+
+585
+00:23:56,450 --> 00:23:57,809
+have multiple processes in
+
+586
+00:23:57,809 --> 00:24:00,549
+my pipeline that are based
+on the same program.
+
+587
+00:24:00,549 --> 00:24:02,569
+So I could have another G Rap.
+
+588
+00:24:02,569 --> 00:24:06,450
+What I want to do now is
+actually eliminate this one.
+
+589
+00:24:06,450 --> 00:24:08,030
+So I want to do an
+inverse search,
+
+590
+00:24:08,030 --> 00:24:11,070
+and the way I do an inverse
+search is I say V, right?
+
+591
+00:24:11,070 --> 00:24:12,570
+So I can do that,
+and that will show
+
+592
+00:24:12,570 --> 00:24:14,690
+me all the ones
+that say Madison,
+
+593
+00:24:14,690 --> 00:24:18,669
+but are not Madisonville,
+right? I could do that.
+
+594
+00:24:19,350 --> 00:24:22,109
+This is case sensitive, right?
+
+595
+00:24:22,109 --> 00:24:24,390
+If I make this all lower case,
+
+596
+00:24:24,390 --> 00:24:26,549
+I may be getting some
+different results.
+
+597
+00:24:26,549 --> 00:24:28,770
+If I don't care about the
+case, then I could say,
+
+598
+00:24:28,770 --> 00:24:30,990
+oh, let's do case
+sensitive, right?
+
+599
+00:24:30,990 --> 00:24:32,150
+And I may be getting them again.
+
+600
+00:24:32,150 --> 00:24:33,610
+I have some that are lower case
+
+601
+00:24:33,610 --> 00:24:35,750
+and some that are upper case.
+
+602
+00:24:36,150 --> 00:24:38,750
+Word count should
+be in your notes,
+
+603
+00:24:38,750 --> 00:24:40,474
+should be in your notes.
+
+604
+00:24:40,474 --> 00:24:44,040
+These flags case insensitive
+and inverse search,
+
+605
+00:24:44,040 --> 00:24:45,060
+those should be in your notes.
+
+606
+00:24:45,060 --> 00:24:46,540
+Those are very helpful things.
+
+607
+00:24:46,540 --> 00:24:47,979
+Often we're going to be grapping
+
+608
+00:24:47,979 --> 00:24:49,519
+over will be the output
+of some program.
+
+609
+00:24:49,519 --> 00:24:51,319
+We might be running, this
+program that we deployed.
+
+610
+00:24:51,319 --> 00:24:53,640
+And it like blow all
+this information
+
+611
+00:24:53,640 --> 00:24:55,560
+and we want to grap through
+it to try to figure out,
+
+612
+00:24:55,560 --> 00:24:58,140
+well, what is useful
+within that information.
+
+613
+00:24:58,140 --> 00:24:59,380
+It's kind of a quick and easy
+
+614
+00:24:59,380 --> 00:25:01,380
+way to search for some things.
+
+615
+00:25:01,380 --> 00:25:04,799
+Any questions about
+that pipeline?
+
+616
+00:25:05,400 --> 00:25:08,039
+Yeah, Question right here.
+
+617
+00:25:08,039 --> 00:25:14,059
+I don't know what F crap
+does. Yeah, I don't know.
+
+618
+00:25:14,059 --> 00:25:16,299
+If I'm trying to
+learn a new command,
+
+619
+00:25:16,299 --> 00:25:17,799
+then I might do
+something like F crap
+
+620
+00:25:17,799 --> 00:25:20,099
+and then I could read about it.
+
+621
+00:25:20,099 --> 00:25:22,839
+What does F crap do?
+
+622
+00:25:24,990 --> 00:25:28,009
+Okay. I guess it's
+the same as rap,
+
+623
+00:25:28,009 --> 00:25:29,830
+so it saves you typing a flag.
+
+624
+00:25:29,830 --> 00:25:30,909
+And I guess I could dig in that
+
+625
+00:25:30,909 --> 00:25:32,050
+deeper and try to figure out
+
+626
+00:25:32,050 --> 00:25:37,030
+what does It's fixed strings
+and I don't want to get oh,
+
+627
+00:25:37,030 --> 00:25:38,510
+so not regular expressions.
+
+628
+00:25:38,510 --> 00:25:39,770
+That's kind of
+interesting, right?
+
+629
+00:25:39,770 --> 00:25:41,909
+So normally Rap does
+regular expressions.
+
+630
+00:25:41,909 --> 00:25:43,729
+How many have you seen regular
+expressions somewhere?
+
+631
+00:25:43,729 --> 00:25:44,909
+Right. So I guess it's
+
+632
+00:25:44,909 --> 00:25:47,869
+a version that does not
+regular expressions.
+
+633
+00:25:47,990 --> 00:25:52,249
+Cool. And that's the way I
+didn't know what F grap was,
+
+634
+00:25:52,249 --> 00:25:54,369
+but that's how you dive
+in, in this environment.
+
+635
+00:25:54,369 --> 00:25:56,749
+You started using the manual
+pages and you kind of just
+
+636
+00:25:56,749 --> 00:25:57,889
+like read through them
+and that's how you
+
+637
+00:25:57,889 --> 00:25:59,489
+become proficient in
+this environment.
+
+638
+00:25:59,489 --> 00:26:00,749
+Yeah, thank you
+for the question,
+
+639
+00:26:00,749 --> 00:26:02,869
+other questions people have.
+
+640
+00:26:03,630 --> 00:26:06,469
+All right, so a bunch of
+
+641
+00:26:06,469 --> 00:26:09,429
+these examples that I've
+been doing started with T,
+
+642
+00:26:09,429 --> 00:26:11,370
+because I'm starting
+with the dataset.
+
+643
+00:26:11,370 --> 00:26:16,229
+Another thing that you
+can do is to find it.
+
+644
+00:26:16,229 --> 00:26:17,690
+Well, it does a lot of things,
+
+645
+00:26:17,690 --> 00:26:19,509
+but maybe I'll talk
+about here is it
+
+646
+00:26:19,509 --> 00:26:21,390
+looks at a directory, say
+the current directory.
+
+647
+00:26:21,390 --> 00:26:23,089
+It just dumps out everything
+
+648
+00:26:23,089 --> 00:26:24,830
+inside of that directory, right?
+
+649
+00:26:24,830 --> 00:26:26,469
+So I could just
+explore recursively
+
+650
+00:26:26,469 --> 00:26:28,050
+everything that I have here.
+
+651
+00:26:28,050 --> 00:26:30,590
+Again, that's a great,
+
+652
+00:26:32,030 --> 00:26:35,009
+that's a great way to
+search through files.
+
+653
+00:26:35,009 --> 00:26:36,669
+Can anybody suggest a pipeline
+
+654
+00:26:36,669 --> 00:26:37,749
+that I could use that would
+
+655
+00:26:37,749 --> 00:26:41,909
+help me find all
+the TXT files here?
+
+656
+00:26:44,750 --> 00:26:47,409
+Should keep typing after this.
+
+657
+00:26:47,409 --> 00:26:49,069
+Yeah, right here.
+
+658
+00:26:54,430 --> 00:26:56,990
+Great, dot, dot. Sounds great.
+
+659
+00:26:56,990 --> 00:26:58,109
+Right? So then I can find all of
+
+660
+00:26:58,109 --> 00:26:59,650
+those just like that, right?
+
+661
+00:26:59,650 --> 00:27:01,629
+So it's a great way to
+search around for files.
+
+662
+00:27:01,629 --> 00:27:02,729
+It doesn't look inside of them,
+
+663
+00:27:02,729 --> 00:27:05,470
+but it helps me find
+where those files are.
+
+664
+00:27:05,470 --> 00:27:07,650
+Another thing I could
+do in this case,
+
+665
+00:27:07,650 --> 00:27:12,789
+I kind of got lucky because
+there was no.in the middle.
+
+666
+00:27:12,789 --> 00:27:15,249
+But if I wanted to use
+regular expressions,
+
+667
+00:27:15,249 --> 00:27:18,230
+some of you might remember
+that $1 sign means end.
+
+668
+00:27:18,230 --> 00:27:19,510
+So I could do that as well too.
+
+669
+00:27:19,510 --> 00:27:22,029
+And if I was getting too many
+matches, I could find that.
+
+670
+00:27:22,029 --> 00:27:22,410
+Right.
+
+671
+00:27:22,410 --> 00:27:24,450
+So this is just a great way
+to kind of explore around
+
+672
+00:27:24,450 --> 00:27:25,670
+your files when
+you're in the shell
+
+673
+00:27:25,670 --> 00:27:27,909
+and explore what's
+inside of them.
+
+674
+00:27:27,909 --> 00:27:32,589
+A. Right. Cool. Any
+questions so far?
+
+675
+00:27:35,010 --> 00:27:37,330
+The dollar sign. Okay, so great.
+
+676
+00:27:37,330 --> 00:27:40,309
+So this is a regular
+expression and so this
+
+677
+00:27:40,309 --> 00:27:41,949
+means that it has
+to be the end of
+
+678
+00:27:41,949 --> 00:27:43,770
+the string in the
+regular expression.
+
+679
+00:27:43,770 --> 00:27:45,809
+Whereas if I did, this
+would be saying it has to
+
+680
+00:27:45,809 --> 00:27:48,270
+be at the beginning
+of the string, right?
+
+681
+00:27:48,270 --> 00:27:50,489
+And I don't remember, I just
+remember a few of those too.
+
+682
+00:27:50,489 --> 00:27:51,929
+There's like regular expression
+
+683
+00:27:51,929 --> 00:27:53,189
+of the whole big
+language, right?
+
+684
+00:27:53,189 --> 00:27:55,749
+So you can memorize a bunch
+of those if you want to,
+
+685
+00:27:55,749 --> 00:27:57,790
+but if you are comfortable
+with regular expressions,
+
+686
+00:27:57,790 --> 00:27:59,730
+you can use them in
+this environment.
+
+687
+00:27:59,730 --> 00:28:03,849
+Yeah, question right here.
+
+688
+00:28:07,690 --> 00:28:09,869
+So yeah, that's a good question.
+
+689
+00:28:09,869 --> 00:28:12,009
+Can you use it for more than
+that? And the answer is yes.
+
+690
+00:28:12,009 --> 00:28:14,829
+And I guess I start off
+with that Unix philosophy.
+
+691
+00:28:14,829 --> 00:28:18,610
+Each, each program does
+one simple thing. Well.
+
+692
+00:28:18,610 --> 00:28:19,809
+Right. And I think it's a little
+
+693
+00:28:19,809 --> 00:28:21,249
+aspirational and I
+feel like a lot of
+
+694
+00:28:21,249 --> 00:28:22,729
+these programs like find
+
+695
+00:28:22,729 --> 00:28:24,789
+a bunch of stuff has
+creeped in, right?
+
+696
+00:28:24,789 --> 00:28:26,869
+So I feel like modern find
+
+697
+00:28:26,869 --> 00:28:29,249
+can do a little bit of
+things that rap can do too.
+
+698
+00:28:29,249 --> 00:28:30,909
+So I don't love that,
+but I don't know.
+
+699
+00:28:30,909 --> 00:28:33,069
+I guess I'm teaching
+the subset of
+
+700
+00:28:33,069 --> 00:28:35,950
+these tools that kind
+of matches the vision,
+
+701
+00:28:35,950 --> 00:28:37,269
+right? But it's
+messier than that.
+
+702
+00:28:37,269 --> 00:28:39,469
+A lot of them have extra
+features that have creeped in.
+
+703
+00:28:39,469 --> 00:28:41,350
+Yep, yeah, excellent question.
+
+704
+00:28:41,350 --> 00:28:43,569
+Yeah, other questions
+people have.
+
+705
+00:28:43,930 --> 00:28:46,569
+All right, cool.
+
+706
+00:28:46,569 --> 00:28:48,749
+So let's try doing a redirect.
+
+707
+00:28:48,749 --> 00:28:52,390
+Now what I want to do is I
+want to build up a dataset.
+
+708
+00:28:52,390 --> 00:28:54,729
+I'm going to call it
+the Midwest Dataset of
+
+709
+00:28:54,729 --> 00:28:58,670
+all the stations that are
+in Wisconsin or Illinois.
+
+710
+00:28:58,670 --> 00:29:03,589
+And so the way I can do this
+is I can tat out my data,
+
+711
+00:29:03,589 --> 00:29:06,530
+my stations again and
+I am doing a grap
+
+712
+00:29:06,530 --> 00:29:10,749
+for Wisconsin like this.
+
+713
+00:29:10,749 --> 00:29:14,290
+Then I want to redirect
+that into Midwest,
+
+714
+00:29:14,290 --> 00:29:17,589
+Midwest T. I'm going to do that,
+
+715
+00:29:17,589 --> 00:29:18,730
+and then maybe I'll just peek
+
+716
+00:29:18,730 --> 00:29:20,129
+inside of that to make
+sure it looks good.
+
+717
+00:29:20,129 --> 00:29:22,070
+All right. That
+looks pretty good.
+
+718
+00:29:22,070 --> 00:29:25,209
+That's cool. Let me add
+some Illinois to it.
+
+719
+00:29:25,209 --> 00:29:27,170
+Now, if I just run
+this right now,
+
+720
+00:29:27,170 --> 00:29:28,629
+the problem I have is that
+
+721
+00:29:28,629 --> 00:29:30,390
+since that file already exists,
+
+722
+00:29:30,390 --> 00:29:31,630
+it's trying to wipe it clean.
+
+723
+00:29:31,630 --> 00:29:34,789
+Before I do that, somebody
+raised this question earlier.
+
+724
+00:29:34,789 --> 00:29:36,169
+What does the double arrow mean?
+
+725
+00:29:36,169 --> 00:29:40,200
+That was a question I had
+misunderstood for a bit.
+
+726
+00:29:40,200 --> 00:29:42,119
+But if I do the double arrow,
+
+727
+00:29:42,119 --> 00:29:43,400
+it'll be in a pen mode.
+
+728
+00:29:43,400 --> 00:29:45,140
+And what that means is
+that it's trying to add
+
+729
+00:29:45,140 --> 00:29:47,379
+all those new things to
+the end of the file.
+
+730
+00:29:47,379 --> 00:29:48,739
+So if I look at the head of
+
+731
+00:29:48,739 --> 00:29:52,120
+the file, it's still Wisconsin.
+
+732
+00:29:52,120 --> 00:29:55,219
+And if I look at the
+tail of the file,
+
+733
+00:29:55,340 --> 00:29:58,260
+then it's Illinois, right?
+
+734
+00:29:58,260 --> 00:30:01,299
+So I can run all of
+that to build this.
+
+735
+00:30:02,700 --> 00:30:05,139
+Maybe what I might
+want to do, right?
+
+736
+00:30:05,139 --> 00:30:06,600
+Let's say this is something
+I have to do daily.
+
+737
+00:30:06,600 --> 00:30:07,779
+Let's say that this keeps
+
+738
+00:30:07,779 --> 00:30:09,559
+changing and I want to
+keep repeating this.
+
+739
+00:30:09,559 --> 00:30:10,740
+I might want to turn this into
+
+740
+00:30:10,740 --> 00:30:12,879
+a little shell strip
+that is easy to run.
+
+741
+00:30:12,879 --> 00:30:14,339
+So what I'm going to
+do first, I'm going to
+
+742
+00:30:14,339 --> 00:30:15,879
+run the history command and
+
+743
+00:30:15,879 --> 00:30:19,139
+I'm going to see the
+things I've already run.
+
+744
+00:30:19,139 --> 00:30:20,819
+And I can grab a
+couple of these here.
+
+745
+00:30:20,819 --> 00:30:22,900
+This is how I built
+up that dataset.
+
+746
+00:30:22,900 --> 00:30:24,899
+And what I'll do now
+is I'm going to make
+
+747
+00:30:24,899 --> 00:30:28,399
+a new file called Midwest,
+
+748
+00:30:28,399 --> 00:30:30,479
+and I'm going to paste
+those things in.
+
+749
+00:30:30,479 --> 00:30:32,479
+I'm going to delete some
+of this other stuff.
+
+750
+00:30:32,479 --> 00:30:33,959
+It gives me like a number of
+
+751
+00:30:33,959 --> 00:30:35,699
+what command number
+it was. Right.
+
+752
+00:30:35,699 --> 00:30:38,119
+But I could put all
+those little commands in
+
+753
+00:30:38,119 --> 00:30:41,540
+there and then my
+goal is that I,
+
+754
+00:30:41,540 --> 00:30:43,820
+you know, I want to be
+able to just do like make
+
+755
+00:30:43,820 --> 00:30:45,659
+Midwest dot like that.
+
+756
+00:30:45,659 --> 00:30:47,760
+But I'm getting a
+permission denied.
+
+757
+00:30:47,760 --> 00:30:51,079
+I'm going to do this LSL,
+
+758
+00:30:51,079 --> 00:30:53,480
+I'm wondering if anybody
+can help me out.
+
+759
+00:30:53,480 --> 00:30:56,980
+It's a bit of a review, how
+can I make it so I can run
+
+760
+00:30:56,980 --> 00:31:03,070
+that shell command?
+Yeah, way back here.
+
+761
+00:31:03,070 --> 00:31:05,870
+Yeah, I want to add
+execute permissions
+
+762
+00:31:05,870 --> 00:31:07,709
+and what command do I use?
+
+763
+00:31:07,709 --> 00:31:09,490
+Ch model. Okay, great.
+
+764
+00:31:09,490 --> 00:31:12,289
+Ch mode and add
+execute permissions.
+
+765
+00:31:12,289 --> 00:31:14,529
+And then I want to
+do that on make
+
+766
+00:31:14,529 --> 00:31:16,910
+Midwest does that makes sense?
+
+767
+00:31:16,910 --> 00:31:18,709
+And then the other
+thing I have to do
+
+768
+00:31:18,709 --> 00:31:20,609
+is I think this will
+work just like it is.
+
+769
+00:31:20,609 --> 00:31:22,289
+But I like to usually say like,
+
+770
+00:31:22,289 --> 00:31:24,029
+who specifically
+am I doing it to?
+
+771
+00:31:24,029 --> 00:31:26,610
+Is it like the user
+group? Yeah, go ahead.
+
+772
+00:31:26,610 --> 00:31:28,129
+User. Okay, let's do it to
+
+773
+00:31:28,129 --> 00:31:29,729
+the user. So I'm
+going to do that.
+
+774
+00:31:29,729 --> 00:31:34,190
+And then I can see here
+that it says, great,
+
+775
+00:31:34,190 --> 00:31:36,450
+so the owner is TRH,
+
+776
+00:31:36,450 --> 00:31:38,909
+that's me, and these are
+my three permissions.
+
+777
+00:31:38,909 --> 00:31:40,690
+So I have read, execute.
+
+778
+00:31:40,690 --> 00:31:42,509
+Before I did that, I only had
+
+779
+00:31:42,509 --> 00:31:44,390
+read and write, so
+that seems good.
+
+780
+00:31:44,390 --> 00:31:45,929
+You can also say, I
+have a little bit
+
+781
+00:31:45,929 --> 00:31:47,169
+of a clue that it's cubicle
+
+782
+00:31:47,169 --> 00:31:50,109
+now because it says Make
+Midwest. So let me just try.
+
+783
+00:31:50,109 --> 00:31:51,510
+I'm gonna remove the Midwest
+
+784
+00:31:51,510 --> 00:31:53,109
+file and then I'm going to do
+
+785
+00:31:53,109 --> 00:31:58,469
+a Make Midwest and then
+cool it, remade it for me.
+
+786
+00:31:58,469 --> 00:31:59,789
+Right. So I could automate that.
+
+787
+00:31:59,789 --> 00:32:02,030
+I don't have to do all
+that typing every time
+
+788
+00:32:02,030 --> 00:32:03,430
+I have that little
+handy program.
+
+789
+00:32:03,430 --> 00:32:04,849
+Yeah, a question right here.
+
+790
+00:32:04,849 --> 00:32:08,989
+Use pseudo. Could I use pseudo?
+
+791
+00:32:08,989 --> 00:32:10,549
+That's one of the cases
+where a pseudo won't work
+
+792
+00:32:10,549 --> 00:32:12,349
+because even though I'm
+running it a pseudo,
+
+793
+00:32:12,349 --> 00:32:13,830
+it doesn't look
+like it's a program
+
+794
+00:32:13,830 --> 00:32:15,530
+that should be executed.
+
+795
+00:32:15,530 --> 00:32:17,789
+Yep, so that's one
+of the cases where I
+
+796
+00:32:17,789 --> 00:32:19,630
+don't wouldn't pseudo
+wouldn't help.
+
+797
+00:32:19,630 --> 00:32:23,069
+Yep. Yeah, thank you
+for clarifying that.
+
+798
+00:32:25,990 --> 00:32:30,150
+Cool. Now on this computer,
+right, I have bash.
+
+799
+00:32:30,150 --> 00:32:31,290
+I'm in bash right now.
+
+800
+00:32:31,290 --> 00:32:33,430
+That shell let me
+exit out of bash.
+
+801
+00:32:33,430 --> 00:32:35,070
+There's also H, right?
+
+802
+00:32:35,070 --> 00:32:36,309
+I'm going to exit out of that.
+
+803
+00:32:36,309 --> 00:32:38,090
+Maybe there's other shells
+as well that I don't
+
+804
+00:32:38,090 --> 00:32:39,990
+even know about right now.
+
+805
+00:32:39,990 --> 00:32:41,649
+It's choosing one of
+them to run that.
+
+806
+00:32:41,649 --> 00:32:42,790
+And that's probably fine because
+
+807
+00:32:42,790 --> 00:32:44,409
+it's a simple enough program.
+
+808
+00:32:44,409 --> 00:32:47,170
+It probably does the same
+thing in all of them.
+
+809
+00:32:47,170 --> 00:32:49,749
+But I wanted to specifically in,
+
+810
+00:32:49,749 --> 00:32:53,149
+so if I want to do that, I
+figure out where bash is.
+
+811
+00:32:53,149 --> 00:32:55,649
+What demand would I run to?
+
+812
+00:32:55,649 --> 00:32:59,890
+Figure out where on my computer
+that is? Yeah, go ahead.
+
+813
+00:32:59,890 --> 00:33:03,329
+Yeah, I would say bash.
+
+814
+00:33:03,329 --> 00:33:05,259
+Excellent. I found that.
+
+815
+00:33:05,259 --> 00:33:07,440
+So, this is the
+program that I want
+
+816
+00:33:07,440 --> 00:33:11,260
+to use to interpret what
+this SH file means.
+
+817
+00:33:11,260 --> 00:33:14,659
+And then where would
+I put that in?
+
+818
+00:33:14,659 --> 00:33:17,619
+How would I use that information
+to actually make it?
+
+819
+00:33:17,619 --> 00:33:21,120
+Yeah, right here. A
+line, a cheb line.
+
+820
+00:33:21,120 --> 00:33:24,740
+Great. So let's draw,
+edit my Make Midwest.
+
+821
+00:33:24,740 --> 00:33:26,920
+And we can put a abang
+line at the top.
+
+822
+00:33:26,920 --> 00:33:28,619
+A habe line is always
+
+823
+00:33:28,619 --> 00:33:31,340
+a pound signed and
+an exclamation mark.
+
+824
+00:33:31,340 --> 00:33:33,780
+And now when I run this,
+I guess it runs the same,
+
+825
+00:33:33,780 --> 00:33:36,960
+but I know it's actually
+running in bash.
+
+826
+00:33:36,960 --> 00:33:38,059
+Alright, cool.
+
+827
+00:33:38,059 --> 00:33:40,559
+Any questions about running
+
+828
+00:33:40,559 --> 00:33:42,439
+these shelf strips? Yeah,
+question right here.
+
+829
+00:33:42,439 --> 00:33:44,639
+Good question.
+
+830
+00:33:44,639 --> 00:33:49,000
+I noticed that directories
+execute permissions,
+
+831
+00:33:49,000 --> 00:33:50,200
+so what happens when you put
+
+832
+00:33:50,200 --> 00:33:52,380
+execute a directory? Oh, great.
+
+833
+00:33:52,380 --> 00:33:53,939
+Okay, great. So you notice
+
+834
+00:33:53,939 --> 00:33:55,919
+that a lot of these directories,
+
+835
+00:33:55,919 --> 00:33:58,020
+I think all of them have
+the execute permissions.
+
+836
+00:33:58,020 --> 00:34:00,039
+So that has a slightly
+different meaning
+
+837
+00:34:00,039 --> 00:34:01,560
+in the context of a directory.
+
+838
+00:34:01,560 --> 00:34:03,139
+So I would have to review it,
+
+839
+00:34:03,139 --> 00:34:05,139
+but I'm pretty sure that
+execute for a directory
+
+840
+00:34:05,139 --> 00:34:07,679
+means I have the ability to
+create and delete files.
+
+841
+00:34:07,679 --> 00:34:10,239
+But we don't actually
+execute a directory itself,
+
+842
+00:34:10,239 --> 00:34:12,199
+they're just like reusing
+
+843
+00:34:12,199 --> 00:34:13,719
+it for whatever reason
+
+844
+00:34:13,719 --> 00:34:15,120
+instead of using a
+different symbol.
+
+845
+00:34:15,120 --> 00:34:17,100
+Yeah, excellent question.
+
+846
+00:34:17,100 --> 00:34:20,579
+Yeah, other questions
+people have.
+
+847
+00:34:22,580 --> 00:34:26,019
+All right, cool.
+
+848
+00:34:26,019 --> 00:34:29,019
+So let me take a peek here.
+
+849
+00:34:29,140 --> 00:34:32,020
+I want to shift a gears a little
+
+850
+00:34:32,020 --> 00:34:34,400
+bit here and talk about running
+
+851
+00:34:34,400 --> 00:34:35,899
+processes and checking up on
+
+852
+00:34:35,899 --> 00:34:39,199
+how many resources they're
+using, that sort of thing.
+
+853
+00:34:39,199 --> 00:34:41,079
+And so I'm going to go
+back to this program I
+
+854
+00:34:41,079 --> 00:34:43,819
+had last time, count dot py.
+
+855
+00:34:43,819 --> 00:34:47,099
+You might remember that
+running count dot.
+
+856
+00:34:47,099 --> 00:34:52,219
+We'll just tell me how
+many stations are in,
+
+857
+00:34:52,219 --> 00:34:55,639
+in that file And it's, I
+was going to do it again.
+
+858
+00:34:55,639 --> 00:34:57,620
+What I'm going to
+do or I've already
+
+859
+00:34:57,620 --> 00:34:59,580
+done is I intentionally
+made it slow.
+
+860
+00:34:59,580 --> 00:35:01,079
+So for every station a counting,
+
+861
+00:35:01,079 --> 00:35:03,040
+it's just trying to
+sleep for 1 second.
+
+862
+00:35:03,040 --> 00:35:05,039
+Because I want to
+show you how you can
+
+863
+00:35:05,039 --> 00:35:07,200
+deal with slow running programs.
+
+864
+00:35:07,200 --> 00:35:08,799
+How can you kind of peek
+on what they're doing?
+
+865
+00:35:08,799 --> 00:35:10,280
+How can you run them
+in the background?
+
+866
+00:35:10,280 --> 00:35:12,954
+How can you kill
+them if you need to?
+
+867
+00:35:12,954 --> 00:35:15,629
+All right, so I'm going
+to come back here
+
+868
+00:35:15,629 --> 00:35:19,229
+and what I'm going to do
+first is I'm going to,
+
+869
+00:35:19,229 --> 00:35:22,409
+when I run it, I want
+to run it like this
+
+870
+00:35:22,409 --> 00:35:24,049
+so that I have my shell here and
+
+871
+00:35:24,049 --> 00:35:25,589
+I can do other things, right?
+
+872
+00:35:25,589 --> 00:35:27,210
+So there it is, running
+in the background,
+
+873
+00:35:27,210 --> 00:35:29,249
+I might want to have
+some commands that I
+
+874
+00:35:29,249 --> 00:35:31,570
+can use to check what
+is currently running.
+
+875
+00:35:31,570 --> 00:35:34,750
+One of those commands is PS,
+
+876
+00:35:34,750 --> 00:35:39,149
+LS list files, PS
+list processes.
+
+877
+00:35:39,149 --> 00:35:41,229
+Ps should absolutely
+be in your list
+
+878
+00:35:41,229 --> 00:35:44,009
+of list of notes, and
+there's not many here.
+
+879
+00:35:44,009 --> 00:35:45,209
+I guess maybe this is it,
+
+880
+00:35:45,209 --> 00:35:46,749
+but it's a little hard to tell.
+
+881
+00:35:46,749 --> 00:35:49,709
+There's a couple of flags
+I normally give it.
+
+882
+00:35:49,709 --> 00:35:54,630
+One is that I do a S
+
+883
+00:35:54,630 --> 00:35:56,829
+a and what a beans is not just
+
+884
+00:35:56,829 --> 00:35:58,910
+my current user
+but all the users
+
+885
+00:35:58,910 --> 00:36:00,290
+on this virtual machine.
+
+886
+00:36:00,290 --> 00:36:02,029
+And not that there's
+multiple humans on it,
+
+887
+00:36:02,029 --> 00:36:03,349
+but it could be that there's
+
+888
+00:36:03,349 --> 00:36:05,909
+some background stuff
+running as a different user.
+
+889
+00:36:05,909 --> 00:36:08,309
+Right? So I do that, I get
+a little bit more there.
+
+890
+00:36:08,309 --> 00:36:12,749
+The other thing I might
+want to run is x,
+
+891
+00:36:12,749 --> 00:36:15,209
+and this is going to
+give me a lot more.
+
+892
+00:36:15,209 --> 00:36:17,369
+So all these things up here are
+
+893
+00:36:17,369 --> 00:36:20,809
+associated with a shell
+that I was operating in.
+
+894
+00:36:20,809 --> 00:36:23,570
+If I do x, I say I
+really want everything,
+
+895
+00:36:23,570 --> 00:36:24,589
+not just the ones that are
+
+896
+00:36:24,589 --> 00:36:26,079
+currently associated
+with a shell.
+
+897
+00:36:26,079 --> 00:36:28,589
+And so now I can do all
+these different processes
+
+898
+00:36:28,589 --> 00:36:31,130
+that are running on my system.
+
+899
+00:36:31,130 --> 00:36:32,810
+These are just flags.
+
+900
+00:36:32,810 --> 00:36:35,389
+And so I could do
+in the other order,
+
+901
+00:36:35,389 --> 00:36:36,909
+it does exactly the same thing.
+
+902
+00:36:36,909 --> 00:36:38,870
+Ps is a little bit strange.
+
+903
+00:36:38,870 --> 00:36:40,770
+I think normally when
+people do flags,
+
+904
+00:36:40,770 --> 00:36:42,909
+they have a dash there
+for whatever reason
+
+905
+00:36:42,909 --> 00:36:44,029
+they were a rebel and they
+
+906
+00:36:44,029 --> 00:36:45,469
+just said, we're not
+going to do that.
+
+907
+00:36:45,469 --> 00:36:47,429
+But PSA X is something
+
+908
+00:36:47,429 --> 00:36:49,369
+that I'm running all
+the time, right?
+
+909
+00:36:49,369 --> 00:36:51,709
+To just see what I have there.
+
+910
+00:36:51,830 --> 00:36:54,069
+Now what I might do, right?
+
+911
+00:36:54,069 --> 00:36:55,829
+I have all these things
+and I want to figure out
+
+912
+00:36:55,829 --> 00:36:57,929
+which process was the
+one that I was running.
+
+913
+00:36:57,929 --> 00:36:59,569
+So this is one
+that I'll run very
+
+914
+00:36:59,569 --> 00:37:01,890
+commonly in
+conjunction with grap.
+
+915
+00:37:01,890 --> 00:37:03,410
+I'll grap count.
+
+916
+00:37:03,410 --> 00:37:06,529
+And then I can see,
+there it is, right?
+
+917
+00:37:06,529 --> 00:37:10,080
+It's a little bit funny
+because this program,
+
+918
+00:37:10,080 --> 00:37:12,119
+right, it actually sees
+itself running, right?
+
+919
+00:37:12,119 --> 00:37:13,579
+So it finds itself, and
+
+920
+00:37:13,579 --> 00:37:16,239
+then it actually finds
+the program here.
+
+921
+00:37:16,720 --> 00:37:19,919
+This number over here
+is what I call the
+
+922
+00:37:19,919 --> 00:37:23,060
+process ID for that
+running process.
+
+923
+00:37:23,060 --> 00:37:25,719
+All of these have a process ID.
+
+924
+00:37:25,719 --> 00:37:27,839
+If I want to, if this
+is running too long
+
+925
+00:37:27,839 --> 00:37:30,139
+or taking too many
+resources, I can kill it.
+
+926
+00:37:30,139 --> 00:37:33,199
+So I can kill the
+process ID, right?
+
+927
+00:37:33,199 --> 00:37:35,839
+The process ID.
+And in this case,
+
+928
+00:37:35,839 --> 00:37:37,099
+I'm just going to copy that
+
+929
+00:37:37,099 --> 00:37:41,359
+down. Right, So I'm
+going to paste that.
+
+930
+00:37:41,359 --> 00:37:42,799
+And I'm going to
+take a look again.
+
+931
+00:37:42,799 --> 00:37:45,279
+And now I see it has
+exited. So that's good.
+
+932
+00:37:45,279 --> 00:37:49,860
+I was able to kill it now
+when we kill something.
+
+933
+00:37:49,860 --> 00:37:50,639
+And
+
+934
+00:37:50,639 --> 00:37:53,739
+Linux, what it does is it
+sends something called
+
+935
+00:37:53,739 --> 00:37:56,699
+a kill signal to that
+process to end it.
+
+936
+00:37:56,699 --> 00:37:58,980
+And there's different
+kinds of kill signals.
+
+937
+00:37:58,980 --> 00:38:02,260
+There's a very polite kill
+signal which is the default.
+
+938
+00:38:02,260 --> 00:38:05,499
+And that is basically saying
+like please stop running.
+
+939
+00:38:05,499 --> 00:38:07,859
+And then the program
+can get that.
+
+940
+00:38:07,859 --> 00:38:10,139
+The program can
+decide, okay, well,
+
+941
+00:38:10,139 --> 00:38:11,439
+first off, the
+program can decide,
+
+942
+00:38:11,439 --> 00:38:13,379
+I'm going to ignore that,
+I'm going to keep running.
+
+943
+00:38:13,379 --> 00:38:15,439
+What it should do though
+generally is say,
+
+944
+00:38:15,439 --> 00:38:16,840
+okay, you want me
+to stop running?
+
+945
+00:38:16,840 --> 00:38:18,700
+I'm going to clean
+up all my resources,
+
+946
+00:38:18,700 --> 00:38:19,900
+maybe I have some
+temporary files.
+
+947
+00:38:19,900 --> 00:38:21,319
+I'm going to delete
+that kind of thing.
+
+948
+00:38:21,319 --> 00:38:23,260
+It'll try to clean
+up very nicely.
+
+949
+00:38:23,260 --> 00:38:25,279
+And this kill that I just gave,
+
+950
+00:38:25,279 --> 00:38:27,079
+it was the very polite one.
+
+951
+00:38:27,079 --> 00:38:29,080
+Sometimes you're
+going to be dealing
+
+952
+00:38:29,080 --> 00:38:31,199
+with programs that have
+
+953
+00:38:31,199 --> 00:38:32,760
+a bug or are somehow messed
+
+954
+00:38:32,760 --> 00:38:35,479
+up and you'll kill them and
+they do nothing, right?
+
+955
+00:38:35,479 --> 00:38:37,380
+So we have to send a
+different kill signal.
+
+956
+00:38:37,380 --> 00:38:38,779
+The different kill signals have
+
+957
+00:38:38,779 --> 00:38:40,799
+different numbers and
+
+958
+00:38:40,799 --> 00:38:43,979
+the most aggressive
+one is nine kill.
+
+959
+00:38:43,979 --> 00:38:46,460
+Nine is trying to
+make sure it stops
+
+960
+00:38:46,460 --> 00:38:47,879
+running whether
+the program wants
+
+961
+00:38:47,879 --> 00:38:49,529
+to or not. So I'm
+going to do that.
+
+962
+00:38:49,529 --> 00:38:50,930
+Well, it was already stopped,
+
+963
+00:38:50,930 --> 00:38:52,369
+but there's no way
+out of that one.
+
+964
+00:38:52,369 --> 00:38:54,849
+I just gonna have
+to stop running.
+
+965
+00:38:55,010 --> 00:38:58,569
+I wonder if anybody's
+ever seen this before.
+
+966
+00:38:58,569 --> 00:39:00,429
+Well, I guess any
+questions first?
+
+967
+00:39:00,429 --> 00:39:08,609
+Yeah, right back here. Yeah,
+that's a great question.
+
+968
+00:39:08,609 --> 00:39:10,409
+Right. Like so the reason you
+don't want to do it is that
+
+969
+00:39:10,409 --> 00:39:12,329
+it might be extra
+resources left open.
+
+970
+00:39:12,329 --> 00:39:14,070
+Maybe something's kind
+of left in a mess.
+
+971
+00:39:14,070 --> 00:39:16,090
+And so, yeah, maybe there's
+like some temporary files
+
+972
+00:39:16,090 --> 00:39:17,549
+that don't get
+deleted or whatever.
+
+973
+00:39:17,549 --> 00:39:20,409
+It tend tend to leave things
+in a weird state, right?
+
+974
+00:39:20,409 --> 00:39:23,249
+But still use it all the time
+because I'm always using
+
+975
+00:39:23,249 --> 00:39:24,449
+programs that don't do
+
+976
+00:39:24,449 --> 00:39:25,989
+what I want and they
+just are hung up.
+
+977
+00:39:25,989 --> 00:39:28,689
+Right. So sometimes you
+just got to use, right?
+
+978
+00:39:28,689 --> 00:39:32,899
+Yeah, yeah, follow
+up. What's that?
+
+979
+00:39:33,300 --> 00:39:35,420
+Oh, how do you recover?
+
+980
+00:39:35,420 --> 00:39:37,159
+Well, I guess like I mean,
+
+981
+00:39:37,159 --> 00:39:38,839
+there's some resources
+like let's say
+
+982
+00:39:38,839 --> 00:39:41,000
+it's like a socket connection
+over the Internet.
+
+983
+00:39:41,000 --> 00:39:43,260
+Some of the stuff like that,
+like when a process dies,
+
+984
+00:39:43,260 --> 00:39:44,999
+those resources die with it.
+
+985
+00:39:44,999 --> 00:39:47,680
+But it could be right if
+it's like about files
+
+986
+00:39:47,680 --> 00:39:50,559
+that are long term that it
+might just be messed up.
+
+987
+00:39:50,559 --> 00:39:52,360
+So hopefully, fingers crossed,
+
+988
+00:39:52,360 --> 00:39:54,159
+the program can deal with
+
+989
+00:39:54,159 --> 00:39:55,379
+starting up and have things kind
+
+990
+00:39:55,379 --> 00:39:57,079
+of in a dirty state, right?
+
+991
+00:39:57,079 --> 00:39:59,520
+But sometimes it becomes
+
+992
+00:39:59,520 --> 00:40:01,100
+a real pain and
+you have to figure
+
+993
+00:40:01,100 --> 00:40:03,040
+out what's going on and
+clean it up yourself.
+
+994
+00:40:03,040 --> 00:40:05,219
+Most of the time it'll just
+kind of works out. Okay.
+
+995
+00:40:05,219 --> 00:40:06,820
+Right. Because I have
+some trolled files,
+
+996
+00:40:06,820 --> 00:40:07,980
+I don't really hurt anybody,
+
+997
+00:40:07,980 --> 00:40:09,040
+but. But yeah, absolutely.
+
+998
+00:40:09,040 --> 00:40:11,320
+I've seen cases where
+it creates a real mess.
+
+999
+00:40:11,320 --> 00:40:13,560
+Yep, yeah, excellent questions.
+
+1000
+00:40:13,560 --> 00:40:20,260
+Yeah, Over here A
+means all users,
+
+1001
+00:40:20,260 --> 00:40:24,220
+and X means not
+just the terminal,
+
+1002
+00:40:24,220 --> 00:40:25,339
+but other things
+that are running in
+
+1003
+00:40:25,339 --> 00:40:27,860
+the background that's
+like those two together.
+
+1004
+00:40:27,860 --> 00:40:29,179
+We'll give you a
+pretty comprehensive
+
+1005
+00:40:29,179 --> 00:40:30,479
+list of the processes running.
+
+1006
+00:40:30,479 --> 00:40:32,340
+Did I see another hand
+up over here somewhere?
+
+1007
+00:40:32,340 --> 00:40:35,679
+I thought there was another
+hand up. Any other hands up.
+
+1008
+00:40:35,679 --> 00:40:39,699
+All right, cool.
+
+1009
+00:40:39,699 --> 00:40:41,679
+So I was able to kill that.
+
+1010
+00:40:41,679 --> 00:40:44,779
+This is killing by process ID.
+
+1011
+00:40:44,779 --> 00:40:46,779
+Another thing you
+can do is you can do
+
+1012
+00:40:46,779 --> 00:40:48,859
+a kill and then a name, right?
+
+1013
+00:40:48,859 --> 00:40:50,959
+So this would be
+the process name.
+
+1014
+00:40:50,959 --> 00:40:55,619
+And let me just take a
+look at this one up here.
+
+1015
+00:40:56,580 --> 00:41:02,620
+Count was an argument,
+
+1016
+00:41:02,620 --> 00:41:05,779
+the program that's actually
+running Python three,
+
+1017
+00:41:05,779 --> 00:41:06,939
+so if I wanted to kill that one,
+
+1018
+00:41:06,939 --> 00:41:08,879
+I could have said Python three.
+
+1019
+00:41:08,879 --> 00:41:10,339
+Right? And then
+that would do it.
+
+1020
+00:41:10,339 --> 00:41:13,459
+I could also do a dash
+nine with that one.
+
+1021
+00:41:14,660 --> 00:41:17,379
+In some cases that's
+like easier because you
+
+1022
+00:41:17,379 --> 00:41:18,340
+don't have to mess
+around figuring
+
+1023
+00:41:18,340 --> 00:41:19,719
+out what the process idea is.
+
+1024
+00:41:19,719 --> 00:41:22,719
+The downside of this
+one is that if I have
+
+1025
+00:41:22,719 --> 00:41:25,919
+other things that are running
+with Python three as well,
+
+1026
+00:41:25,919 --> 00:41:28,459
+other Python programs, it
+just like kills all of them.
+
+1027
+00:41:28,459 --> 00:41:30,239
+So not always what you want,
+
+1028
+00:41:30,239 --> 00:41:32,019
+but I find myself using both
+
+1029
+00:41:32,019 --> 00:41:34,160
+of these all the time
+on a regular basis.
+
+1030
+00:41:34,160 --> 00:41:36,739
+Alright? Any questions people
+
+1031
+00:41:36,739 --> 00:41:38,060
+might have about
+killing processes?
+
+1032
+00:41:38,060 --> 00:41:42,339
+Yeah, right here. What? Oh,
+who sets the process name?
+
+1033
+00:41:42,339 --> 00:41:47,259
+Well, I think that when I say
+like, which Python three.
+
+1034
+00:41:47,259 --> 00:41:49,659
+So it's just like
+a program here.
+
+1035
+00:41:49,659 --> 00:41:52,319
+Right? And so that's going to
+be normally the name of it.
+
+1036
+00:41:52,319 --> 00:41:54,480
+There's a little
+bit more nuanced,
+
+1037
+00:41:54,480 --> 00:41:56,159
+like there's a way
+that you could start
+
+1038
+00:41:56,159 --> 00:41:57,879
+a process with a name
+
+1039
+00:41:57,879 --> 00:41:59,380
+different than the
+name of the program.
+
+1040
+00:41:59,380 --> 00:42:03,419
+But that'd be kind of an
+unusual situation, right?
+
+1041
+00:42:03,419 --> 00:42:04,839
+Like 99% of time
+
+1042
+00:42:04,839 --> 00:42:06,979
+it'll just be the name of the
+program you were running.
+
+1043
+00:42:06,979 --> 00:42:10,639
+And that's why kill you,
+
+1044
+00:42:10,639 --> 00:42:11,879
+kind of catch up more stuff
+
+1045
+00:42:11,879 --> 00:42:12,939
+than you want because
+there might be
+
+1046
+00:42:12,939 --> 00:42:16,019
+a bunch of processes launched
+from the same program.
+
+1047
+00:42:16,019 --> 00:42:21,479
+Yeah, there are questions
+people have. All right.
+
+1048
+00:42:21,479 --> 00:42:23,139
+Some of you might
+have seen this.
+
+1049
+00:42:23,139 --> 00:42:24,479
+I don't know if
+anybody has ever been
+
+1050
+00:42:24,479 --> 00:42:27,600
+like running like
+Jupiter Notebooks
+
+1051
+00:42:27,600 --> 00:42:29,779
+or Jupiter Lab and you
+hit like control C.
+
+1052
+00:42:29,779 --> 00:42:31,559
+And then it will
+say again like oh,
+
+1053
+00:42:31,559 --> 00:42:33,380
+hit control C again if you
+really want to accent.
+
+1054
+00:42:33,380 --> 00:42:35,799
+Has anybody ever seen
+that few of you?
+
+1055
+00:42:35,799 --> 00:42:40,120
+Right? That shows that the
+control C is the polite kill.
+
+1056
+00:42:40,120 --> 00:42:42,659
+Right? Because if
+it was a kill nine,
+
+1057
+00:42:42,659 --> 00:42:43,379
+they would have never had
+
+1058
+00:42:43,379 --> 00:42:44,579
+a chance to ask you
+anything again.
+
+1059
+00:42:44,579 --> 00:42:46,359
+It would have been drawn, right,
+
+1060
+00:42:46,359 --> 00:42:48,659
+but it kind of caught
+that in it said,
+
+1061
+00:42:48,659 --> 00:42:51,749
+okay, well I can try
+to do something here.
+
+1062
+00:42:51,749 --> 00:42:54,690
+All right, great. So we
+talked about processes.
+
+1063
+00:42:54,690 --> 00:42:57,969
+Now let's talk about the
+resources that they use.
+
+1064
+00:42:57,969 --> 00:43:01,569
+There's an old program
+called To that would show
+
+1065
+00:43:01,569 --> 00:43:03,749
+you the processes that are using
+
+1066
+00:43:03,749 --> 00:43:06,849
+the most resources is a
+little bit of a pain to read.
+
+1067
+00:43:06,849 --> 00:43:08,669
+More popular is H top.
+
+1068
+00:43:08,669 --> 00:43:10,169
+That stands for human top.
+
+1069
+00:43:10,169 --> 00:43:13,009
+I'm going to run
+that and then I can
+
+1070
+00:43:13,009 --> 00:43:16,510
+see how my CPU and
+memory is being used.
+
+1071
+00:43:16,510 --> 00:43:20,510
+Right up here, I see
+that there's 2 bars
+
+1072
+00:43:20,510 --> 00:43:23,089
+and what that means is
+that this machine I'm on
+
+1073
+00:43:23,089 --> 00:43:25,590
+has two CPU cores
+that are running.
+
+1074
+00:43:25,590 --> 00:43:27,849
+And right now they're
+both very idle, right?
+
+1075
+00:43:27,849 --> 00:43:30,169
+There's not much running there.
+
+1076
+00:43:31,890 --> 00:43:34,009
+Here, I can see
+
+1077
+00:43:34,009 --> 00:43:36,249
+how much memory I have
+and how much I'm using.
+
+1078
+00:43:36,249 --> 00:43:38,389
+I have almost 2
+gigabytes and I'm
+
+1079
+00:43:38,389 --> 00:43:40,889
+using 259 megabytes of that.
+
+1080
+00:43:40,889 --> 00:43:43,509
+If you look at the
+size of the bar,
+
+1081
+00:43:43,509 --> 00:43:45,429
+I mean it looks closer to half
+
+1082
+00:43:45,429 --> 00:43:47,310
+which doesn't quite
+line up the numbers.
+
+1083
+00:43:47,310 --> 00:43:50,269
+The reason is that it's just
+counting the green here.
+
+1084
+00:43:50,269 --> 00:43:52,889
+The grain is the data that's
+
+1085
+00:43:52,889 --> 00:43:55,669
+actually actively being
+used by my processes.
+
+1086
+00:43:55,669 --> 00:43:57,889
+The other stuff is cash,
+
+1087
+00:43:57,889 --> 00:43:59,509
+which you talk about,
+
+1088
+00:43:59,509 --> 00:44:02,749
+but the idea there is that
+maybe I read like a file from
+
+1089
+00:44:02,749 --> 00:44:04,909
+disc before and it's just
+
+1090
+00:44:04,909 --> 00:44:07,189
+keeping a copy and Ram
+and case I need it again.
+
+1091
+00:44:07,189 --> 00:44:09,010
+But I'm not really
+using that much memory.
+
+1092
+00:44:09,010 --> 00:44:10,589
+I could free it up if I had to.
+
+1093
+00:44:10,589 --> 00:44:11,409
+That's why the bar
+
+1094
+00:44:11,409 --> 00:44:13,694
+doesn't line up with
+what the numbers are.
+
+1095
+00:44:13,694 --> 00:44:15,419
+And then down here I
+can see that there's
+
+1096
+00:44:15,419 --> 00:44:18,599
+all these different processes
+that are running, right?
+
+1097
+00:44:18,599 --> 00:44:20,119
+And so if you wanted to,
+
+1098
+00:44:20,119 --> 00:44:21,319
+you could sort these, right?
+
+1099
+00:44:21,319 --> 00:44:22,819
+You can see there's
+like F six would let
+
+1100
+00:44:22,819 --> 00:44:24,439
+me sort and I could figure out
+
+1101
+00:44:24,439 --> 00:44:25,859
+which processes are using
+
+1102
+00:44:25,859 --> 00:44:28,140
+the most CPU or the most memory.
+
+1103
+00:44:28,140 --> 00:44:30,180
+So I think, you know,
+a common occasion
+
+1104
+00:44:30,180 --> 00:44:31,039
+during office hours is
+
+1105
+00:44:31,039 --> 00:44:32,159
+people come in and
+they're like, oh,
+
+1106
+00:44:32,159 --> 00:44:34,460
+my virtual machine
+is like frozen
+
+1107
+00:44:34,460 --> 00:44:37,079
+up or it's like everything's
+running really slow.
+
+1108
+00:44:37,079 --> 00:44:39,099
+Right? One of the first
+things I do is I'll look
+
+1109
+00:44:39,099 --> 00:44:41,839
+at H top and try to see like,
+well, what are they using?
+
+1110
+00:44:41,839 --> 00:44:44,079
+If it's not obvious
+what is using it,
+
+1111
+00:44:44,079 --> 00:44:45,859
+then we might dig into this
+and try to figure out,
+
+1112
+00:44:45,859 --> 00:44:48,040
+well, what specifically
+is using those resources?
+
+1113
+00:44:48,040 --> 00:44:49,639
+Usually they know,
+obviously it was
+
+1114
+00:44:49,639 --> 00:44:51,919
+like their program
+they started running.
+
+1115
+00:44:51,919 --> 00:44:54,399
+I think it's just a good
+thing to have open,
+
+1116
+00:44:54,399 --> 00:44:56,900
+like running most of the
+time to build intuition.
+
+1117
+00:44:56,900 --> 00:44:58,059
+I think it's really
+fun. Like you're
+
+1118
+00:44:58,059 --> 00:44:59,579
+like writing some
+code and running it.
+
+1119
+00:44:59,579 --> 00:45:00,739
+And then you have
+that on the side.
+
+1120
+00:45:00,739 --> 00:45:02,299
+And you start to get
+an intuition like,
+
+1121
+00:45:02,299 --> 00:45:03,479
+oh, well, that thing,
+
+1122
+00:45:03,479 --> 00:45:05,299
+Iran is really slow
+or this other thing I
+
+1123
+00:45:05,299 --> 00:45:07,599
+ran is very efficient, right?
+
+1124
+00:45:07,599 --> 00:45:09,900
+So that's a good way to
+build some intuition.
+
+1125
+00:45:09,900 --> 00:45:13,680
+All right. So that
+was CPU and memory.
+
+1126
+00:45:13,680 --> 00:45:16,919
+Let's talk about storage, right?
+
+1127
+00:45:16,919 --> 00:45:18,339
+All these commands,
+right? You just got to
+
+1128
+00:45:18,339 --> 00:45:20,479
+get them in your notes
+and memorize them.
+
+1129
+00:45:20,479 --> 00:45:24,139
+We can check storage
+capacity usage with
+
+1130
+00:45:24,139 --> 00:45:27,539
+a tool called DF and it
+looks like this, right?
+
+1131
+00:45:27,539 --> 00:45:28,719
+A lot of these
+numbers are a little
+
+1132
+00:45:28,719 --> 00:45:30,099
+hard to read and so I'm
+
+1133
+00:45:30,099 --> 00:45:33,140
+going to pass in
+for human readable.
+
+1134
+00:45:33,140 --> 00:45:34,539
+And it'll show me now in like
+
+1135
+00:45:34,539 --> 00:45:38,009
+gigabytes or megabytes,
+things like that,
+
+1136
+00:45:38,009 --> 00:45:39,980
+There are a bunch of different
+
+1137
+00:45:39,980 --> 00:45:41,579
+file systems on here and we're
+
+1138
+00:45:41,579 --> 00:45:42,839
+eventually talking
+about what that
+
+1139
+00:45:42,839 --> 00:45:44,720
+means and how they
+all work together.
+
+1140
+00:45:44,720 --> 00:45:46,819
+One of the things I could
+do is I could just say,
+
+1141
+00:45:46,819 --> 00:45:49,160
+let's do this for
+the file system,
+
+1142
+00:45:49,160 --> 00:45:50,300
+for my current directory.
+
+1143
+00:45:50,300 --> 00:45:52,159
+So I could say dot and
+then it's a little bit
+
+1144
+00:45:52,159 --> 00:45:54,719
+easier to see what's going
+on. So what does this mean?
+
+1145
+00:45:54,719 --> 00:45:58,480
+I have a 25 gigabyte disk
+on my virtual machine.
+
+1146
+00:45:58,480 --> 00:46:02,719
+I've used 4 gigabytes of
+it and I have 21, 21 free.
+
+1147
+00:46:02,719 --> 00:46:03,979
+Right? Let's keep
+an eye on that.
+
+1148
+00:46:03,979 --> 00:46:05,299
+You might be getting
+law on disk space
+
+1149
+00:46:05,299 --> 00:46:07,239
+and you might have to
+delete some stuff.
+
+1150
+00:46:07,239 --> 00:46:09,099
+When I need to
+delete some stuff,
+
+1151
+00:46:09,099 --> 00:46:11,559
+what I do is I use another tool.
+
+1152
+00:46:11,559 --> 00:46:15,539
+So this was DF DU will
+show me a bunch of
+
+1153
+00:46:15,539 --> 00:46:18,899
+information about how much space
+
+1154
+00:46:18,899 --> 00:46:20,585
+is being used in
+different places.
+
+1155
+00:46:20,585 --> 00:46:22,449
+It's a disk utilization, again,
+
+1156
+00:46:22,449 --> 00:46:24,349
+I'm going to do
+human readable on it
+
+1157
+00:46:24,349 --> 00:46:26,709
+and there's some other
+flags I will typically use.
+
+1158
+00:46:26,709 --> 00:46:28,470
+I'll use for a summary
+
+1159
+00:46:28,470 --> 00:46:30,749
+and I might say what
+directory I'm on and I
+
+1160
+00:46:30,749 --> 00:46:32,649
+will say this home
+directory I'm in right
+
+1161
+00:46:32,649 --> 00:46:34,909
+now is using 42 megabytes.
+
+1162
+00:46:34,909 --> 00:46:36,710
+Right? So not that
+much, honestly.
+
+1163
+00:46:36,710 --> 00:46:40,129
+Right? This is not why I'm
+using those 4 gigabytes.
+
+1164
+00:46:40,129 --> 00:46:43,809
+I might say star and
+then I could say that,
+
+1165
+00:46:43,809 --> 00:46:46,209
+you know of that 42 megabytes,
+
+1166
+00:46:46,209 --> 00:46:49,030
+21 megabytes is in
+that data directory.
+
+1167
+00:46:49,030 --> 00:46:50,329
+So if you're running lung space,
+
+1168
+00:46:50,329 --> 00:46:51,409
+you can kind of browse around.
+
+1169
+00:46:51,409 --> 00:46:53,569
+And that's your job
+to clean some stuff
+
+1170
+00:46:53,569 --> 00:46:58,089
+up and stay within the
+space you have, right?
+
+1171
+00:46:58,089 --> 00:47:00,070
+All right. That's storage,
+
+1172
+00:47:00,070 --> 00:47:02,350
+the four resources network.
+
+1173
+00:47:02,350 --> 00:47:03,669
+And I'm trying to show you
+
+1174
+00:47:03,669 --> 00:47:05,589
+a command that's going to
+be really useful later.
+
+1175
+00:47:05,589 --> 00:47:06,869
+Not everything
+about it will make
+
+1176
+00:47:06,869 --> 00:47:08,029
+sense and we're
+going to revisit it.
+
+1177
+00:47:08,029 --> 00:47:09,309
+But I think it's
+important enough.
+
+1178
+00:47:09,309 --> 00:47:11,029
+I want to show it
+multiple times.
+
+1179
+00:47:11,029 --> 00:47:12,969
+It is called LS 0 F,
+
+1180
+00:47:12,969 --> 00:47:18,410
+and it stands for
+List Open files,
+
+1181
+00:47:18,410 --> 00:47:21,549
+and putting files
+in quotes here,
+
+1182
+00:47:21,549 --> 00:47:23,459
+because there's a saying
+
+1183
+00:47:23,459 --> 00:47:25,460
+in Linux that
+everything is a file,
+
+1184
+00:47:25,460 --> 00:47:28,780
+and so network connections
+are actually files,
+
+1185
+00:47:28,780 --> 00:47:30,779
+even though we don't normally
+think of them that way.
+
+1186
+00:47:30,779 --> 00:47:33,639
+And so this is a really good
+tool to see what's going on
+
+1187
+00:47:33,639 --> 00:47:35,319
+in terms of networking resources
+
+1188
+00:47:35,319 --> 00:47:36,539
+and in particular port numbers,
+
+1189
+00:47:36,539 --> 00:47:37,779
+which we're going to
+be talking a whole
+
+1190
+00:47:37,779 --> 00:47:39,079
+bunch more about, right?
+
+1191
+00:47:39,079 --> 00:47:41,379
+So I'm going to
+do LS OF that has
+
+1192
+00:47:41,379 --> 00:47:42,819
+all these files
+open from all kinds
+
+1193
+00:47:42,819 --> 00:47:44,540
+of different programs,
+lots of output.
+
+1194
+00:47:44,540 --> 00:47:47,800
+If I do pseudo, it'll
+give me even more output.
+
+1195
+00:47:47,800 --> 00:47:49,739
+But what I want to
+do is I want to
+
+1196
+00:47:49,739 --> 00:47:51,300
+pass on this flag and say TCP.
+
+1197
+00:47:51,300 --> 00:47:54,139
+And TCP is trying to
+specifically narrow us down
+
+1198
+00:47:54,139 --> 00:47:57,439
+to one of the most common tins
+of network communication.
+
+1199
+00:47:57,439 --> 00:47:58,859
+We'll be talking
+more about what that
+
+1200
+00:47:58,859 --> 00:48:00,339
+means later, but I can do this,
+
+1201
+00:48:00,339 --> 00:48:02,219
+I can see a bunch of
+different processes that are
+
+1202
+00:48:02,219 --> 00:48:04,859
+running and the connections
+that they have.
+
+1203
+00:48:04,859 --> 00:48:06,700
+I'm really going
+to be interested
+
+1204
+00:48:06,700 --> 00:48:08,420
+in something called
+port numbers.
+
+1205
+00:48:08,420 --> 00:48:10,500
+And in a lot of these
+cases they're hiding
+
+1206
+00:48:10,500 --> 00:48:11,639
+port numbers from me with these
+
+1207
+00:48:11,639 --> 00:48:13,320
+cute little names like domain.
+
+1208
+00:48:13,320 --> 00:48:15,899
+And so I'm going to pass and
+
+1209
+00:48:15,899 --> 00:48:18,679
+now it'll give me
+actual numbers here.
+
+1210
+00:48:18,679 --> 00:48:23,599
+Right? So a really
+common thing we're,
+
+1211
+00:48:23,599 --> 00:48:24,740
+you'll be doing
+later this semester.
+
+1212
+00:48:24,740 --> 00:48:26,059
+I'm going to talk more
+about port number,
+
+1213
+00:48:26,059 --> 00:48:28,100
+so don't worry if it's
+a little confusing.
+
+1214
+00:48:28,100 --> 00:48:30,479
+But we're often want
+to say like, okay,
+
+1215
+00:48:30,479 --> 00:48:31,579
+what I'm running this program,
+
+1216
+00:48:31,579 --> 00:48:32,819
+what port numbers is it using?
+
+1217
+00:48:32,819 --> 00:48:34,620
+So let's just do
+a quick exercise.
+
+1218
+00:48:34,620 --> 00:48:36,720
+What, based on this output,
+
+1219
+00:48:36,720 --> 00:48:40,660
+what port number is SSHD using?
+
+1220
+00:48:45,220 --> 00:48:48,719
+Yeah, alright here, 22.
+
+1221
+00:48:48,719 --> 00:48:52,100
+Yep. Ssh D is using port 22,
+
+1222
+00:48:52,100 --> 00:48:53,179
+Al, right, so I can see here's
+
+1223
+00:48:53,179 --> 00:48:55,420
+SSHD. Excellent, and there's 22.
+
+1224
+00:48:55,420 --> 00:48:57,500
+And if I wanted to, I could
+have even just wrapped
+
+1225
+00:48:57,500 --> 00:48:58,680
+this and kind of narrowed
+
+1226
+00:48:58,680 --> 00:48:59,819
+it down, right, so
+we can do that.
+
+1227
+00:48:59,819 --> 00:49:01,619
+That's trying to do
+something we do again and
+
+1228
+00:49:01,619 --> 00:49:03,579
+again this semester as we're
+deploying these things.
+
+1229
+00:49:03,579 --> 00:49:05,359
+Because port numbers are
+how we're going to connect
+
+1230
+00:49:05,359 --> 00:49:07,379
+different programs and get
+them to talk to each other.
+
+1231
+00:49:07,379 --> 00:49:08,859
+So we're going to have
+to look that in kind of
+
+1232
+00:49:08,859 --> 00:49:10,859
+information up and I'll
+bring this command back.
+
+1233
+00:49:10,859 --> 00:49:12,020
+Right. Because
+it's so important,
+
+1234
+00:49:12,020 --> 00:49:13,419
+I just wanted to show it for
+
+1235
+00:49:13,419 --> 00:49:15,460
+the first time for completeness.
+
+1236
+00:49:15,460 --> 00:49:18,039
+Awesome. All right, well,
+I hope you all we'll have
+
+1237
+00:49:18,039 --> 00:49:19,499
+a great evening and
+maybe get a chance
+
+1238
+00:49:19,499 --> 00:49:21,159
+to play with some of these
+commands on your own.
+
+1239
+00:49:21,159 --> 00:49:24,380
+Feel free to come up and chat
+if you have any questions.

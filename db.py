@@ -38,7 +38,7 @@ class Storage:
             return False
 
     def get_lessons(self):
-        return [lesson['lecture_link'] for lesson in self.lessons_tbl.get()['metadatas']]
+        return self.lessons_tbl.get()['ids']
 
     def add_lecture(self, metadata, content, id):
         self.lectures_tbl.add(
