@@ -21,6 +21,7 @@ class Scraper():
         # Define the download directory
         self.download_dir = os.getenv('SRT_PATH')
 
+
         # Create the directory if it doesn't exist
         if not os.path.exists(self.download_dir):
             os.makedirs(self.download_dir)
@@ -29,8 +30,12 @@ class Scraper():
         self.profile = webdriver.FirefoxProfile()
         self.profile.set_preference("browser.download.folderList", 2)  # 2 means custom location
         self.profile.set_preference("browser.download.dir", self.download_dir)
+
         self.profile.set_preference("browser.download.useDownloadDir", True)
-        self.profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")  # Specify MIME types as needed
+        
+        #self.profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")  # Specify MIME types as needed
+        self.profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/plain,application/octet-stream,application/x-subrip")
+
         
         # Add profile to options
         self.options.profile = self.profile
@@ -43,12 +48,11 @@ class Scraper():
     def xpath_safe_click(self, xpath):
         attempts = 3
         for _ in range(attempts):
+            print("Attempt")
             try:
-                element = WebDriverWait(self.driver, 10).until(
+                element = WebDriverWait(self.driver, 15).until(
                     EC.element_to_be_clickable((By.XPATH, xpath))
                 )
-
-                self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
                 
                 element.click()
 
@@ -66,7 +70,7 @@ class Scraper():
                     EC.element_to_be_clickable((By.ID, id))
                 )
 
-                self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+                #self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
                 
                 element.click()
 
@@ -77,8 +81,6 @@ class Scraper():
                 pass
 
     def get_srt_file(self):
-        self.driver.refresh()
-
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[3]/button')
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button')
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div/div[3]/div')
@@ -167,14 +169,22 @@ class Scraper():
         """Retrieves the embed link from the page with retries and refreshes."""
 
 
-        self.id_safe_click('tab-share-tab')
+        #self.id_safe_click('tab-share-tab')
+        self.xpath_safe_click('/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[1]/div/div[1]/ul/li[2]/a/span')
 
-        self.id_safe_click('embedTextArea-pane-tab')
+        print("Share button was clicked")
+
+        #self.id_safe_click('embedTextArea-pane-tab')
+        #self.xpath_safe_click('//*[@id="embedTextArea-pane-tab"]')
+        self.xpath_safe_click("/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[3]/div/div[2]/div/div/div[1]/ul/li[2]")
+
+        print("Embed button was clicked")
 
 
         # Wait for the embed text area to be present and retrieve the embed link
         embed_text_area = WebDriverWait(self.driver, 5).until(
-            EC.presence_of_element_located((By.ID, 'embedTextArea'))
+            EC.presence_of_element_located((By.XPATH, '//*[@id="embedTextArea"]'))
         )
         embed_text = embed_text_area.get_attribute("value")
+        print("The embed text was gotten")
         return embed_text
