@@ -17,7 +17,7 @@ class Storage:
 
         self.lectures_tbl = self.db.get_or_create_collection(
             name="Lectures",
-            embedding_function=Embedder()
+            # embedding_function=Embedder()
         )
 
         self.lessons_tbl = self.db.get_or_create_collection(

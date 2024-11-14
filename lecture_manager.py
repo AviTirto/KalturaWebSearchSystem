@@ -49,10 +49,13 @@ class LectureManager():
             chunks = self.parser.parse_chunks(page_info['file_name'])
             
             for index, chunk in enumerate(chunks):
+                start = time.time()
                 content = chunk['content']
                 del chunk['content']
                 uuid = self.generate_unique_id(link, index)
                 self.db.add_lecture(chunk, content, uuid)
+                end = time.time()
+                print(end - start)
 
             self.remove_file(page_info['file_name'])
 

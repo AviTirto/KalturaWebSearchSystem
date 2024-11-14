@@ -1,6 +1,6 @@
 from scraper import Scraper
 # from embedder import Embedder
-# from lecture_parser import Parser
+from lecture_parser import Parser
 from lecture_manager import LectureManager
 from db import Storage
 import os

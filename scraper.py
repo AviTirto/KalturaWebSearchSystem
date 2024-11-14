@@ -5,7 +5,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
 import time
-import pandas as pd
 import os
 from dotenv import load_dotenv
 
@@ -48,7 +47,6 @@ class Scraper():
     def xpath_safe_click(self, xpath):
         attempts = 3
         for _ in range(attempts):
-            print("Attempt")
             try:
                 element = WebDriverWait(self.driver, 15).until(
                     EC.element_to_be_clickable((By.XPATH, xpath))
@@ -62,23 +60,6 @@ class Scraper():
             except TimeoutError:
                 pass
 
-    def id_safe_click(self, id):
-        attempts = 3
-        for _ in range(attempts):
-            try:
-                element = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.ID, id))
-                )
-
-                #self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
-                
-                element.click()
-
-                return  # Exit if successful
-            except StaleElementReferenceException:
-                pass  # Retry if stale
-            except TimeoutError:
-                pass
 
     def get_srt_file(self):
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[3]/button')
@@ -172,13 +153,10 @@ class Scraper():
         #self.id_safe_click('tab-share-tab')
         self.xpath_safe_click('/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[1]/div/div[1]/ul/li[2]/a/span')
 
-        print("Share button was clicked")
 
         #self.id_safe_click('embedTextArea-pane-tab')
         #self.xpath_safe_click('//*[@id="embedTextArea-pane-tab"]')
         self.xpath_safe_click("/html/body/div/div[2]/div[5]/div/div[2]/div[4]/div[3]/div/div[2]/div/div/div[1]/ul/li[2]")
-
-        print("Embed button was clicked")
 
 
         # Wait for the embed text area to be present and retrieve the embed link
