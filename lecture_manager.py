@@ -60,7 +60,6 @@ class LectureManager():
             self.remove_file(page_info['file_name'])
 
             del page_info['file_name']
-            del lecture['lecture_link']
             
             self.db.add_lesson({**page_info, **lecture}, link)
             print(lecture)
