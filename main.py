@@ -7,14 +7,17 @@ from query_manager import QueryManager
 import os
 from queryer import Queryer
 
+storage = Storage()
+print(storage.query('What is docker'))
+
 #manager = LectureManager()
 #manager.update_lectures()
 
-manager = LectureManager()
-manager.update_lectures()
+# manager = LectureManager()
+# manager.update_lectures()
 
-storage = Storage()
-print(storage.get_lessons())
+# storage = Storage()
+# print(storage.get_lessons())
 
 # storage = Storage()
 # lessons = storage.get_lessons()

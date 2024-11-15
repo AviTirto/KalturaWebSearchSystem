@@ -1,3 +1,4 @@
 .env
 db/
 lecture_srt/
+__pycache__
