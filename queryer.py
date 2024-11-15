@@ -44,7 +44,7 @@ class Queryer():
 
         chain = prompt | self.llm | parser
 
-        return chain.invoke({"question": question})
+        return chain.invoke({"question": question}).subquestions
     
     def summarizer(self, subtitles: List[str]):
         # Define prompt
