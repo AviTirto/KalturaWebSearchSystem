@@ -1,7 +1,9 @@
+
 from db import Storage
 from lecture_manager import generate_unique_id
 from queryer import Queryer
-from crud import queryLectures
+from crud import queryLectures, get_chunk_by_id, get_chunks_by_link
+from typing import List
 from data_types import Chunk
 
 class QueryManager():
@@ -9,7 +11,7 @@ class QueryManager():
         self.db = Storage()
         self.queryer = Queryer()
 
-    def remove_duplicate_chunks(self, chunks):
+    def remove_duplicate_chunks(self, chunks: List[Chunk]) -> List[Chunk]:
         
         uuids = set()
         unique_chunks = []
@@ -24,35 +26,18 @@ class QueryManager():
         return unique_chunks
 
 
-    def get_neighbors(self, lect_info):
-        index = lect_info['index']
-        link = lect_info['link']
+    def get_neighbors(self, chunk: Chunk) -> List[Chunk]:
+        n_chunks = len(get_chunks_by_link(chunk.link))
 
-        n_chunks = len(
-            self.db.get_lectures(
-                where = {
-                    'link' : link
-                }
-            )['metadatas']
-        )
-
-        ids = [generate_unique_id(link, i) for i in range(max(index - 2, 0), min(index + 3, n_chunks))]
+        ids = [generate_unique_id(chunk.link, i) for i in range(max(chunk.index - 2, 0), min(chunk.index + 3, n_chunks))]
         
-        neighbors = self.db.get_lectures(
-            ids = ids
-        )
+        return get_chunk_by_id(ids)
 
-        n_lect_infos = neighbors['metadatas']
-        n_docs = neighbors['documents']
-
-        return {
-            'lect_info': n_lect_infos,
-            'docs': n_docs
-        }
     
 
     def summarize_chunks(self, chunks):
-        pass
+        start_time = chunks[0].start_time
+        
 
 
     def query(self, input: str):
@@ -61,6 +46,10 @@ class QueryManager():
         for question in subquestions:
             chunks = queryLectures(question)
 
+
         unique_chunks = self.remove_duplicate_chunks(chunks)
+
+        for chunk in unique_chunks:
+            self.get_neighbors(chunk)
 
 

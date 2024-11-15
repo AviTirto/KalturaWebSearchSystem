@@ -7,8 +7,8 @@ from query_manager import QueryManager
 import os
 from queryer import Queryer
 
-# qm = QueryManager()
-# qm.query("What is docker?")
+qm = QueryManager()
+qm.query("What is docker?")
 
 
 # manager = LectureManager()
@@ -17,8 +17,8 @@ from queryer import Queryer
 # manager = LectureManager()
 # manager.update_lectures()
 
-storage = Storage()
-print(storage.lessons_tbl.get()['metadatas'][0])
+# storage = Storage()
+# print(storage.lessons_tbl.get()['metadatas'][0])
 
 # print(storage.get_lessons())
 

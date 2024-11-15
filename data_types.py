@@ -50,5 +50,10 @@ class Lesson:
 
 
 class Summary():
-    def __init__(self):
-        pass
+    def __init__(self, id, summary: str, start_time: str, end_time: str, seconds: int, link: str):
+        self.id = id
+        self.subtitle = summary
+        self.start_time = start_time
+        self.end_time = end_time
+        self.seconds = seconds
+        self.link = link

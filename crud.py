@@ -20,7 +20,7 @@ def process_chunks(raw_chunks):
             lect_infos[i]['start_time'],
             lect_infos[i]['end_time'],
             lect_infos[i]['seconds'],
-            lect_infos[i]['lecture_link']
+            lect_infos[i]['link']
         )]
     
     return processed_chunks
