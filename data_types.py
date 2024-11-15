@@ -50,8 +50,7 @@ class Lesson:
 
 
 class Summary():
-    def __init__(self, id, summary: str, start_time: str, end_time: str, seconds: int, link: str):
-        self.id = id
+    def __init__(self, summary: str, start_time: str, end_time: str, seconds: int, link: str):
         self.subtitle = summary
         self.start_time = start_time
         self.end_time = end_time

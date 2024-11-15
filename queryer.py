@@ -60,5 +60,8 @@ class Queryer():
 
         return self.llm.invoke(prompt.format(chunks=subtitles)).content
     
+    def decide_subtitles(self, subtitles):
+        pass
+    
 
 

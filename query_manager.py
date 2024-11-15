@@ -4,7 +4,7 @@ from lecture_manager import generate_unique_id
 from queryer import Queryer
 from crud import queryLectures, get_chunk_by_id, get_chunks_by_link
 from typing import List
-from data_types import Chunk
+from data_types import Chunk, Summary
 
 class QueryManager():
     def __init__(self):
@@ -37,7 +37,15 @@ class QueryManager():
 
     def summarize_chunks(self, chunks):
         start_time = chunks[0].start_time
+        end_time = chunks[-1].end_time
+        seconds = chunks[0].seconds
+        link = chunks[0].link
         
+        combined_subtitle = "\n".join([chunk.subtitle for chunk in chunks])
+        summary = self.queryer.summarizer(combined_subtitle)
+
+        return Summary(summary, start_time, end_time, seconds, link)
+
 
 
     def query(self, input: str):
@@ -49,7 +57,12 @@ class QueryManager():
 
         unique_chunks = self.remove_duplicate_chunks(chunks)
 
+        summaries = []
+
         for chunk in unique_chunks:
-            self.get_neighbors(chunk)
+            neighbors = self.get_neighbors(chunk)
+            summaries += [self.summarize_chunks(neighbors)]
+
+        return self.queryer.decide_subtitles()
 
 
