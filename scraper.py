@@ -164,5 +164,4 @@ class Scraper():
             EC.presence_of_element_located((By.XPATH, '//*[@id="embedTextArea"]'))
         )
         embed_text = embed_text_area.get_attribute("value")
-        print("The embed text was gotten")
         return embed_text

@@ -5,9 +5,16 @@ from lecture_manager import LectureManager, generate_unique_id
 from db import Storage
 from query_manager import QueryManager
 import os
+from queryer import Queryer
 
-# manager = LectureManager()
-# manager.update_lectures()
+#manager = LectureManager()
+#manager.update_lectures()
+
+manager = LectureManager()
+manager.update_lectures()
+
+storage = Storage()
+print(storage.get_lessons())
 
 # storage = Storage()
 # lessons = storage.get_lessons()
