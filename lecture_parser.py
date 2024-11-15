@@ -33,6 +33,7 @@ class Parser():
                         start_time = s.start
 
                     results.append({
+                        "index": len(results) + 1,
                         "content": content,
                         "start_time": self.format_timedelta(start_time),
                         "end_time": self.format_timedelta(s.end),

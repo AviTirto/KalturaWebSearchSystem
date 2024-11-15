@@ -1,20 +1,27 @@
 from scraper import Scraper
 # from embedder import Embedder
 from lecture_parser import Parser
-from lecture_manager import LectureManager
+from lecture_manager import LectureManager, generate_unique_id
 from db import Storage
+from query_manager import QueryManager
 import os
 
-manager = LectureManager()
-manager.update_lectures()
-
-storage = Storage()
-print(storage.get_lessons())
+# manager = LectureManager()
+# manager.update_lectures()
 
 # storage = Storage()
+# lessons = storage.get_lessons()
+# for lesson in lessons:
+#     print(lesson)
+
 # storage.db.delete_collection('Lessons')
 # storage.db.delete_collection('Lectures')
 # print(storage.db.list_collections())
+
+
+# print('---------------------------------------------')
+
+# print(results['documents'][0])
 
 
 # srt_dir = scraper.execute()

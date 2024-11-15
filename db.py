@@ -47,12 +47,30 @@ class Storage:
             metadatas=[metadata]
         )
 
-    def query(self, query):
-        results = self.lectures_tbl.query(
+    def query(self, query, **kwargs):
+        embeddings = kwargs.get('embedding', None)
+        n_results = kwargs.get('n_results', 20)
+        filter = kwargs.get('where', None)
+        filter_document = kwargs.get('where_document', None)
+        data = kwargs.get('include', ["metadatas", "documents"])
+
+        return self.lectures_tbl.query(
+            query_embeddings = embeddings,
+            n_results = n_results,
+            where = filter,
+            where_document = filter_document,
             query_texts = [query],
-            n_results = 10
+            include = data
         )
-        return [doc[0] for doc in results['documents']]
+    
+    def get_lectures(self, **kwargs):
+        ids = kwargs.get('ids', None)
+        where = kwargs.get('where', None)
+        return self.lectures_tbl.get(
+            ids = ids,
+            where = where
+        )
+
 
 
 

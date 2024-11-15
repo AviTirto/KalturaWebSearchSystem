@@ -8,6 +8,10 @@ import time
 
 load_dotenv()
 
+def generate_unique_id(link, index):
+        combined = f"{link}_{index}"
+        return base64.urlsafe_b64encode(combined.encode()).decode()
+
 class LectureManager():
     def __init__(self):
         self.db = Storage()
@@ -15,10 +19,6 @@ class LectureManager():
         self.schedule_link = 'https://tyler.caraza-harter.com/cs544/f23/schedule.html'
         self.download_dir = os.getenv('SRT_PATH')
         self.parser = Parser()
-
-    def generate_unique_id(self, link, index):
-        combined = f"{link}_{index}"
-        return base64.urlsafe_b64encode(combined.encode()).decode()
 
     def get_saved_lectures(self):
         return self.db.get_lessons()
@@ -48,12 +48,12 @@ class LectureManager():
             page_info = self.scraper.scrape_lecture_page(link)
             chunks = self.parser.parse_chunks(page_info['file_name'])
             
-            for index, chunk in enumerate(chunks):
+            for chunk in chunks:
                 start = time.time()
                 content = chunk['content']
                 del chunk['content']
-                uuid = self.generate_unique_id(link, index)
-                self.db.add_lecture(chunk, content, uuid)
+                uuid = generate_unique_id(link, chunk['index'])
+                self.db.add_lecture({**chunk, **{'link':link}}, content, uuid)
                 end = time.time()
                 print(end - start)
 
