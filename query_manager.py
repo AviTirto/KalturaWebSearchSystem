@@ -1,34 +1,27 @@
 from db import Storage
 from lecture_manager import generate_unique_id
 from queryer import Queryer
+from crud import queryLectures
+from data_types import Chunk
 
 class QueryManager():
     def __init__(self):
         self.db = Storage()
         self.queryer = Queryer()
 
-    def retrieve_chunks(self, question: str):
-        return self.db.query(question)
-
-    def remove_duplicate_chunks(self, metadatas, documents, ids):
+    def remove_duplicate_chunks(self, chunks):
         
         uuids = set()
-        unique_metadatas = []
-        unique_documents = []
-        unique_ids = []
-        for i in range(len(ids)):
-            if ids[i] in uuids:
+        unique_chunks = []
+
+        for i in range(len(chunks)):
+            if chunks[i].id in uuids:
                 continue
 
-            uuids.add(ids[i])
-            unique_metadatas += [metadatas[i]]
-            unique_documents += [documents[i]]
-            unique_ids += [ids[i]]
+            uuids.add(chunks[i].id)
+            unique_chunks += [chunks[i]]
 
-        return {
-            'ids': unique_ids,
-            'lect_infos': unique_metadatas,
-            'subtitles': unique_documents}
+        return unique_chunks
 
 
     def get_neighbors(self, lect_info):
@@ -65,25 +58,9 @@ class QueryManager():
     def query(self, input: str):
         subquestions = self.queryer.split_query(input)
 
-        lect_infos = []
-        subtitles = []
-        ids = []
-
         for question in subquestions:
-            print(question)
-            chunks = self.retrieve_chunks(question)
-            lect_infos += chunks['metadatas'][0]
-            subtitles += chunks['documents'][0]
-            ids += chunks['ids'][0]
-            print(len(chunks['metadatas'][0]))
+            chunks = queryLectures(question)
 
-        print()
-        print()
-        print('------------------------------------------------------------')
-        print()
-        print()
-        print(len(lect_infos))
-
-        unique_chunks = self.remove_duplicate_chunks(lect_infos, subtitles, ids)
+        unique_chunks = self.remove_duplicate_chunks(chunks)
 
 

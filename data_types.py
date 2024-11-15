@@ -1,6 +1,7 @@
 
 class Chunk:
-    def __init__(self, index: int, document: str, start_time: str, end_time: str, seconds: float, link: str):
+    def __init__(self, id: str, index: int, document: str, start_time: str, end_time: str, seconds: float, link: str):
+        self.id = id
         self.index = index
         self.subtitle = document
         self.start_time = start_time
