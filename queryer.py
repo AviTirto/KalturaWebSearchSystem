@@ -10,6 +10,9 @@ from langchain_google_genai import (
 )
 from dotenv import load_dotenv
 from validation_types import SubQuestions
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains.llm import LLMChain
+from langchain_core.prompts import ChatPromptTemplate
 # Take in user query and break down the query into smaller queries using an LLM call
 
 
@@ -42,6 +45,20 @@ class Queryer():
         chain = prompt | self.llm | parser
 
         return chain.invoke({"question": question})
+    
+    def summarizer(self, subtitles: List[str]):
+        # Define prompt
+        prompt = PromptTemplate(
+            template="""
+            The following is a set of summaries:
+            {chunks}
+            Take these and distill it into a final, consolidated summary
+            of the main themes.
+            """,
+            input_variables=['chunks']
+        )
+
+        return self.llm.invoke(prompt.format(chunks=subtitles)).content
     
 
 
