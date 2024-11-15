@@ -3,5 +3,3 @@ db/
 lecture_srt/
 __pycache__
 .gitignore
-db\
-lecture_srt\
