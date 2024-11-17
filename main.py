@@ -8,7 +8,7 @@ import os
 from queryer import Queryer
 
 qm = QueryManager()
-qm.query("What is docker?")
+print(qm.query("What is docker?"))
 
 
 # manager = LectureManager()

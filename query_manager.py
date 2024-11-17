@@ -27,6 +27,7 @@ class QueryManager():
 
 
     def get_neighbors(self, chunk: Chunk) -> List[Chunk]:
+        print(chunk.link, chunk.index)
         n_chunks = len(get_chunks_by_link(chunk.link))
 
         ids = [generate_unique_id(chunk.link, i) for i in range(max(chunk.index - 2, 0), min(chunk.index + 3, n_chunks))]
@@ -63,6 +64,6 @@ class QueryManager():
             neighbors = self.get_neighbors(chunk)
             summaries += [self.summarize_chunks(neighbors)]
 
-        return self.queryer.decide_subtitles()
+        return self.queryer.decide_subtitles(summaries, input)
 
 

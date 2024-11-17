@@ -9,10 +9,11 @@ from langchain_google_genai import (
     HarmCategory,
 )
 from dotenv import load_dotenv
-from validation_types import SubQuestions
+from validation_types import SubQuestions, Selection
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
+from data_types import Summary
 # Take in user query and break down the query into smaller queries using an LLM call
 
 
@@ -60,8 +61,30 @@ class Queryer():
 
         return self.llm.invoke(prompt.format(chunks=subtitles)).content
     
-    def decide_subtitles(self, subtitles):
-        pass
+    def format_subtitles(self, subtitles: List[Summary]):
+        output = ""
+        for i in range(len(subtitles)):
+            output+=f'\n{i}) {subtitles[i].content}'
+        return output
+    
+    def decide_subtitles(self, subtitles: List[Summary], question: str):
+        # Set up a parser + inject instructions into the prompt template.
+        parser = PydanticOutputParser(pydantic_object=Selection)
+
+        prompt = PromptTemplate(
+            template='''
+                You are a producer of a news station. Your job is to look at the summaries of some clips and select the ones that best answer the question: {question}.
+                Here are the following clips along with their associated id:
+                {subtitles}
+                {format_instructions}
+            ''',
+            input_variables=["question", "subtitles"],
+            partial_variables={"format_instructions": parser.get_format_instructions()},
+        )
+
+        chain = prompt | self.llm | parser
+
+        return chain.invoke({"question": question, "subtitles": self.format_subtitles(subtitles)}).indexes
     
 
 
