@@ -5,6 +5,7 @@ from queryer import Queryer
 from crud import queryLectures, get_chunk_by_id, get_chunks_by_link
 from typing import List
 from data_types import Chunk, Summary
+import time
 
 class QueryManager():
     def __init__(self):
@@ -27,12 +28,11 @@ class QueryManager():
 
 
     def get_neighbors(self, chunk: Chunk) -> List[Chunk]:
-        print(chunk.link, chunk.index)
         n_chunks = len(get_chunks_by_link(chunk.link))
 
         ids = [generate_unique_id(chunk.link, i) for i in range(max(chunk.index - 2, 0), min(chunk.index + 3, n_chunks))]
         
-        return get_chunk_by_id(ids)
+        return get_chunk_by_id(ids=ids)
 
     
 
@@ -50,6 +50,7 @@ class QueryManager():
 
 
     def query(self, input: str):
+        start = time.time()
         subquestions = self.queryer.split_query(input)
 
         for question in subquestions:
@@ -64,6 +65,9 @@ class QueryManager():
             neighbors = self.get_neighbors(chunk)
             summaries += [self.summarize_chunks(neighbors)]
 
-        return self.queryer.decide_subtitles(summaries, input)
+        indexes = self.queryer.decide_subtitles(summaries, input)
+        end = time.time()
+        print(end - start)
+        return [summaries[i] for i in indexes]
 
 

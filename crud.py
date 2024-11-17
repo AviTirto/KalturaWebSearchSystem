@@ -6,9 +6,9 @@ storage = Storage() # remove the object-oriented DB
 #  - Also add a relational database so that SQLAlchemy ORM can be added
 
 def process_chunks(raw_chunks):
-    lect_infos = raw_chunks['metadatas'][0]
-    subtitles = raw_chunks['documents'][0]
-    ids = raw_chunks['ids'][0]
+    lect_infos = raw_chunks['metadatas']
+    subtitles = raw_chunks['documents']
+    ids = raw_chunks['ids']
 
     processed_chunks = []
 
@@ -28,6 +28,9 @@ def process_chunks(raw_chunks):
 
 def queryLectures(query: str) -> Chunk:
     raw_chunks = storage.query(query)
+    raw_chunks['metadatas'] = raw_chunks['metadatas'][0]
+    raw_chunks['documents'] = raw_chunks['documents'][0]
+    raw_chunks['ids'] = raw_chunks['ids'][0]
     return process_chunks(raw_chunks)
     
 
@@ -45,7 +48,7 @@ def get_chunk_by_id(**kwargs):
         )
         return process_chunks(raw_chunks)[0]
     else:
-        raw_chunks = storage.db.get_lectures(
+        raw_chunks = storage.get_lectures(
             ids = ids
         )
         return process_chunks(raw_chunks)
@@ -57,4 +60,5 @@ def get_chunks_by_link(link) -> List[Chunk]:
             'link' : link
         }
     )
+
     return process_chunks(raw_chunks)
