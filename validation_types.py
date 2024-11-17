@@ -9,7 +9,8 @@ from pydantic import BaseModel, Field, validator
 class SubQuestions(BaseModel):
     subquestions: List[str] = Field(description="One or more questions")
 
-
+class Selection(BaseModel):
+    indexes: List[int] = Field(description="The indexes of the subtitles")
     
     
 

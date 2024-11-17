@@ -31,7 +31,7 @@ def queryLectures(query: str) -> Chunk:
     return process_chunks(raw_chunks)
     
 
-def get_chunk_by_id(self, **kwargs):
+def get_chunk_by_id(**kwargs):
     id = kwargs.get('id', None)
     ids = kwargs.get('ids', [])
     if not id and not ids:
@@ -40,19 +40,19 @@ def get_chunk_by_id(self, **kwargs):
         raise 'Either specify one of many IDs. A single ID and a list of IDs can not be processed'
     
     if id:
-        raw_chunks = self.db.get_lectures(
+        raw_chunks = storage.get_lectures(
             ids = [id]
         )
         return process_chunks(raw_chunks)[0]
     else:
-        raw_chunks = self.db.get_lectures(
+        raw_chunks = storage.db.get_lectures(
             ids = ids
         )
         return process_chunks(raw_chunks)
 
 
-def get_chunks_by_link(self, link) -> List[Chunk]:
-    raw_chunks = self.storage.get_lectures(
+def get_chunks_by_link(link) -> List[Chunk]:
+    raw_chunks = storage.get_lectures(
         where = {
             'link' : link
         }
