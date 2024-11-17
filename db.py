@@ -37,9 +37,6 @@ class Storage:
             print(e)
             return False
 
-    def get_lessons(self):
-        return self.lessons_tbl.get()['ids']
-
     def add_lecture(self, metadata, content, id):
         self.lectures_tbl.add(
             documents=[content], 
