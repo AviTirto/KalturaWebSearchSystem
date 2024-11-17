@@ -36,4 +36,3 @@ class Embedder(EmbeddingFunction):
                 raise  # Raise to trigger tenacity retry
             else:
                 raise  # Re-raise other RpcErrors without retrying
-        

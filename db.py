@@ -70,6 +70,14 @@ class Storage:
             ids = ids,
             where = where
         )
+    
+    def get_lessons(self, **kwargs):
+        ids = kwargs.get('ids', None)
+        where = kwargs.get('where', None)
+        return self.lessons_tbl.get(
+            ids = ids,
+            where = where
+        )
 
 
 

@@ -62,3 +62,12 @@ def get_chunks_by_link(link) -> List[Chunk]:
     )
 
     return process_chunks(raw_chunks)
+
+
+def get_lesson_by_link(link) -> Lesson:
+    return storage.get_lessons(
+        where = {
+            'link' : link
+        }
+    )
+
