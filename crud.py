@@ -1,73 +1,114 @@
-from data_types import Chunk, Lesson
-from typing import List
-from db import Storage
-
-storage = Storage() # remove the object-oriented DB
-#  - Also add a relational database so that SQLAlchemy ORM can be added
-
-def process_chunks(raw_chunks):
-    lect_infos = raw_chunks['metadatas']
-    subtitles = raw_chunks['documents']
-    ids = raw_chunks['ids']
-
-    processed_chunks = []
-
-    for i in range(len(lect_infos)):
-        processed_chunks+=[Chunk(
-            ids[i],
-            lect_infos[i]['index'],
-            subtitles[i],
-            lect_infos[i]['start_time'],
-            lect_infos[i]['end_time'],
-            lect_infos[i]['seconds'],
-            lect_infos[i]['link']
-        )]
-    
-    return processed_chunks
+from typing import List, Dict, Any
+from sqlmodel import Session, select
+from chroma_db import Storage
+from models import Subtitles, Lecture
 
 
-def queryLectures(query: str) -> Chunk:
-    raw_chunks = storage.query(query)
-    raw_chunks['metadatas'] = raw_chunks['metadatas'][0]
-    raw_chunks['documents'] = raw_chunks['documents'][0]
-    raw_chunks['ids'] = raw_chunks['ids'][0]
-    return process_chunks(raw_chunks)
-    
+class CRUDManager:
+    def __init__(self, session: Session, storage: Storage):
+        """
+        Initialize the CRUDManager with a database session and storage service.
+        :param session: A SQLModel session instance.
+        :param storage: A Storage instance for vector search operations.
+        """
+        self.session = session
+        self.storage = storage
 
-def get_chunk_by_id(**kwargs):
-    id = kwargs.get('id', None)
-    ids = kwargs.get('ids', [])
-    if not id and not ids:
-        raise 'ID or list of IDs must be provided'
-    if id and ids:
-        raise 'Either specify one of many IDs. A single ID and a list of IDs can not be processed'
-    
-    if id:
-        raw_chunks = storage.get_lectures(
-            ids = [id]
-        )
-        return process_chunks(raw_chunks)[0]
-    else:
-        raw_chunks = storage.get_lectures(
-            ids = ids
-        )
-        return process_chunks(raw_chunks)
+    def get_all_lecture_ids(self) -> List[int]:
+        """
+        Retrieve all lecture IDs from the database.
+        :return: A list of lecture IDs.
+        """
+        statement = select(Lecture.lecture_id)
+        results = self.session.exec(statement).all()
+        return [lecture_id for lecture_id in results if lecture_id is not None]
+
+    def get_lecture_metadata(self, lecture_id: int) -> Lecture:
+        """
+        Retrieve metadata for a specific lecture.
+        :param lecture_id: The ID of the lecture to retrieve.
+        :return: The Lecture object or raises an error if not found.
+        """
+        statement = select(Lecture).where(Lecture.lecture_id == lecture_id)
+        lecture_obj = self.session.exec(statement).first()
+        if not lecture_obj:
+            raise ValueError(f"No lecture found for lecture_id {lecture_id}")
+        return lecture_obj
+
+    def add_lecture_metadata(self, lecture_data: Dict[str, Any]) -> Lecture:
+        """
+        Add a new lecture to the database.
+        :param lecture_data: A dictionary containing the lecture metadata.
+        :return: The newly created Lecture object.
+        """
+        lecture = Lecture(**lecture_data)
+        self.session.add(lecture)
+        self.session.commit()
+        self.session.refresh(lecture)
+        return lecture
+
+    def add_subtitle_metadata(self, subtitle_data: Dict[str, Any]) -> Subtitles:
+        """
+        Add a new subtitle to the database.
+        :param subtitle_data: A dictionary containing the subtitle metadata.
+        :return: The newly created Subtitles object.
+        """
+        subtitle = Subtitles(**subtitle_data)
+        self.session.add(subtitle)
+        self.session.commit()
+        self.session.refresh(subtitle)
+        return subtitle
+
+    def get_subtitle_metadata(self, chunk_id: int) -> Subtitles:
+        """
+        Retrieve metadata for a specific subtitle chunk.
+        :param chunk_id: The ID of the subtitle chunk to retrieve.
+        :return: The Subtitles object or raises an error if not found.
+        """
+        statement = select(Subtitles).where(Subtitles.chunk_id == chunk_id)
+        subtitle_obj = self.session.exec(statement).first()
+        if not subtitle_obj:
+            raise ValueError(f"No subtitle found for chunk_id {chunk_id}")
+        return subtitle_obj
+
+    def query_lectures(self, query: str) -> List[Subtitles]:
+        """
+        Perform a vector search on the database and retrieve metadata for the matching chunks.
+        :param query: The query string to search for.
+        :return: A list of Subtitles objects for the matching chunks.
+        """
+        raw_chunks = self.storage.vector_search(query)
+        if not raw_chunks or 'ids' not in raw_chunks:
+            raise ValueError("No matching chunks found.")
+
+        subtitle_obj_list = []
+        for chunk_id in raw_chunks['ids']:
+            subtitle_obj = self.get_subtitle_metadata(chunk_id)
+            subtitle_obj_list.append(subtitle_obj)
+
+        return subtitle_obj_list
+
+    def get_all_subtitles_by_lecture(self, lecture_id: int) -> List[Subtitles]:
+        """
+        Retrieve all subtitle chunks for a specific lecture.
+        :param lecture_id: The ID of the lecture to retrieve subtitles for.
+        :return: A list of Subtitles objects.
+        """
+        statement = select(Subtitles).where(Subtitles.lecture_id == lecture_id)
+        subtitles = self.session.exec(statement).all()
+        if not subtitles:
+            raise ValueError(f"No subtitles found for lecture_id {lecture_id}")
+        return subtitles
 
 
-def get_chunks_by_link(link) -> List[Chunk]:
-    raw_chunks = storage.get_lectures(
-        where = {
-            'link' : link
-        }
-    )
-
-    return process_chunks(raw_chunks)
 
 
-def get_lesson_by_link(link) -> Lesson:
-    return storage.get_lessons(
-        where = {
-            'lecture_link' : link
-        }
-    )
 
+
+
+
+# data_types.py is gone
+# reformat crud.py
+# re build lecture_manager.py using new crud.py
+# delete db.py
+# query_manager will change

@@ -48,6 +48,14 @@ class Storage:
             query_texts = [query],
             include = data
         )
+    
+    def get_embedding(self, **kwargs):
+        ids = kwargs.get('ids', None)
+        where = kwargs.get('where', None)
+        return self.embeddings.get(
+            ids = ids,
+            where = where
+        )
 
 
 

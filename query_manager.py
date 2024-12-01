@@ -1,28 +1,32 @@
 
-from db import Storage
+from chroma_db import Storage
 from lecture_manager import generate_unique_id
 from queryer import Queryer
 from crud import queryLectures, get_chunk_by_id, get_chunks_by_link
+from crud import CRUDManager
 from typing import List
 from data_types import Chunk, Summary
 import time
+from sqlmodel import Session
+from models import Subtitles, Lecture
 
 class QueryManager():
-    def __init__(self):
+    def __init__(self, session : Session):
         self.db = Storage()
         self.queryer = Queryer()
+        self.crud_manager = CRUDManager(session, self.db)
 
-    def remove_duplicate_chunks(self, chunks: List[Chunk]) -> List[Chunk]:
-        
+
+    # This should just take in a list of Subtitle objects and remove the duplicates
+    def remove_duplicate_chunks(self, subtitle_chunks):
         uuids = set()
         unique_chunks = []
 
-        for i in range(len(chunks)):
-            if chunks[i].id in uuids:
+        for chunk in subtitle_chunks:
+            if chunk.chunk_id in uuids:
                 continue
-
-            uuids.add(chunks[i].id)
-            unique_chunks += [chunks[i]]
+            uuids.add(chunk.chunk_id)
+            unique_chunks.append(chunk)
 
         return unique_chunks
 
@@ -50,14 +54,12 @@ class QueryManager():
 
 
     def query(self, input: str):
-        start = time.time()
         subquestions = self.queryer.split_query(input)
-
         for question in subquestions:
-            chunks = queryLectures(question)
+            subtitle_chunks = CRUDManager.query_lectures(question)
 
 
-        unique_chunks = self.remove_duplicate_chunks(chunks)
+        unique_chunks = self.remove_duplicate_chunks(subtitle_chunks)
 
         summaries = []
 
@@ -66,8 +68,6 @@ class QueryManager():
             summaries += [self.summarize_chunks(neighbors)]
 
         indexes = self.queryer.decide_subtitles(summaries, input)
-        end = time.time()
-        print(end - start)
         return [summaries[i] for i in indexes]
 
 
