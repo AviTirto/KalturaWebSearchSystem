@@ -99,16 +99,3 @@ class CRUDManager:
         if not subtitles:
             raise ValueError(f"No subtitles found for lecture_id {lecture_id}")
         return subtitles
-
-
-
-
-
-
-
-
-# data_types.py is gone
-# reformat crud.py
-# re build lecture_manager.py using new crud.py
-# delete db.py
-# query_manager will change

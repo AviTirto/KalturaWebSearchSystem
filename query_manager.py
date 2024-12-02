@@ -2,13 +2,9 @@
 from chroma_db import Storage
 from lecture_manager import generate_unique_id
 from queryer import Queryer
-from crud import queryLectures, get_chunk_by_id, get_chunks_by_link
 from crud import CRUDManager
 from typing import List
-from data_types import Chunk, Summary
-import time
 from sqlmodel import Session
-from models import Subtitles, Lecture
 
 class QueryManager():
     def __init__(self, session : Session):
@@ -30,37 +26,46 @@ class QueryManager():
 
         return unique_chunks
 
+    def get_neighbors(self, subtitle_chunk):
+        chunk_index = subtitle_chunk.index
+        lecture_id = subtitle_chunk.lecture_id
+        lecture_subtitles = self.crud_manager.get_all_subtitles_by_lecture(lecture_id)
+        lecture_subtitles.sort(key=lambda s: s.index)
 
-    def get_neighbors(self, chunk: Chunk) -> List[Chunk]:
-        n_chunks = len(get_chunks_by_link(chunk.link))
+        current_index = next((i for i, subtitle in enumerate(lecture_subtitles) if subtitle.index == chunk_index), None)
+        if current_index is None:
+            raise ValueError(f"Chunk with index {chunk_index} not found for lecture_id {lecture_id}")
 
-        ids = [generate_unique_id(chunk.link, i) for i in range(max(chunk.index - 2, 0), min(chunk.index + 3, n_chunks))]
-        
-        return get_chunk_by_id(ids=ids)
+        start_index = max(0, current_index - 2)
+        end_index = min(len(lecture_subtitles), current_index + 3)
 
-    
+        neighboring_subtitles = lecture_subtitles[start_index:end_index]
+        return neighboring_subtitles
+
 
     def summarize_chunks(self, chunks):
         start_time = chunks[0].start_time
         end_time = chunks[-1].end_time
         seconds = chunks[0].seconds
-        link = chunks[0].link
+        lecture_id = chunks[0].lecture_id
         
         combined_subtitle = "\n".join([chunk.subtitle for chunk in chunks])
         summary = self.queryer.summarizer(combined_subtitle)
 
-        return Summary(summary, start_time, end_time, seconds, link)
+        # Should possibly change this? Make this a Subtitile? 
+        return {"content" : summary, "start_time": start_time, "end_time" : end_time, "seconds":seconds, "lecture_id" : lecture_id}
 
 
 
     def query(self, input: str):
         subquestions = self.queryer.split_query(input)
+        subtitle_chunks_list = []
         for question in subquestions:
             subtitle_chunks = CRUDManager.query_lectures(question)
+            subtitle_chunks_list.append(subtitle_chunks)
 
 
-        unique_chunks = self.remove_duplicate_chunks(subtitle_chunks)
-
+        unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
         summaries = []
 
         for chunk in unique_chunks:

@@ -4,7 +4,6 @@ from scraper import Scraper
 from lecture_parser import Parser
 import base64
 from dotenv import load_dotenv
-import time
 from crud import CRUDManager
 from models import Subtitles, Lecture
 from sqlmodel import Session
