@@ -14,6 +14,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
 from data_types import Summary
+from google.api_core import retry
 # Take in user query and break down the query into smaller queries using an LLM call
 
 
@@ -25,7 +26,7 @@ class Queryer():
             temperature=0,
             safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,})
 
-                             
+    @retry.Retry(timeout=300.0)                   
     def split_query(self, question):
         # Set up a parser + inject instructions into the prompt template.
         parser = PydanticOutputParser(pydantic_object=SubQuestions)
@@ -47,6 +48,8 @@ class Queryer():
 
         return chain.invoke({"question": question}).subquestions
     
+
+    @retry.Retry(timeout=300.0)
     def summarizer(self, subtitles: List[str]):
         # Define prompt
         prompt = PromptTemplate(
@@ -67,6 +70,7 @@ class Queryer():
             output+=f'\n{i}) {subtitles[i].content}'
         return output
     
+    @retry.Retry(timeout=300.0)
     def decide_subtitles(self, subtitles: List[Summary], question: str):
         # Set up a parser + inject instructions into the prompt template.
         parser = PydanticOutputParser(pydantic_object=Selection)

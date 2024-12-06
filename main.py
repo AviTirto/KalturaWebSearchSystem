@@ -7,9 +7,17 @@ from query_manager import QueryManager
 import os
 from queryer import Queryer
 
-qm = QueryManager()
-print(qm.query("What is docker?"))
+# import asyncio
+# import httpx
 
+# qm = QueryManager()
+# print(qm.query("What is docker?"))
+
+# Define an async function to fetch data
+import requests
+
+response = requests.get("http://127.0.0.1:8000/", params={"query": "what is docker?"})
+print(response.json())
 
 # manager = LectureManager()
 # manager.update_lectures()

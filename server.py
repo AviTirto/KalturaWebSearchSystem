@@ -27,7 +27,7 @@ def replace_start_time(input_string, replacement_number):
 
 
 @app.get("/")
-def get_lecture_snippets(query : str):
+async def get_lecture_snippets(query : str):
     summaries = qm.query(query)
 
     output = []
