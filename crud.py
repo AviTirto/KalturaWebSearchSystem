@@ -1,6 +1,6 @@
 from typing import List, Dict, Any
 from sqlmodel import Session, select
-from chroma_db import Storage
+from cdb import Storage
 from models import Subtitles, Lecture
 
 

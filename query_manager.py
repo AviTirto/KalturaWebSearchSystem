@@ -1,6 +1,6 @@
 
-from chroma_db import Storage
-from lecture_manager import generate_unique_id
+from cdb import Storage
+from lecture_manager import generate_unique_chunk_id
 from queryer import Queryer
 from crud import CRUDManager
 from typing import List

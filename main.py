@@ -1,14 +1,18 @@
 from scraper import Scraper
 # from embedder import Embedder
 from lecture_parser import Parser
-from lecture_manager import LectureManager, generate_unique_id
-from db import Storage
+from lecture_manager import LectureManager, generate_unique_chunk_id
+from cdb import Storage
 from query_manager import QueryManager
 import os
 from queryer import Queryer
+import database as db
 
-qm = QueryManager()
-print(qm.query("What is docker?"))
+# qm = QueryManager()
+# print(qm.query("What is docker?"))
+
+lm = LectureManager(db.get_session())
+lm.update_lectures()
 
 
 # manager = LectureManager()

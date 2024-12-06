@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
-import chroma_db
+import chromadb
 from embedder import Embedder
 from lecture_parser import Parser
 
@@ -11,7 +11,7 @@ load_dotenv()
 
 class Storage:
     def __init__(self):
-        self.db = chroma_db.PersistentClient(
+        self.db = chromadb.PersistentClient(
             path=os.getenv('LOCAL_DB_PATH')
         )
 

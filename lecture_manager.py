@@ -1,5 +1,5 @@
 import os
-from chroma_db import Storage
+from cdb import Storage
 from scraper import Scraper
 from lecture_parser import Parser
 import base64
