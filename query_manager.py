@@ -19,6 +19,7 @@ class QueryManager():
         unique_chunks = []
 
         for chunk in subtitle_chunks:
+
             if chunk.chunk_id in uuids:
                 continue
             uuids.add(chunk.chunk_id)
@@ -61,10 +62,11 @@ class QueryManager():
         subquestions = self.queryer.split_query(input)
         subtitle_chunks_list = []
         for question in subquestions:
-            subtitle_chunks = CRUDManager.query_lectures(question)
+            subtitle_chunks = self.crud_manager.query_lectures(question)
             subtitle_chunks_list.append(subtitle_chunks)
 
-
+        #print(subtitle_chunks_list)
+        subtitle_chunks_list = subtitle_chunks_list[0]
         unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
         summaries = []
 

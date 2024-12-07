@@ -59,7 +59,7 @@ class CRUDManager:
         self.session.refresh(subtitle)
         return subtitle
 
-    def get_subtitle_metadata(self, chunk_id: int) -> Subtitles:
+    def get_subtitle_metadata(self, chunk_id: str) -> Subtitles:
         """
         Retrieve metadata for a specific subtitle chunk.
         :param chunk_id: The ID of the subtitle chunk to retrieve.
@@ -82,10 +82,11 @@ class CRUDManager:
             raise ValueError("No matching chunks found.")
 
         subtitle_obj_list = []
-        for chunk_id in raw_chunks['ids']:
+        for chunk_id in raw_chunks['ids'][0]:
             subtitle_obj = self.get_subtitle_metadata(chunk_id)
             subtitle_obj_list.append(subtitle_obj)
 
+        
         return subtitle_obj_list
 
     def get_all_subtitles_by_lecture(self, lecture_id: int) -> List[Subtitles]:

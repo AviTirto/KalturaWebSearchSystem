@@ -35,7 +35,7 @@ class LectureManager():
     def find_unsaved_lectures(self):
         saved_lectures = set(self.get_saved_lectures())
         updated_lectures = self.get_updated_lectures()
-        unsaved_lectures = [lesson for lesson in updated_lectures if lesson["lecture_link"] not in saved_lectures]
+        unsaved_lectures = [lesson for lesson in updated_lectures if generate_unique_lecture_id(lesson["lecture_link"]) not in saved_lectures]
         return unsaved_lectures
 
     def remove_file(self, filename):
@@ -53,7 +53,7 @@ class LectureManager():
 
             page_info = self.scraper.scrape_lecture_page(link)
             date = page_info['date']
-            embed_link = page_info[embed_link]
+            embed_link = page_info['embed_link']
             chunks = self.parser.parse_chunks(page_info['file_name'])
             
             for chunk in chunks:
@@ -69,7 +69,7 @@ class LectureManager():
                     "lecture_id": lecture_id
                 }
                 self.crud_manager.add_subtitle_metadata(subtitle_data)
-                self.db.add_embeddings(content=chunk['content'], chunk_id=chunk_id)
+                self.db.add_embeddings(chunk_id=chunk_id, subtitle=chunk['content'])
 
             self.remove_file(page_info['file_name'])
             del page_info['file_name']

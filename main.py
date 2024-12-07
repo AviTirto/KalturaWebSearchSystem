@@ -7,12 +7,14 @@ from query_manager import QueryManager
 import os
 from queryer import Queryer
 import database as db
+from cdb import Storage
 
-# qm = QueryManager()
-# print(qm.query("What is docker?"))
+db.init_db()
+#lm = LectureManager(db.get_session())
+#lm.update_lectures()
 
-lm = LectureManager(db.get_session())
-lm.update_lectures()
+qm = QueryManager(db.get_session())
+print(qm.query("What is docker?"))
 
 
 # manager = LectureManager()
