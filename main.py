@@ -1,23 +1,23 @@
 from scraper import Scraper
 # from embedder import Embedder
 from lecture_parser import Parser
-from lecture_manager import LectureManager, generate_unique_id
-from db import Storage
+from lecture_manager import LectureManager, generate_unique_chunk_id
+from cdb import Storage
 from query_manager import QueryManager
 import os
 from queryer import Queryer
+import database as db
+from cdb import Storage
+from crud import CRUDManager
 
-# import asyncio
-# import httpx
+db.init_db()
 
-# qm = QueryManager()
-# print(qm.query("What is docker?"))
 
-# Define an async function to fetch data
-import requests
+# lm = LectureManager(db.get_session())
+# lm.update_lectures()
 
-response = requests.get("http://127.0.0.1:8000/", params={"query": "what is docker?"})
-print(response.json())
+
+
 
 # manager = LectureManager()
 # manager.update_lectures()
@@ -36,7 +36,8 @@ print(response.json())
 #     print(lesson)
 
 # storage.db.delete_collection('Lessons')
-# storage.db.delete_collection('Lectures')
+# # storage.db.delete_collection('Lectures')
+# storage.db.delete_collection('embeddings')
 # print(storage.db.list_collections())
 
 

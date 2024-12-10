@@ -13,7 +13,6 @@ from validation_types import SubQuestions, Selection
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
-from data_types import Summary
 from google.api_core import retry
 # Take in user query and break down the query into smaller queries using an LLM call
 
@@ -64,14 +63,14 @@ class Queryer():
 
         return self.llm.invoke(prompt.format(chunks=subtitles)).content
     
-    def format_subtitles(self, subtitles: List[Summary]):
+    def format_subtitles(self, subtitles):
         output = ""
         for i in range(len(subtitles)):
-            output+=f'\n{i}) {subtitles[i].content}'
+            output+=f'\n{i}) {subtitles[i]["content"]}'
         return output
     
     @retry.Retry(timeout=300.0)
-    def decide_subtitles(self, subtitles: List[Summary], question: str):
+    def decide_subtitles(self, subtitles, question: str):
         # Set up a parser + inject instructions into the prompt template.
         parser = PydanticOutputParser(pydantic_object=Selection)
 

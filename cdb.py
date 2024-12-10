@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
-import chroma_db
+import chromadb
 from embedder import Embedder
 from lecture_parser import Parser
 
@@ -11,7 +11,7 @@ load_dotenv()
 
 class Storage:
     def __init__(self):
-        self.db = chroma_db.PersistentClient(
+        self.db = chromadb.PersistentClient(
             path=os.getenv('LOCAL_DB_PATH')
         )
 
@@ -47,6 +47,14 @@ class Storage:
             where_document = filter_document,
             query_texts = [query],
             include = data
+        )
+    
+    def get_embedding(self, **kwargs):
+        ids = kwargs.get('ids', None)
+        where = kwargs.get('where', None)
+        return self.embeddings.get(
+            ids = ids,
+            where = where
         )
 
 

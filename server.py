@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from query_manager import QueryManager
-from crud import get_lesson_by_link
-from data_types import Summary
+from crud import CRUDManager
 import re
+from cdb import Storage
+import database as db
 
 
 app = FastAPI()
-qm = QueryManager()
+qm = QueryManager(db.get_session())
+storage = Storage()
+crud_manager = CRUDManager(db.get_session(), storage)
 
 # Add CORS middleware
 app.add_middleware(
@@ -32,12 +35,12 @@ async def get_lecture_snippets(query : str):
 
     output = []
     for summary in summaries:
-        lesson = get_lesson_by_link(summary.link)
+        lecture = crud_manager.get_lecture_metadata(summary["lecture_id"])
         output+=[
             {
-                'start_time': summary.start_time,
-                'end_time': summary.end_time,
-                'embed_link': replace_start_time(lesson['metadatas'][0]['embed_link'], int(summary.seconds))
+                'start_time': summary["start_time"],
+                'end_time': summary["end_time"],
+                'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"]))
             }
         ]
     return output
