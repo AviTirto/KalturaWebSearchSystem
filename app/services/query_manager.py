@@ -12,6 +12,8 @@ class QueryManager():
         self.queryer = Queryer()
         self.crud_manager = CRUDManager(session, self.db)
 
+    def set_key(self, key: str):
+        self.queryer.set_key(key)
 
     # This should just take in a list of Subtitle objects and remove the duplicates
     def remove_duplicate_chunks(self, subtitle_chunks):

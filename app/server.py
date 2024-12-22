@@ -63,7 +63,8 @@ def on_shutdown():
 
 
 @app.get("/")
-async def get_lecture_snippets(query : str):
+async def get_lecture_snippets(query : str, key: str):
+    qm.set_key(key)
     summaries = qm.query(query)
 
     output = []

@@ -14,12 +14,21 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
 from google.api_core import retry
+import os
 # Take in user query and break down the query into smaller queries using an LLM call
 
 
 load_dotenv()
 class Queryer():
     def __init__(self):
+        self.llm = ChatGoogleGenerativeAI(
+            model = "gemini-1.5-flash-latest", 
+            temperature=0,
+            safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,})
+
+    def set_key(self, key: str):
+        os.environ['GOOGLE_API_KEY'] = key
+
         self.llm = ChatGoogleGenerativeAI(
             model = "gemini-1.5-flash-latest", 
             temperature=0,
