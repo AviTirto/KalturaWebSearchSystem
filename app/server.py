@@ -18,7 +18,7 @@ import re
 scheduler = BackgroundScheduler()
 app = FastAPI()
 qm = QueryManager(db.get_session())
-lm = LectureManager()
+lm = LectureManager(db.get_session())
 storage = Storage()
 crud_manager = CRUDManager(db.get_session(), storage)
 
@@ -50,6 +50,7 @@ def replace_start_time(input_string, replacement_number):
 
 @app.on_event('startup')
 def on_startup():
+    db.init_db()
     print('starting scheduler...')
     scheduler.add_job(update_db, CronTrigger(hour=0, minute=0))
     update_db()
