@@ -1,11 +1,11 @@
 import os
-from cdb import Storage
-from scraper import Scraper
-from lecture_parser import Parser
+from app.models.ChromaModel.cdb import Storage
+from app.utils.scarping_tools.scraper import Scraper
+from app.utils.scarping_tools.lecture_parser import Parser
 import base64
 from dotenv import load_dotenv
-from crud import CRUDManager
-from models import Subtitles, Lecture
+from app.utils.database_tools.crud import CRUDManager
+from app.models.SQLModel.models import Subtitles, Lecture
 from sqlmodel import Session
 
 load_dotenv()

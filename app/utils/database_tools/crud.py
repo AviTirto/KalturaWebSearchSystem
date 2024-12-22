@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from sqlmodel import Session, select
-from cdb import Storage
-from models import Subtitles, Lecture
+from app.models.ChromaModel.cdb import Storage
+from app.models.SQLModel.models import Subtitles, Lecture
 
 
 class CRUDManager:

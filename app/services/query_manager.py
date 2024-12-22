@@ -1,8 +1,8 @@
 
-from cdb import Storage
-from lecture_manager import generate_unique_chunk_id
-from queryer import Queryer
-from crud import CRUDManager
+from app.models.ChromaModel.cdb import Storage
+from app.services.lecture_manager import generate_unique_chunk_id
+from app.utils.gemini_tools.queryer import Queryer
+from app.utils.database_tools.crud import CRUDManager
 from typing import List
 from sqlmodel import Session
 

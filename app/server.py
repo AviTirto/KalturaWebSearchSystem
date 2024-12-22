@@ -5,11 +5,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 # Search System Modules
-from query_manager import QueryManager
-from crud import CRUDManager
-from cdb import Storage
-import database as db
-from lecture_manager import LectureManager
+from app.services.query_manager import QueryManager
+from app.utils.database_tools.crud import CRUDManager
+from app.models.ChromaModel.cdb import Storage
+import app.models.SQLModel.database as db
+from app.services.lecture_manager import LectureManager
 
 # General Python Libraries
 import time

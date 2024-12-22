@@ -9,7 +9,7 @@ from langchain_google_genai import (
     HarmCategory,
 )
 from dotenv import load_dotenv
-from validation_types import SubQuestions, Selection
+from app.utils.gemini_tools.validation_types import SubQuestions, Selection
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.llm import LLMChain
 from langchain_core.prompts import ChatPromptTemplate
