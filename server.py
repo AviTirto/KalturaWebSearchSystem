@@ -1,14 +1,24 @@
+# Server Imports
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
+
+# Search System Modules
 from query_manager import QueryManager
 from crud import CRUDManager
-import re
 from cdb import Storage
 import database as db
+from lecture_manager import LectureManager
 
+# General Python Libraries
+import time
+import re
 
+scheduler = BackgroundScheduler()
 app = FastAPI()
 qm = QueryManager(db.get_session())
+lm = LectureManager()
 storage = Storage()
 crud_manager = CRUDManager(db.get_session(), storage)
 
@@ -21,12 +31,35 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+
+def update_db():
+    """Task to update the database."""
+    try:
+        print(f"Starting database update at {time.strftime('%Y-%m-%d %H:%M:%S')}")
+        lm.update_lectures()
+        print(f"Database update completed at {time.strftime('%Y-%m-%d %H:%M:%S')}")
+    except Exception as e:
+        print(f"Error updating database: {e}")
+
 def replace_start_time(input_string, replacement_number):
     # Regular expression to find the pattern `startTime` followed by any characters and then a `0`
     pattern = r"(startTime.*?A)0"
     # Replace the matched 0 with the replacement_number
     updated_string = re.sub(pattern, rf"\g<1>{replacement_number}", input_string)
     return updated_string
+
+@app.on_event('startup')
+def on_startup():
+    print('starting scheduler...')
+    scheduler.add_job(update_db, CronTrigger(hour=0, minute=0))
+    update_db()
+    scheduler.start()
+
+@app.on_event('shutdown')
+def on_shutdown():
+    """Shut down the scheduler."""
+    print("Shutting down scheduler...")
+    scheduler.shutdown()
 
 
 @app.get("/")
