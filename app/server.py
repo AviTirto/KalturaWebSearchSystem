@@ -18,7 +18,7 @@ import re
 scheduler = BackgroundScheduler()
 app = FastAPI()
 qm = QueryManager(db.get_session())
-lm = LectureManager(db.get_session())
+# lm = LectureManager(db.get_session())
 storage = Storage()
 crud_manager = CRUDManager(db.get_session(), storage)
 

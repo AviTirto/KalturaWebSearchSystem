@@ -11,16 +11,16 @@ lm = LectureManager(db.get_session())
 storage = Storage()
 cm = CRUDManager(db.get_session(), storage)
 
-try:
-    storage.db.delete_collection('embeddings')
-    print("ChromaDB",storage.db.list_collections())
-except:
-    print('no cache')
+# try:
+#     storage.db.delete_collection('embeddings')
+#     print("ChromaDB",storage.db.list_collections())
+# except:
+#     print('no cache')
 
 
-cm.delete_all_lectures()
-cm.delete_all_subtitles()
-print('SQL Model:', cm.get_all_lecture_titles())
+# cm.delete_all_lectures()
+# cm.delete_all_subtitles()
+print('SQL Model:', len(cm.get_all_lecture_titles()))
 
 
-lm.update_lectures()
+# lm.update_lectures()
