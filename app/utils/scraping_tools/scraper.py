@@ -13,17 +13,12 @@ load_dotenv()
 class Scraper():
     def __init__(self):
         self.df = None
+        
         # Set Firefox options
         self.options = webdriver.FirefoxOptions()
-        
-        # Add these options for better headless operation
         self.options.add_argument('--headless')
         self.options.add_argument('--no-sandbox')
         self.options.add_argument('--disable-dev-shm-usage')
-        self.options.add_argument('--disable-gpu')
-        self.options.add_argument('--window-size=1920,1080')
-        self.options.add_argument('--disable-setuid-sandbox')
-        self.options.add_argument('--disable-software-rasterizer')
         
         # Define the download directory
         self.download_dir = os.getenv('SRT_PATH')
@@ -32,21 +27,40 @@ class Scraper():
         if not os.path.exists(self.download_dir):
             os.makedirs(self.download_dir)
 
-        # Firefox preferences for downloads
+        # Set Firefox preferences
         self.options.set_preference("browser.download.folderList", 2)
         self.options.set_preference("browser.download.dir", self.download_dir)
         self.options.set_preference("browser.download.useDownloadDir", True)
         self.options.set_preference("browser.helperApps.neverAsk.saveToDisk", 
-                                "text/plain,application/octet-stream,application/x-subrip")
+                                  "text/plain,application/octet-stream,application/x-subrip")
         self.options.set_preference("browser.download.manager.showWhenStarting", False)
         self.options.set_preference("browser.helperApps.alwaysAsk.force", False)
 
-        # Log level for debugging
-        self.options.log.level = "trace"
+        # Create a Service object
+        self.service = Service(
+            executable_path='/usr/local/bin/geckodriver',
+            log_path='/tmp/geckodriver.log'
+        )
 
-        # Initialize the Firefox driver with options
-        self.driver = webdriver.Firefox(options=self.options)
+        # Initialize the Firefox driver with service and options
+        try:
+            self.driver = webdriver.Firefox(
+                service=self.service,
+                options=self.options
+            )
+        except Exception as e:
+            print(f"Failed to initialize Firefox driver: {str(e)}")
+            raise
+
         self.url = "https://tyler.caraza-harter.com/cs544/f24/schedule.html"
+
+    def __del__(self):
+        if hasattr(self, 'driver'):
+            try:
+                self.driver.quit()
+            except:
+                pass
+
 
     def xpath_safe_click(self, xpath):
         attempts = 3

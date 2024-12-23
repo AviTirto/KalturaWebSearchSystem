@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y \
     firefox-esr \
     wget \
     xvfb \
-    && rm -rf /var/lib/apt/lists/*  # Add xvfb for virtual framebuffer
+    dbus-x11 \  # Add this
+    && rm -rf /var/lib/apt/lists/*
 
 # Install geckodriver with the correct version (0.35.0)
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz \
@@ -33,17 +34,6 @@ RUN apt-get update && apt-get install -y \
     dbus \
     && rm -rf /var/lib/apt/lists/*
 
-# Install newer SQLite3 from source
-RUN wget https://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz \
-    && tar xvfz sqlite-autoconf-3450100.tar.gz \
-    && cd sqlite-autoconf-3450100 \
-    && ./configure \
-    && make \
-    && make install \
-    && cd .. \
-    && rm -rf sqlite-autoconf-3450100 \
-    && rm sqlite-autoconf-3450100.tar.gz
-
 # Update dynamic linker run-time bindings
 RUN ldconfig
 
@@ -70,7 +60,7 @@ RUN mkdir -p ${SRT_PATH} ${LOCAL_DB_PATH}
 ENV DISPLAY=:99
 
 # Add script to start Xvfb before the application
-COPY start.sh /start.sh
+COPY start.sh /start.shx
 RUN chmod +x /start.sh
 
 # Expose FastAPI port
