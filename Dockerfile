@@ -1,4 +1,4 @@
-FROM python:3.12-slim-buster
+FROM python:3.12-slim 
 
 # Install Firefox and required dependencies
 RUN apt-get update && apt-get install -y \
