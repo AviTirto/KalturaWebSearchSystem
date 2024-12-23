@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 import chromadb
 from app.utils.gemini_tools.embedder import Embedder
-from app.utils.scarping_tools.lecture_parser import Parser
+from app.utils.scraping_tools.lecture_parser import Parser
 
 load_dotenv()
 

@@ -1,4 +1,4 @@
-FROM python:3.12-slim 
+FROM python:3.12-slim
 
 # Install Firefox and required dependencies
 RUN apt-get update && apt-get install -y \
@@ -48,14 +48,14 @@ RUN ldconfig
 # Set the working directory
 WORKDIR /KalturaSearchSystem
 
-# Copy requirements.txt into the image
-COPY requirements.txt .
+# Copy the entire repository into the container first
+COPY . .
+
+# Set PYTHONPATH
+ENV PYTHONPATH="/KalturaSearchSystem:${PYTHONPATH}"
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the entire repository into the container
-COPY . .
 
 # Set environment variables
 ENV SRT_PATH="/KalturaSearchSystem/app/links"

@@ -1,7 +1,7 @@
 import os
 from app.models.ChromaModel.cdb import Storage
-from app.utils.scarping_tools.scraper import Scraper
-from app.utils.scarping_tools.lecture_parser import Parser
+from app.utils.scraping_tools.scraper import Scraper
+from app.utils.scraping_tools.lecture_parser import Parser
 import base64
 from dotenv import load_dotenv
 from app.utils.database_tools.crud import CRUDManager
