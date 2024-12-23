@@ -1,5 +1,4 @@
-# Use a more standard base image that's known to work well on Render
-FROM python:3.9-slim-buster
+FROM python:3.12-slim-buster
 
 # Install Firefox and required dependencies
 RUN apt-get update && apt-get install -y \
@@ -14,7 +13,7 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckod
     && mv geckodriver /usr/local/bin/ \
     && rm geckodriver-v0.33.0-linux64.tar.gz
 
-# Install system dependencies
+# Install system dependencies and newer SQLite3
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
@@ -29,7 +28,22 @@ RUN apt-get update && apt-get install -y \
     jq \
     fontconfig \
     ca-certificates \
+    sqlite3 \
     && rm -rf /var/lib/apt/lists/*
+
+# Install newer SQLite3 from source
+RUN wget https://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz \
+    && tar xvfz sqlite-autoconf-3450100.tar.gz \
+    && cd sqlite-autoconf-3450100 \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf sqlite-autoconf-3450100 \
+    && rm sqlite-autoconf-3450100.tar.gz
+
+# Update dynamic linker run-time bindings
+RUN ldconfig
 
 # Set the working directory
 WORKDIR /KalturaSearchSystem
