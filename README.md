@@ -27,8 +27,8 @@ This application uses a Retrieval-Augmented Generation (RAG) system to allow use
 # Installation
 1. Clone the repository:
 ```
-git clone https://github.com/yourusername/university-subtitle-rag-system.git
-cd university-subtitle-rag-system
+git clone https://github.com/AviTirto/KalturaWebSearchSystem.git
+cd KalturaSearchSystem
 ```
 
 2. Set up a virtual environment (optional but recommended)::
@@ -44,7 +44,8 @@ pip install -r requirements.txt
 
 4. Set Up Enviorment Variables
 ```
-DATABASE_URL=sqlite:///./test.db  # Example database URL
+LOCAL_SRT_PATH="your_srt_path
+LOCAL_DB_PATH=your_local_db_path
 GOOGLE_API_KEY=your_google_api_key
 GEMINI_API_KEY=your_gemini_api_key
 ```
@@ -52,12 +53,13 @@ GEMINI_API_KEY=your_gemini_api_key
 # Running Locally
 1. Start the FastAPI server:
 ```
-uvicorn main:app --reload
+cd app
+uvicorn server:app --reload
 ```
 
 2. Start the Streamlit frontend:
 ```
-streamlit run frontend.py
+streamlit run notebook.py
 ```
 
 # Docker
