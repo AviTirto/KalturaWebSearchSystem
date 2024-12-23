@@ -1,6 +1,3 @@
 .env
-db/
-lecture_srt/
 __pycache__
 .gitignore
-chroma_data

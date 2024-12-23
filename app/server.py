@@ -18,7 +18,7 @@ import re
 scheduler = BackgroundScheduler()
 app = FastAPI()
 qm = QueryManager(db.get_session())
-lm = LectureManager(db.get_session())
+# lm = LectureManager(db.get_session())
 storage = Storage()
 crud_manager = CRUDManager(db.get_session(), storage)
 
@@ -36,7 +36,7 @@ def update_db():
     """Task to update the database."""
     try:
         print(f"Starting database update at {time.strftime('%Y-%m-%d %H:%M:%S')}")
-        lm.update_lectures()
+        # lm.update_lectures()
         print(f"Database update completed at {time.strftime('%Y-%m-%d %H:%M:%S')}")
     except Exception as e:
         print(f"Error updating database: {e}")
