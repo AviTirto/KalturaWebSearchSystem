@@ -18,7 +18,7 @@ import re
 scheduler = BackgroundScheduler()
 app = FastAPI()
 qm = QueryManager(db.get_session())
-# lm = LectureManager(db.get_session())
+lm = LectureManager(db.get_session())
 storage = Storage()
 crud_manager = CRUDManager(db.get_session(), storage)
 
@@ -36,7 +36,7 @@ def update_db():
     """Task to update the database."""
     try:
         print(f"Starting database update at {time.strftime('%Y-%m-%d %H:%M:%S')}")
-        # lm.update_lectures()
+        lm.update_lectures()
         print(f"Database update completed at {time.strftime('%Y-%m-%d %H:%M:%S')}")
     except Exception as e:
         print(f"Error updating database: {e}")
@@ -53,6 +53,17 @@ def on_startup():
     db.init_db()
     print('starting scheduler...')
     scheduler.add_job(update_db, CronTrigger(hour=0, minute=0))
+
+    try:
+        storage.db.delete_collection('embeddings')
+        print('ChromaDB Tables:', storage.db.list_collections())
+    except:
+        print('embedding table not initialized, nothing to clear')
+
+
+    crud_manager.delete_all_lectures()
+    print('SQL Model Tables:', crud_manager.get_all_lecture_titles())
+
     update_db()
     scheduler.start()
 
