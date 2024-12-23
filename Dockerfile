@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     firefox-esr \
     wget \
     xvfb \
-    dbus-x11 \  # Add this
+    dbus-x11 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install geckodriver with the correct version (0.35.0)
@@ -60,7 +60,7 @@ RUN mkdir -p ${SRT_PATH} ${LOCAL_DB_PATH}
 ENV DISPLAY=:99
 
 # Add script to start Xvfb before the application
-COPY start.sh /start.shx
+COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 # Expose FastAPI port
