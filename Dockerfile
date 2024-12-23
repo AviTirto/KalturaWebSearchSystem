@@ -4,8 +4,8 @@ FROM selenium/standalone-firefox:latest
 # Set the working directory to the root of the repository
 WORKDIR /KalturaSearchSystem
 
-# Install system dependencies that might be required for pip install
-RUN apt-get update && apt-get install -y \
+# Ensure the apt-get lists are up-to-date before installing
+RUN apt-get update --fix-missing && apt-get install -y \
     build-essential \
     libpq-dev \
     libssl-dev \
@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     jq \
     fontconfig \
-    ca-certificates
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*  # Clean up to reduce image size
 
 # Copy requirements.txt into the image
 COPY requirements.txt .
