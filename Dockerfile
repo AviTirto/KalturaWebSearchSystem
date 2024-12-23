@@ -4,8 +4,8 @@ FROM python:3.12-slim
 RUN apt-get update && apt-get install -y \
     firefox-esr \
     wget \
-    xvfb \  # Add this for virtual framebuffer
-    && rm -rf /var/lib/apt/lists/*
+    xvfb \
+    && rm -rf /var/lib/apt/lists/*  # Add xvfb for virtual framebuffer
 
 # Install geckodriver with the correct version (0.35.0)
 RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz \
@@ -30,14 +30,51 @@ RUN apt-get update && apt-get install -y \
     fontconfig \
     ca-certificates \
     sqlite3 \
-    dbus \  # Add this for Firefox
+    dbus \
     && rm -rf /var/lib/apt/lists/*
 
-[... rest of Dockerfile remains the same ...]
+# Install newer SQLite3 from source
+RUN wget https://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz \
+    && tar xvfz sqlite-autoconf-3450100.tar.gz \
+    && cd sqlite-autoconf-3450100 \
+    && ./configure \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf sqlite-autoconf-3450100 \
+    && rm sqlite-autoconf-3450100.tar.gz
+
+# Update dynamic linker run-time bindings
+RUN ldconfig
+
+# Set the working directory
+WORKDIR /KalturaSearchSystem
+
+# Copy the entire repository into the container
+COPY . .
+
+# Set PYTHONPATH
+ENV PYTHONPATH="/KalturaSearchSystem:${PYTHONPATH}"
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set environment variables
+ENV SRT_PATH="/KalturaSearchSystem/app/links"
+ENV LOCAL_DB_PATH="/KalturaSearchSystem/app/db"
+
+# Create necessary directories
+RUN mkdir -p ${SRT_PATH} ${LOCAL_DB_PATH}
+
+# Add display environment variable for Firefox
+ENV DISPLAY=:99
 
 # Add script to start Xvfb before the application
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Change the CMD to use the start script
+# Expose FastAPI port
+EXPOSE 8000
+
+# Command to run FastAPI server using the start script
 CMD ["/start.sh"]
