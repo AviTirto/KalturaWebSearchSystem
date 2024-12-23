@@ -6,12 +6,12 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Install geckodriver
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz \
-    && tar -xvzf geckodriver-v0.33.0-linux64.tar.gz \
+# Install geckodriver with the correct version (0.35.0)
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz \
+    && tar -xvzf geckodriver-v0.35.0-linux64.tar.gz \
     && chmod +x geckodriver \
     && mv geckodriver /usr/local/bin/ \
-    && rm geckodriver-v0.33.0-linux64.tar.gz
+    && rm geckodriver-v0.35.0-linux64.tar.gz
 
 # Install system dependencies and newer SQLite3
 RUN apt-get update && apt-get install -y \
@@ -48,7 +48,7 @@ RUN ldconfig
 # Set the working directory
 WORKDIR /KalturaSearchSystem
 
-# Copy the entire repository into the container first
+# Copy the entire repository into the container
 COPY . .
 
 # Set PYTHONPATH
@@ -63,6 +63,9 @@ ENV LOCAL_DB_PATH="/KalturaSearchSystem/app/db"
 
 # Create necessary directories
 RUN mkdir -p ${SRT_PATH} ${LOCAL_DB_PATH}
+
+# Add display environment variable for Firefox
+ENV DISPLAY=:99
 
 # Expose FastAPI port
 EXPOSE 8000

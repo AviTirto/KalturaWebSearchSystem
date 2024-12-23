@@ -15,6 +15,9 @@ class Scraper():
         self.df = None
         # Set Firefox options
         self.options = webdriver.FirefoxOptions()
+        self.options.add_argument('--headless')  # Enable headless mode
+        self.options.add_argument('--no-sandbox')
+        self.options.add_argument('--disable-dev-shm-usage')
         #self.options.add_argument("--headless")  # headless mode if needed
 
         # Define the download directory
