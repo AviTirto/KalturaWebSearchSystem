@@ -55,7 +55,7 @@ class LectureManager():
 
             if not page_info:
                 continue
-            
+
             date = page_info['date']
             embed_link = page_info['embed_link']
             chunks = self.parser.parse_chunks(page_info['file_name'])
@@ -74,6 +74,7 @@ class LectureManager():
                 }
                 self.crud_manager.add_subtitle_metadata(subtitle_data)
                 self.db.add_embeddings(chunk_id=chunk_id, subtitle=chunk['content'])
+                print('Current Number of Embeddings:', self.db.embeddings.count())
 
             self.remove_file(page_info['file_name'])
             del page_info['file_name']

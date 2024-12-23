@@ -1,4 +1,3 @@
-# Use the official Python 3.12-slim image as a base
 FROM python:3.12-slim
 
 # Install necessary system dependencies
@@ -13,20 +12,22 @@ RUN apt-get update && apt-get install -y \
 # Set the working directory
 WORKDIR /KalturaSearchSystem
 
-# Copy the entire repository into the container
+# Create necessary directories
+RUN mkdir -p /KalturaSearchSystem/db
+
+# Copy everything except what's in .dockerignore
 COPY . .
 
-# Set PYTHONPATH
-ENV PYTHONPATH="/KalturaSearchSystem:${PYTHONPATH}"
-
-# Set environment variables for the database
-# Point to a directory inside the container
-ENV DATABASE_PATH="/KalturaSearchSystem/db/database.db"
-# If you want to change the default directory from `./db`, modify this line in the code:
+# Set environment variables to match your local paths
+ENV DATABASE_PATH="/KalturaSearchSystem/database.db"
 ENV LOCAL_DB_PATH="/KalturaSearchSystem/db"
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Ensure correct permissions for database directories
+RUN chmod -R 777 /KalturaSearchSystem/db
+RUN chmod 777 /KalturaSearchSystem/database.db || true
 
 # Expose FastAPI port
 EXPOSE 8000
