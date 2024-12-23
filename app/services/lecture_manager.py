@@ -52,6 +52,10 @@ class LectureManager():
             lecture_id = generate_unique_lecture_id(link)
 
             page_info = self.scraper.scrape_lecture_page(link)
+
+            if not page_info:
+                continue
+            
             date = page_info['date']
             embed_link = page_info['embed_link']
             chunks = self.parser.parse_chunks(page_info['file_name'])

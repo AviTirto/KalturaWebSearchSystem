@@ -35,6 +35,13 @@ class CRUDManager:
             self.session.delete(lecture)
         self.session.commit()
 
+    def delete_all_subtitles(self):
+        statement = select(Subtitles)
+        subtitles = self.session.exec(statement).all()
+        for subtitle in subtitles:
+            self.session.delete(subtitle)
+        self.session.commit()
+
     def get_lecture_metadata(self, lecture_id: int) -> Lecture:
         """
         Retrieve metadata for a specific lecture.

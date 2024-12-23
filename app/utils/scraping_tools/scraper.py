@@ -66,7 +66,11 @@ class Scraper():
 
     def get_srt_file(self):
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[3]/button')
-        self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button')
+        try:
+            self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button')
+        except:
+            return None
+
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div/div/div/div[2]')
 
         # Wait for file to appear in the download folder
@@ -102,6 +106,8 @@ class Scraper():
             self.driver.get(url)
 
             downloaded_file = self.get_srt_file()
+            if not downloaded_file:
+                return None
 
             date = self.get_date()
 
