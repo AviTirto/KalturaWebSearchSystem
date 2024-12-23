@@ -15,6 +15,9 @@ class Scraper():
         self.df = None
         # Set Firefox options
         self.options = webdriver.FirefoxOptions()
+        self.options.add_argument('--headless')  # Enable headless mode
+        self.options.add_argument('--no-sandbox')
+        self.options.add_argument('--disable-dev-shm-usage')
         #self.options.add_argument("--headless")  # headless mode if needed
 
         # Define the download directory
@@ -64,7 +67,7 @@ class Scraper():
     def get_srt_file(self):
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[3]/button')
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[2]/div[3]/div/div[3]/div/div/button')
-        self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div[2]/div/div/div/div[3]/div')
+        self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[1]/div/div/div/div/div/div/div/div[2]')
 
         # Wait for file to appear in the download folder
         start_time = time.time()

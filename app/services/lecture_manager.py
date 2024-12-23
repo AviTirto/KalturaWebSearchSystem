@@ -21,7 +21,7 @@ class LectureManager():
     def __init__(self, session : Session):
         self.db = Storage() # This references the chroma DB database
         self.scraper = Scraper()
-        self.schedule_link = 'https://tyler.caraza-harter.com/cs544/f23/schedule.html'
+        self.schedule_link = 'https://tyler.caraza-harter.com/cs544/f24/schedule.html'
         self.download_dir = os.getenv('SRT_PATH')
         self.parser = Parser()
         self.crud_manager = CRUDManager(session, self.db)

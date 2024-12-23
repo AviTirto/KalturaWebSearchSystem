@@ -27,6 +27,13 @@ class CRUDManager:
         statement = select(Lecture.title)
         results = self.session.exec(statement).all()
         return results
+    
+    def delete_all_lectures(self):
+        statement = select(Lecture)
+        lectures = self.session.exec(statement).all()
+        for lecture in lectures:
+            self.session.delete(lecture)
+        self.session.commit()
 
     def get_lecture_metadata(self, lecture_id: int) -> Lecture:
         """

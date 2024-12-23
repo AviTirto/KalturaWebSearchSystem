@@ -9,6 +9,13 @@ qm = QueryManager(db.get_session())
 lm = LectureManager(db.get_session())
 storage = Storage()
 cm = CRUDManager(db.get_session(), storage)
+
+# storage.db.delete_collection('embeddings')
+# print(storage.db.list_collections())
+
+
+# cm.delete_all_lectures()
 # print(cm.get_all_lecture_titles())
 
-print(storage.embeddings.count())
+
+lm.update_lectures()
