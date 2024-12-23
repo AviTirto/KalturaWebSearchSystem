@@ -4,12 +4,38 @@ import streamlit as st
 import requests
 import aiohttp
 
-async def fetch_data(query: str):
+async def fetch_data(query: str, key: str):
     async with aiohttp.ClientSession() as session:
-        async with session.get("http://127.0.0.1:8000/", params={"query": query}) as response:
+        async with session.get("https://searchsystem.onrender.com/", params={"query": query, "key": key}) as response:
             return await response.json()
 
 async def main():
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
+
+    # Login Function
+    def login(token, gemini_key):
+        # Add your authentication logic here
+        valid_token = "my_secure_token"  # Replace with your token validation logic
+        valid_gemini_key = "my_gemini_key"  # Replace with your key validation logic
+
+        if token == valid_token and gemini_key == valid_gemini_key:
+            st.session_state.logged_in = True
+            st.success("Login successful!")
+        else:
+            st.error("Invalid token or Gemini key. Please try again.")
+
+    # Display Login Popup if not logged in
+    if not st.session_state.logged_in:
+        st.title("Login Required")
+        with st.form("login_form"):
+            token = st.text_input("Enter your Token", type="password")
+            gemini_key = st.text_input("Enter your Gemini Key", type="password")
+            submitted = st.form_submit_button("Login")
+            
+            if submitted:
+                login(token, gemini_key)
+
     search_bar = st.text_input("Find me clips about...")
 
     if search_bar:
