@@ -1,10 +1,11 @@
 # Use a lightweight Python image
 FROM python:3.12-slim
 
-# Install Firefox and Geckodriver dependencies
+# Install dependencies and utilities like curl, jq, and Firefox
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
+    jq \
     ca-certificates \
     fontconfig \
     libx11-xcb1 \
@@ -23,10 +24,9 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     firefox-esr
 
-# Install Geckodriver (for Firefox WebDriver)
-RUN FIREFOX_VERSION=$(firefox --version | awk '{print $3}') && \
-    GECKODRIVER_VERSION=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r .tag_name) && \
-    curl -sL "https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz" | tar xz -C /usr/local/bin
+# Download the latest version of Geckodriver
+RUN LATEST_GECKO=$(curl -s https://api.github.com/repos/mozilla/geckodriver/releases/latest | jq -r .tag_name) && \
+    curl -sL "https://github.com/mozilla/geckodriver/releases/download/$LATEST_GECKO/geckodriver-$LATEST_GECKO-linux64.tar.gz" | tar xz -C /usr/local/bin
 
 # Set the working directory to the root of the repository
 WORKDIR /KalturaSearchSystem
