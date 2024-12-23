@@ -15,37 +15,38 @@ class Scraper():
         self.df = None
         # Set Firefox options
         self.options = webdriver.FirefoxOptions()
-        self.options.add_argument('--headless')  # Enable headless mode
+        
+        # Add these options for better headless operation
+        self.options.add_argument('--headless')
         self.options.add_argument('--no-sandbox')
         self.options.add_argument('--disable-dev-shm-usage')
-        #self.options.add_argument("--headless")  # headless mode if needed
-
+        self.options.add_argument('--disable-gpu')
+        self.options.add_argument('--window-size=1920,1080')
+        self.options.add_argument('--disable-setuid-sandbox')
+        self.options.add_argument('--disable-software-rasterizer')
+        
         # Define the download directory
         self.download_dir = os.getenv('SRT_PATH')
-
 
         # Create the directory if it doesn't exist
         if not os.path.exists(self.download_dir):
             os.makedirs(self.download_dir)
 
-        # Set up the Firefox profile
-        self.profile = webdriver.FirefoxProfile()
-        self.profile.set_preference("browser.download.folderList", 2)  # 2 means custom location
-        self.profile.set_preference("browser.download.dir", self.download_dir)
+        # Firefox preferences for downloads
+        self.options.set_preference("browser.download.folderList", 2)
+        self.options.set_preference("browser.download.dir", self.download_dir)
+        self.options.set_preference("browser.download.useDownloadDir", True)
+        self.options.set_preference("browser.helperApps.neverAsk.saveToDisk", 
+                                "text/plain,application/octet-stream,application/x-subrip")
+        self.options.set_preference("browser.download.manager.showWhenStarting", False)
+        self.options.set_preference("browser.helperApps.alwaysAsk.force", False)
 
-        self.profile.set_preference("browser.download.useDownloadDir", True)
-        
-        #self.profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")  # Specify MIME types as needed
-        self.profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/plain,application/octet-stream,application/x-subrip")
-
-        
-        # Add profile to options
-        self.options.profile = self.profile
+        # Log level for debugging
+        self.options.log.level = "trace"
 
         # Initialize the Firefox driver with options
         self.driver = webdriver.Firefox(options=self.options)
         self.url = "https://tyler.caraza-harter.com/cs544/f24/schedule.html"
-
 
     def xpath_safe_click(self, xpath):
         attempts = 3
