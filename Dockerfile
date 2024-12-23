@@ -16,14 +16,14 @@ WORKDIR /KalturaSearchSystem
 # Copy the entire repository into the container
 COPY . .
 
-# Copy the SQLite database file into the container
-COPY ./database.db ./database.db
-
 # Set PYTHONPATH
 ENV PYTHONPATH="/KalturaSearchSystem:${PYTHONPATH}"
 
-# Set environment variables for database
-ENV DATABASE_PATH="/KalturaSearchSystem/database.db"
+# Set environment variables for the database
+# Point to a directory inside the container
+ENV DATABASE_PATH="/KalturaSearchSystem/db/database.db"
+# If you want to change the default directory from `./db`, modify this line in the code:
+ENV LOCAL_DB_PATH="/KalturaSearchSystem/db"
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
