@@ -1,73 +1,14 @@
-# # Use the official Python 3.12-slim image as a base
-# FROM python:3.12-slim
-
-# # Set the working directory inside the container
-# WORKDIR /app
-
-# # Copy the requirements.txt file into the container
-# COPY requirements.txt .
-
-# # Install the dependencies specified in requirements.txt
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# # Copy the rest of the application files into the container
-# COPY ./app ./app
-
-# # Expose the port your FastAPI application will run on
-# EXPOSE 8000
-
-# # Command to run the FastAPI application using Uvicorn
-# CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
-
-
-
-
+# Use the official Python 3.12-slim image as a base
 FROM python:3.12-slim
 
-# Install Firefox and required dependencies
-RUN apt-get update && apt-get install -y \
-    firefox-esr \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install geckodriver with the correct version (0.35.0)
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.35.0/geckodriver-v0.35.0-linux64.tar.gz \
-    && tar -xvzf geckodriver-v0.35.0-linux64.tar.gz \
-    && chmod +x geckodriver \
-    && mv geckodriver /usr/local/bin/ \
-    && rm geckodriver-v0.35.0-linux64.tar.gz
-
-# Install system dependencies and newer SQLite3
+# Install necessary system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     libssl-dev \
     libffi-dev \
-    libgdk-pixbuf2.0-0 \
-    libx11-xcb1 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    curl \
-    jq \
-    fontconfig \
     ca-certificates \
-    sqlite3 \
     && rm -rf /var/lib/apt/lists/*
-
-# Install newer SQLite3 from source
-RUN wget https://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz \
-    && tar xvfz sqlite-autoconf-3450100.tar.gz \
-    && cd sqlite-autoconf-3450100 \
-    && ./configure \
-    && make \
-    && make install \
-    && cd .. \
-    && rm -rf sqlite-autoconf-3450100 \
-    && rm sqlite-autoconf-3450100.tar.gz
-
-# Update dynamic linker run-time bindings
-RUN ldconfig
 
 # Set the working directory
 WORKDIR /KalturaSearchSystem
@@ -75,21 +16,17 @@ WORKDIR /KalturaSearchSystem
 # Copy the entire repository into the container
 COPY . .
 
+# Copy the SQLite database file into the container
+COPY ./database.db ./database.db
+
 # Set PYTHONPATH
 ENV PYTHONPATH="/KalturaSearchSystem:${PYTHONPATH}"
 
+# Set environment variables for database
+ENV DATABASE_PATH="/KalturaSearchSystem/database.db"
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Set environment variables
-ENV SRT_PATH="/KalturaSearchSystem/app/links"
-ENV LOCAL_DB_PATH="/KalturaSearchSystem/app/db"
-
-# Create necessary directories
-RUN mkdir -p ${SRT_PATH} ${LOCAL_DB_PATH}
-
-# Add display environment variable for Firefox
-ENV DISPLAY=:99
 
 # Expose FastAPI port
 EXPOSE 8000

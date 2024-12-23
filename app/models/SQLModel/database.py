@@ -1,10 +1,11 @@
 from sqlmodel import SQLModel, create_engine, Session
 
 # Define the SQLite database URL
-DATABASE_URL = "sqlite:///database.db"  # This will create a file named 'database.db'
+DATABASE_PATH = os.getenv("DATABASE_PATH", "./database.db")  # Default to './database.db' if env var not set
+DATABASE_URL = f"sqlite:///{DATABASE_PATH}"  # Full path to the database file
 
 # Create the database engine
-engine = create_engine(DATABASE_URL, echo=True)  # Set echo=True to log SQL queries
+engine = create_engine(DATABASE_URL, echo=True)
 
 # Initialize the database and create all tables
 def init_db():
