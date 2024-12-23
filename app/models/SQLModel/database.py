@@ -1,4 +1,5 @@
 from sqlmodel import SQLModel, create_engine, Session
+import os
 
 # Define the SQLite database URL
 DATABASE_PATH = os.getenv("DATABASE_PATH", "./database.db")  # Default to './database.db' if env var not set
