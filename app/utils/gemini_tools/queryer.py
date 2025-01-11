@@ -85,7 +85,8 @@ class Queryer():
 
         prompt = PromptTemplate(
             template='''
-                You are a producer of a news station. Your job is to look at the summaries of some clips and select the ones that best answer the question: {question}.
+                You are a producer of a news station. Your job is to look at the subtitles of clips and select the ones that best answer the question: {question}.
+                Only choose relevant ones. If none directly answer the question then don't return anything.
                 Here are the following clips along with their associated id:
                 {subtitles}
                 {format_instructions}

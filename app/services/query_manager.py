@@ -53,10 +53,10 @@ class QueryManager():
         lecture_id = chunks[0].lecture_id
         
         combined_subtitle = "\n".join([chunk.subtitle for chunk in chunks])
-        summary = self.queryer.summarizer(combined_subtitle)
+        # summary = self.queryer.summarizer(combined_subtitle)
 
         # Should possibly change this? Make this a Subtitile? 
-        return {"content" : summary, "start_time": start_time, "end_time" : end_time, "seconds":seconds, "lecture_id" : lecture_id}
+        return {"content" : combined_subtitle, "start_time": start_time, "end_time" : end_time, "seconds":seconds, "lecture_id" : lecture_id}
 
 
 
