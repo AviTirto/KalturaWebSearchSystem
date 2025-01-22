@@ -87,6 +87,7 @@ class Queryer():
             template='''
                 You are a producer of a news station. Your job is to look at the subtitles of clips and select the ones that best answer the question: {question}.
                 Only choose relevant ones. If none directly answer the question then don't return anything.
+                Provide a short(maximum 100 word) explanation to why the subtitle answers the clip.
                 Here are the following clips along with their associated id:
                 {subtitles}
                 {format_instructions}
@@ -97,7 +98,7 @@ class Queryer():
 
         chain = prompt | self.llm | parser
 
-        return chain.invoke({"question": question, "subtitles": self.format_subtitles(subtitles)}).indexes
+        return chain.invoke({"question": question, "subtitles": self.format_subtitles(subtitles)})
     
 
 

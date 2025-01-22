@@ -77,16 +77,19 @@ def on_shutdown():
 @app.get("/")
 async def get_lecture_snippets(query : str, key: str):
     qm.set_key(key)
-    summaries = qm.query(query)
+    results = qm.query(query)
 
     output = []
-    for summary in summaries:
+    for result in results:
+        summary = result[0]
         lecture = crud_manager.get_lecture_metadata(summary["lecture_id"])
         output+=[
             {
                 'start_time': summary["start_time"],
                 'end_time': summary["end_time"],
-                'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"]))
+                'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"])),
+                'subtitle': summary['content'],
+                'explanation': result[1]
             }
         ]
     return output
