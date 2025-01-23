@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from app.utils.database_tools.crud import CRUDManager
 from app.models.SQLModel.models import Subtitles, Lecture
 from sqlmodel import Session
+import shutil
 
 load_dotenv()
 
@@ -25,6 +26,16 @@ class LectureManager():
         self.download_dir = os.getenv('SRT_PATH')
         self.parser = Parser()
         self.crud_manager = CRUDManager(session, self.db)
+
+        for filename in os.listdir(self.download_dir):
+            file_path = os.path.join(self.download_dir, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Failed to delete %s. Reason: %s' % (file_path, e))
 
     def get_saved_lectures(self):
         return self.crud_manager.get_all_lecture_ids()
