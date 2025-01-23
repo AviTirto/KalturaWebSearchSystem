@@ -76,7 +76,14 @@ class QueryManager():
             neighbors = self.get_neighbors(chunk)
             summaries += [self.summarize_chunks(neighbors)]
 
-        indexes = self.queryer.decide_subtitles(summaries, input)
-        return [summaries[i] for i in indexes]
+        results = self.queryer.decide_subtitles(summaries, input)
+        indexes = results.indexes
+        reasons = results.reasons
+
+        output = []
+        for i, r in zip(indexes, reasons):
+            output.append((summaries[i], r))
+
+        return output
 
 

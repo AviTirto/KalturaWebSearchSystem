@@ -11,6 +11,7 @@ class SubQuestions(BaseModel):
 
 class Selection(BaseModel):
     indexes: List[int] = Field(description="The indexes of the subtitles")
+    reasons: List[str] = Field(description="Reason why the subtitles answer the question")
     
     
 
