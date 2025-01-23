@@ -55,13 +55,7 @@ class LectureManager():
     # note! a way to remove failed lecture uploads from the db must be implemented
     # This function will change quite a bit
     def update_lectures(self):
-        # unsaved_lectures = self.find_unsaved_lectures()
-        unsaved_lectures = [
-                {
-                    'lecture_link': 'https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-11_27_24-14%3A23%3A05/1_s00iopqh',
-                    'title': 'test'
-                }
-            ]
+        unsaved_lectures = self.find_unsaved_lectures()
 
         for lecture in unsaved_lectures:
             link = lecture['lecture_link']
