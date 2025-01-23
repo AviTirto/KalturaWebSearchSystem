@@ -98,7 +98,7 @@ class Queryer():
 
         chain = prompt | self.llm | parser
 
-        return chain.invoke({"question": question, "subtitles": self.format_subtitles(subtitles)}).indexes
+        return chain.invoke({"question": question, "subtitles": self.format_subtitles(subtitles)})
     
 
 
