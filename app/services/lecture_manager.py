@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from app.utils.database_tools.crud import CRUDManager
 from app.models.SQLModel.models import Subtitles, Lecture
 from sqlmodel import Session
+import shutil
 
 load_dotenv()
 
@@ -26,6 +27,16 @@ class LectureManager():
         self.parser = Parser()
         self.crud_manager = CRUDManager(session, self.db)
 
+        for filename in os.listdir(self.download_dir):
+            file_path = os.path.join(self.download_dir, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Failed to delete %s. Reason: %s' % (file_path, e))
+
     def get_saved_lectures(self):
         return self.crud_manager.get_all_lecture_ids()
 
@@ -44,7 +55,13 @@ class LectureManager():
     # note! a way to remove failed lecture uploads from the db must be implemented
     # This function will change quite a bit
     def update_lectures(self):
-        unsaved_lectures = self.find_unsaved_lectures()
+        # unsaved_lectures = self.find_unsaved_lectures()
+        unsaved_lectures = [
+                {
+                    'lecture_link': 'https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-11_27_24-14%3A23%3A05/1_s00iopqh',
+                    'title': 'test'
+                }
+            ]
 
         for lecture in unsaved_lectures:
             link = lecture['lecture_link']

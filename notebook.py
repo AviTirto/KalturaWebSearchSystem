@@ -73,6 +73,8 @@ async def main():
                         st.write(clip['explanation'])
                         st.write(f'**Subtitle**')
                         st.write(clip['subtitle'])
+                        st.write(f'**Lecture Link**')
+                        st.write(clip['link'])
             else:
                 st.warning("No clips found for your query.")
 

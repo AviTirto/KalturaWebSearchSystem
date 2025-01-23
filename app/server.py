@@ -14,6 +14,7 @@ from app.services.lecture_manager import LectureManager
 # General Python Libraries
 import time
 import re
+import base64
 
 scheduler = BackgroundScheduler()
 app = FastAPI()
@@ -89,7 +90,8 @@ async def get_lecture_snippets(query : str, key: str):
                 'end_time': summary["end_time"],
                 'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"])),
                 'subtitle': summary['content'],
-                'explanation': result[1]
+                'explanation': result[1],
+                'link': base64.urlsafe_b64decode(summary['lecture_id']).decode()
             }
         ]
     return output

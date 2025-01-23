@@ -4,35 +4,34 @@ from app.services.query_manager import QueryManager
 from app.services.lecture_manager import LectureManager
 from app.utils.database_tools.crud import CRUDManager
 from app.utils.scraping_tools.scraper import Scraper
+import base64
 
 # Get fresh session
 session = db.get_session()
 storage = Storage()
 cm = CRUDManager(session, storage)
+scraper = Scraper()
 
-# First, clear ChromaDB
-try:
-    storage.db.delete_collection('embeddings')
-    print("ChromaDB collections after delete:", storage.db.list_collections())
-    # Recreate the embeddings collection to ensure clean state
-    storage.embeddings = storage.db.get_or_create_collection(name="embeddings")
-except Exception as e:
-    print('ChromaDB clear error:', e)
+cm.delete_all_lectures()
+cm.delete_all_subtitles()
 
-# Then, clear SQLite database
-try:
-    # Clear in correct order due to foreign key constraints
-    cm.delete_all_subtitles()
-    cm.delete_all_lectures()
-    session.commit()  # Make sure the deletions are committed
-    print('SQL Model lectures remaining:', len(cm.get_all_lecture_titles()))
-except Exception as e:
-    print('SQLite clear error:', e)
-    session.rollback()
+link = "https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-11_27_24-14%3A23%3A05/1_s00iopqh"
+meta_data = scraper.scrape_lecture_page(link)
+print(meta_data['file_name'])
 
-# Now create new managers with fresh session
-qm = QueryManager(db.get_session())
-lm = LectureManager(db.get_session())
+lm = LectureManager(session)
 
-# Update lectures
 lm.update_lectures()
+
+link = "https://mediaspace.wisc.edu/media/Tyler%20Caraza-Harter-Agriculture%20125-11_27_24-14%3A23%3A05/1_s00iopqh"
+
+lecture_id = base64.urlsafe_b64encode(link.encode()).decode()
+
+subtitles = cm.get_all_subtitles_by_lecture(lecture_id)
+
+for subtitle in subtitles:
+    print(base64.urlsafe_b64decode(subtitle.chunk_id).decode())
+
+
+
+
