@@ -69,6 +69,8 @@ async def main():
                 for idx, clip in enumerate(clips):
                     if st.button(f"{clip['start_time']} - {clip['end_time']}", key=f"clip_{idx}"):
                         st.markdown(clip['embed_link'], unsafe_allow_html=True)
+                        st.write(f'**Explanation')
+                        st.write(clip['explanation'])
             else:
                 st.warning("No clips found for your query.")
 
