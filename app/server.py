@@ -78,7 +78,7 @@ def on_shutdown():
 @app.get("/")
 async def get_lecture_snippets(query : str, key: str):
     qm.set_key(key)
-    results = qm.query(query)
+    results, split_cost, decide_cost = qm.query(query)
 
     output = []
     for result in results:
@@ -91,7 +91,9 @@ async def get_lecture_snippets(query : str, key: str):
                 'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"])),
                 'subtitle': summary['content'],
                 'explanation': result[1],
-                'link': base64.urlsafe_b64decode(summary['lecture_id']).decode()
+                'link': base64.urlsafe_b64decode(summary['lecture_id']).decode(),
+                'split_cost': split_cost,
+                'decide_cost': decide_cost
             }
         ]
     return output

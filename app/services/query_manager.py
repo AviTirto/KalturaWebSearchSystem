@@ -84,6 +84,7 @@ class QueryManager():
         for i, r in zip(indexes, reasons):
             output.append((summaries[i], r))
 
+        # , split_cost, decide_cost
         return output
 
 
