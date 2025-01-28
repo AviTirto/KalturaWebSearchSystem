@@ -15,6 +15,8 @@ scraper = Scraper()
 cm.delete_all_lectures()
 cm.delete_all_subtitles()
 
+storage.db.delete_collection('embeddings')
+
 lm = LectureManager(session)
 
 lm.update_lectures()

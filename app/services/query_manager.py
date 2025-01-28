@@ -60,6 +60,34 @@ class QueryManager():
 
 
 
+    # def query(self, input: str):
+    #     #subquestions = self.queryer.split_query(input)
+    #     #subtitle_chunks_list = []
+    #     subtitle_chunks = self.crud_manager.query_lectures(input)
+    #     # for question in subquestions:
+    #     #     subtitle_chunks = self.crud_manager.query_lectures(question)
+    #     #     subtitle_chunks_list.append(subtitle_chunks)
+
+    #     #print(subtitle_chunks_list)
+    #     # subtitle_chunks_list = subtitle_chunks_list[0]
+    #     # unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
+    #     summaries = []
+
+    #     for chunk in subtitle_chunks:
+    #         neighbors = self.get_neighbors(chunk)
+    #         summaries += [self.summarize_chunks(neighbors)]
+
+    #     results = self.queryer.decide_subtitles(summaries, input)
+    #     indexes = results.indexes
+    #     reasons = results.reasons
+
+    #     output = []
+    #     for i, r in zip(indexes, reasons):
+    #         output.append((summaries[i], r))
+
+    #     # , split_cost, decide_cost
+    #     return output
+    
     def query(self, input: str):
         subquestions = self.queryer.split_query(input)
         subtitle_chunks_list = []
@@ -84,7 +112,6 @@ class QueryManager():
         for i, r in zip(indexes, reasons):
             output.append((summaries[i], r))
 
-        # , split_cost, decide_cost
         return output
 
 
