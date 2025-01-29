@@ -1,3 +1,4 @@
+# Use the official Python slim image
 FROM python:3.12-slim
 
 # Install necessary system dependencies
@@ -9,25 +10,25 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
-WORKDIR /KalturaSearchSystem
+# Set the working directory to match the actual path
+WORKDIR /root/KalturaWebSearchSystem
 
 # Create necessary directories
-RUN mkdir -p /KalturaSearchSystem/db
+RUN mkdir -p /root/KalturaWebSearchSystem/db
 
 # Copy everything except what's in .dockerignore
 COPY . .
 
-# Set environment variables to match your local paths
-ENV DATABASE_PATH="/KalturaSearchSystem/database.db"
-ENV LOCAL_DB_PATH="/KalturaSearchSystem/db"
+# Set environment variables to match the correct path
+ENV DATABASE_PATH="/root/KalturaWebSearchSystem/database.db"
+ENV LOCAL_DB_PATH="/root/KalturaWebSearchSystem/db"
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ensure correct permissions for database directories
-RUN chmod -R 777 /KalturaSearchSystem/db
-RUN chmod 777 /KalturaSearchSystem/database.db || true
+# Ensure correct permissions for the database
+RUN chmod -R 777 /root/KalturaWebSearchSystem/db
+RUN chmod 777 /root/KalturaWebSearchSystem/database.db || true
 
 # Expose FastAPI port
 EXPOSE 8000
