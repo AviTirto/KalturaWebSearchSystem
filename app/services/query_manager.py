@@ -60,51 +60,24 @@ class QueryManager():
 
 
 
-    # def query(self, input: str):
-    #     #subquestions = self.queryer.split_query(input)
-    #     #subtitle_chunks_list = []
-    #     subtitle_chunks = self.crud_manager.query_lectures(input)
-    #     # for question in subquestions:
-    #     #     subtitle_chunks = self.crud_manager.query_lectures(question)
-    #     #     subtitle_chunks_list.append(subtitle_chunks)
-
-    #     #print(subtitle_chunks_list)
-    #     # subtitle_chunks_list = subtitle_chunks_list[0]
-    #     # unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
-    #     summaries = []
-
-    #     for chunk in subtitle_chunks:
-    #         neighbors = self.get_neighbors(chunk)
-    #         summaries += [self.summarize_chunks(neighbors)]
-
-    #     results = self.queryer.decide_subtitles(summaries, input)
-    #     indexes = results.indexes
-    #     reasons = results.reasons
-
-    #     output = []
-    #     for i, r in zip(indexes, reasons):
-    #         output.append((summaries[i], r))
-
-    #     # , split_cost, decide_cost
-    #     return output
-    
     def query(self, input: str):
-        subquestions = self.queryer.split_query(input)
-        subtitle_chunks_list = []
-        for question in subquestions:
-            subtitle_chunks = self.crud_manager.query_lectures(question)
-            subtitle_chunks_list.append(subtitle_chunks)
+        #subquestions = self.queryer.split_query(input)
+        #subtitle_chunks_list = []
+        subtitle_chunks = self.crud_manager.query_lectures(input)
+        # for question in subquestions:
+        #     subtitle_chunks = self.crud_manager.query_lectures(question)
+        #     subtitle_chunks_list.append(subtitle_chunks)
 
         #print(subtitle_chunks_list)
-        subtitle_chunks_list = subtitle_chunks_list[0]
-        unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
+        # subtitle_chunks_list = subtitle_chunks_list[0]
+        # unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
         summaries = []
 
-        for chunk in unique_chunks:
+        for chunk in subtitle_chunks:
             neighbors = self.get_neighbors(chunk)
             summaries += [self.summarize_chunks(neighbors)]
 
-        results = self.queryer.decide_subtitles(summaries, input)
+        results, input_decide, output_decide = self.queryer.decide_subtitles(summaries, input)
         indexes = results.indexes
         reasons = results.reasons
 
@@ -112,6 +85,35 @@ class QueryManager():
         for i, r in zip(indexes, reasons):
             output.append((summaries[i], r))
 
-        return output
+        return output, input_decide, output_decide
+    
+    # def query(self, input: str):
+    #     subquestions, input_split, output_split = self.queryer.split_query(input)
+    #     subtitle_chunks_list = []
+    #     for question in subquestions:
+    #         subtitle_chunks = self.crud_manager.query_lectures(question)
+    #         subtitle_chunks_list.append(subtitle_chunks)
+
+    #     #print(subtitle_chunks_list)
+    #     subtitle_chunks_list = subtitle_chunks_list[0]
+    #     unique_chunks = self.remove_duplicate_chunks(subtitle_chunks_list)
+    #     summaries = []
+
+    #     for chunk in unique_chunks:
+    #         neighbors = self.get_neighbors(chunk)
+    #         summaries += [self.summarize_chunks(neighbors)]
+
+    #     results, input_decide, output_decide = self.queryer.decide_subtitles(summaries, input)
+    #     indexes = results.indexes
+    #     reasons = results.reasons
+
+    #     output = []
+    #     for i, r in zip(indexes, reasons):
+    #         output.append((summaries[i], r))
+
+    #     total_input = input_split + input_decide
+    #     total_output = output_split + output_decide
+
+    #     return output, total_input, total_output
 
 

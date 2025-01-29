@@ -35,7 +35,7 @@ class Storage:
 
     def vector_search(self, query, **kwargs):
         embeddings = kwargs.get('embedding', None)
-        n_results = kwargs.get('n_results', 10)
+        n_results = kwargs.get('n_results', 5)
         filter = kwargs.get('where', None)
         filter_document = kwargs.get('where_document', None)
         data = kwargs.get('include', ["metadatas", "documents"])
