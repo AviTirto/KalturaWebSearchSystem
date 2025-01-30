@@ -5,7 +5,7 @@ import aiohttp
 async def fetch_data(query: str, key: str):
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "https://searchsystem.onrender.com/",
+            "http://104.131.190.193:8000/",
             params={"query": query, "key": key},
         ) as response:
             return await response.json()
