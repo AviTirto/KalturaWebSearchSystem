@@ -87,7 +87,7 @@ async def get_lecture_snippets(query : str, key: str):
                 'start_time': summary["start_time"],
                 'end_time': summary["end_time"],
                 'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"]))
-            }
+            } 
         ]
     return output
 
