@@ -15,9 +15,9 @@ class Scraper():
         self.df = None
         # Set Firefox options
         self.options = webdriver.FirefoxOptions()
-        self.options.add_argument('--headless')  # Enable headless mode
-        self.options.add_argument('--no-sandbox')
-        self.options.add_argument('--disable-dev-shm-usage')
+        # self.options.add_argument('--headless')  # Enable headless mode
+        # self.options.add_argument('--no-sandbox')
+        # self.options.add_argument('--disable-dev-shm-usage')
         #self.options.add_argument("--headless")  # headless mode if needed
 
         # Define the download directory
@@ -44,7 +44,7 @@ class Scraper():
 
         # Initialize the Firefox driver with options
         self.driver = webdriver.Firefox(options=self.options)
-        self.url = "https://tyler.caraza-harter.com/cs544/f24/schedule.html"
+        self.url = "https://mediaspace.wisc.edu/playlist/dedicated/1_pdlead8k/1_krmy057m"
 
 
     def xpath_safe_click(self, xpath):
@@ -62,7 +62,6 @@ class Scraper():
                 pass  # Retry if stale
             except TimeoutError:
                 pass
-
 
     def get_srt_file(self):
         self.xpath_safe_click('//*[@id="player-gui"]/div[3]/div[1]/div[3]/button')
@@ -90,7 +89,6 @@ class Scraper():
 
         return downloaded_file
         
-
     def get_date(self):
         # Locate and retrieve the text of the date
         date = WebDriverWait(self.driver, 10).until(
@@ -98,7 +96,6 @@ class Scraper():
         ).find_element(By.TAG_NAME, "span").text
 
         return date
-
 
     def scrape_lecture_page(self, url):
         try:
@@ -127,34 +124,6 @@ class Scraper():
             pass
             # self.driver.quit()
 
-
-    def get_lessons(self, url):
-        lecture_metadata = []
-
-        # Refresh the page at the start of each retry
-        self.driver.get(url)
-
-        try:
-            # Grab all lessons
-            lessons = self.driver.find_elements(By.CSS_SELECTOR, 'div.col-md-4')
-            
-            # Filter for lessons containing a Kaltura lecture link
-            lessons = [lesson for lesson in lessons if lesson.find_elements(By.CSS_SELECTOR, 'a[href*="https://mediaspace.wisc.edu"]')]
-
-            # Extract metadata for each lesson with a Kaltura link
-            lecture_metadata = [
-                {
-                    'title': lesson.find_element(By.TAG_NAME, 'h5').text,
-                    'lecture_link': lesson.find_element(By.CSS_SELECTOR, 'a[href*="https://mediaspace.wisc.edu"]').get_attribute('href')
-                }
-                for lesson in lessons
-            ]
-            return lecture_metadata
-
-        except Exception as e:
-            return f'Error: {e}'
-
-
     def get_embed_link(self):
         """Retrieves the embed link from the page with retries and refreshes."""
 
@@ -174,3 +143,48 @@ class Scraper():
         )
         embed_text = embed_text_area.get_attribute("value")
         return embed_text
+    
+    def get_lessons(self, url=None):
+        if url is None:
+            url = self.url  
+
+        lecture_metadata = []
+        self.driver.get(url) 
+
+        try:
+
+            lessons = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div[data-testid="playlist_item"]'))
+            )
+
+            for lesson in lessons:
+                title = lesson.get_attribute("title") 
+                print(title)
+
+                try:
+                    lesson.click()
+
+                    WebDriverWait(self.driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div[2]/div[5]/div/div[2]/div/div[2]/div/div[3]/div/div[1]/div/div[1]/ul/li[2]/a'))
+                    ).click()
+
+                    print('here')
+            
+                    lecture_link_element = WebDriverWait(self.driver, 10).until(
+                        EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[2]/div[5]/div/div[2]/div/div[2]/div/div[3]/div/div[3]/div/div[2]/div/div/div[2]/div[1]/input'))
+                    )
+                    lecture_link = lecture_link_element.get_attribute("value")
+                    print(lecture_link)
+
+                except Exception as e:
+                    lecture_link = f"Error retrieving link: {e}"
+
+                lecture_metadata.append({
+                    'title': title,
+                    'lecture_link': lecture_link
+                })
+
+            return lecture_metadata
+
+        except Exception as e:
+            return f'Error: {e}'
