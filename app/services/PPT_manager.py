@@ -1,20 +1,24 @@
 import os
 import base64
 from dotenv import load_dotenv
-from Loader import Loader
-from OCR import OCRModel
-from records import CDB
-from ppt_types import PPT, Slide
+from app.utils.scraping_tools.Loader import Loader
+from app.utils.gemini_tools.ocr import OCRModel
+from app.models.ChromaModel.records import PPTcdb
+from app.utils.gemini_tools.ppt_types import PPT, Slide
 
 load_dotenv()
 
 class PPTManager:
     def __init__(self):
-        self.pdf_directory = "../Econ_301_PPT"
+        self.pdf_directory = "./Econ_301_PPT/"
+
+        print(f"Resolved path: {self.pdf_directory}")
+        print(f"Exists? {os.path.exists(self.pdf_directory)}")
+
         self.pdf_files = [os.path.join(self.pdf_directory, f) for f in os.listdir(self.pdf_directory) if f.endswith(".pdf")]
         self.loader = Loader()
         self.ocr_model = OCRModel()
-        self.cdb = CDB()
+        self.cdb = PPTcdb()
 
     def generate_unique_chunk_id(self, title, page_num):
         combined = f"{title}_{page_num}"
