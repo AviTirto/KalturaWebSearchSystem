@@ -15,6 +15,7 @@ from app.services.lecture_manager import LectureManager
 import time
 import re
 import base64
+import os
 
 scheduler = BackgroundScheduler()
 app = FastAPI()
@@ -75,9 +76,28 @@ def on_shutdown():
     scheduler.shutdown()
 
 
-@app.get("/")
-async def get_lecture_snippets(query : str, key: str):
-    qm.set_key(key)
+@app.get("/clips")
+async def get_lecture_snippets(query : str):
+    qm.set_key(os.getenv('GEMINI_API_KEY'))
+    results = qm.query(query)
+
+    output = []
+    for result in results:
+        summary = result[0]
+        lecture = crud_manager.get_lecture_metadata(summary["lecture_id"])
+        output+=[
+            {
+                'start_time': summary["start_time"],
+                'end_time': summary["end_time"],
+                'embed_link': replace_start_time(lecture.embed_link, int(summary["seconds"])),
+                'explanation': result[1]
+            }
+        ]
+    return output
+
+@app.get("/slides")
+async def get_lecture_snippets(query : str):
+    qm.set_key(os.getenv('GEMINI_API_KEY'))
     results = qm.query(query)
 
     output = []
