@@ -10,6 +10,7 @@ from langchain_google_genai import (
 from dotenv import load_dotenv
 from app.utils.gemini_tools.validation_types import SubQuestions, Selection
 import os
+import asyncio
 
 load_dotenv()
 
@@ -49,6 +50,13 @@ class Queryer():
         
         result = await chain.ainvoke({"question": question})
         return result.subquestions
+    
+    async def split_query_batch(self, questions: List[str]):
+        # Create a list of coroutines for each question to split
+        tasks = [self.split_query(question) for question in questions]
+        # Use asyncio.gather to execute them concurrently
+        results = await asyncio.gather(*tasks)
+        return results
 
     async def summarizer(self, subtitles: List[str]):
         prompt = PromptTemplate(
@@ -63,6 +71,13 @@ class Queryer():
 
         response = await self.llm.ainvoke(prompt.format(chunks=subtitles))
         return response.content
+    
+    async def summarizer_batch(self, subtitles_batch: List[List[str]]):
+        # Create a list of coroutines for summarizing each batch of subtitles
+        tasks = [self.summarizer(subtitles) for subtitles in subtitles_batch]
+        # Execute the tasks concurrently
+        results = await asyncio.gather(*tasks)
+        return results
     
     def format_subtitles(self, subtitles):
         output = ""
@@ -89,3 +104,10 @@ class Queryer():
         chain = prompt | self.llm | parser
         result = await chain.ainvoke({"question": question, "subtitles": self.format_subtitles(subtitles)})
         return result
+    
+    async def decide_subtitles_batch(self, subtitles_batch: List[List[str]], question: str):
+        # Create a list of coroutines for deciding subtitles for each batch
+        tasks = [self.decide_subtitles(subtitles, question) for subtitles in subtitles_batch]
+        # Execute the tasks concurrently
+        results = await asyncio.gather(*tasks)
+        return results
