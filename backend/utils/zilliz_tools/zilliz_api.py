@@ -20,7 +20,13 @@ def upload_clips(conn, lecture_id, chunk_ids, embeddings):
         "data": data
     })
 
-    conn.request("POST", "/v2/vectordb/entities/insert", body=payload, headers=os.getenv("ZILLIZ_HEADER"))
+    headers = {
+        'Authorization': os.getenv("ZILLIZ_AUTH_TOKEN"),
+        'Accept': "application/json",
+        'Content-Type': "application/json"
+    }
+
+    conn.request("POST", "/v2/vectordb/entities/insert", body=payload, headers=headers)
 
     res = conn.getresponse()
     data = res.read()
