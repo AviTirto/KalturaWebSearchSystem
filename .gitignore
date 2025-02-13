@@ -2,3 +2,4 @@
 __pycache__
 .gitignore
 .Econ_301_PPT
+backend/.env
