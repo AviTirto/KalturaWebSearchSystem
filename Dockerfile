@@ -33,4 +33,4 @@ RUN chmod 777 /KalturaSearchSystem/database.db || true
 EXPOSE 8000
 
 # Command to run FastAPI server
-CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "3"]
