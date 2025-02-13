@@ -78,7 +78,7 @@ def on_shutdown():
 @app.get("/")
 async def get_lecture_snippets(query : str, key: str):
     qm.set_key(key)
-    results = qm.query(query)
+    results = await qm.query(query)
 
     output = []
     for result in results:

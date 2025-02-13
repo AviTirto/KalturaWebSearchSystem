@@ -60,8 +60,8 @@ class QueryManager():
 
 
 
-    def query(self, input: str):
-        subquestions = self.queryer.split_query(input)
+    async def query(self, input: str):
+        subquestions = await self.queryer.split_query(input)
         subtitle_chunks_list = []
         for question in subquestions:
             subtitle_chunks = self.crud_manager.query_lectures(question)
@@ -76,7 +76,7 @@ class QueryManager():
             neighbors = self.get_neighbors(chunk)
             summaries += [self.summarize_chunks(neighbors)]
 
-        results = self.queryer.decide_subtitles(summaries, input)
+        results = await self.queryer.decide_subtitles(summaries, input)
         indexes = results.indexes
         reasons = results.reasons
 
