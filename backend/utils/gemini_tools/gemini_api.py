@@ -1,4 +1,3 @@
-import os
 import asyncio
 from typing import List
 from langchain.output_parsers import PydanticOutputParser
@@ -8,29 +7,29 @@ from langchain_google_genai import (
     HarmBlockThreshold,
     HarmCategory,
 )
+
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.insert(0, project_root)
+
+from backend.utils.gemini_tools.gemini_types import SubQuestions, Selection
+
 from dotenv import load_dotenv
-from validation_types import SubQuestions, Selection
 
-# Global llm instance
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash-latest", 
-    temperature=0,
-    safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE},
-)
+load_dotenv()
 
-# Set API key and initialize llm
-def set_key(key: str):
-    os.environ['GOOGLE_API_KEY'] = key
-    global llm
-    llm = ChatGoogleGenerativeAI(
+def get_llm():
+    return ChatGoogleGenerativeAI(
         model="gemini-1.5-flash-latest", 
         temperature=0,
         safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE},
     )
 
-async def split_query(question: str):
+async def split_query_batch(llm, questions: List[str]):
     parser = PydanticOutputParser(pydantic_object=SubQuestions)
-    
+        
     prompt = PromptTemplate(
         template='''We are building a RAG search system where a user inputs in a question and then gets timestamps from lecture content
         best answering that question. Only if it makes the original question clearer, break down "{question}" into subquestions.
@@ -40,31 +39,13 @@ async def split_query(question: str):
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
 
-    chain = prompt | llm | parser
-    result = await chain.ainvoke({"question": question})
-    return result.subquestions
-
-async def split_query_batch(questions: List[str]):
-    tasks = [split_query(question) for question in questions]
-    results = await asyncio.gather(*tasks)
-    return results
-
-async def summarizer(subtitles: List[str]):
-    prompt = PromptTemplate(
-        template="""The following is a set of summaries:
-        {chunks}
-        Take these and distill it into a final, consolidated summary
-        of the main themes.""",
-        input_variables=['chunks']
+    formatted_questions = [prompt.format(question=q) for q in questions]
+    
+    results= llm.batch(
+        formatted_questions
     )
 
-    response = await llm.ainvoke(prompt.format(chunks=subtitles))
-    return response.content
-
-async def summarizer_batch(subtitles_batch: List[List[str]]):
-    tasks = [summarizer(subtitles) for subtitles in subtitles_batch]
-    results = await asyncio.gather(*tasks)
-    return results
+    return [parser.parse(result.content) for result in results]
 
 def format_subtitles(subtitles):
     output = ""
@@ -72,7 +53,7 @@ def format_subtitles(subtitles):
         output += f'\n{i}) {subtitle["content"]}'
     return output
 
-async def decide_subtitles(subtitles, question: str):
+async def decide_subtitles_batch(llm, subtitles_list, questions: str):
     parser = PydanticOutputParser(pydantic_object=Selection)
 
     prompt = PromptTemplate(
@@ -85,12 +66,23 @@ async def decide_subtitles(subtitles, question: str):
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
 
-    chain = prompt | llm | parser
-    result = await chain.ainvoke({"question": question, "subtitles": format_subtitles(subtitles)})
-    return result
+    formatted_queries = [prompt.format(question=question, subtitles=format_subtitles(subtitles)) for question, subtitles in zip(questions, subtitles_list)]
 
-async def decide_subtitles_batch(subtitles_batch: List[List[str]], question: str):
-    tasks = [decide_subtitles(subtitles, question) for subtitles in subtitles_batch]
-    results = await asyncio.gather(*tasks)
-    return results
+    results= llm.batch(
+        formatted_queries
+    )
+
+    return [parser.parse(result.content) for result in results]
+
+# asyncio batching
+
+# async def decide_subtitles_batch(subtitles_batch: List[List[str]], question: str):
+#     tasks = [decide_subtitles(subtitles, question) for subtitles in subtitles_batch]
+#     results = await asyncio.gather(*tasks)
+#     return results
+
+# async def split_query_batch(questions: List[str]):
+#     tasks = [split_query(question) for question in questions]
+#     results = await asyncio.gather(*tasks)
+#     return results
 
