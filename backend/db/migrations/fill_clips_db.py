@@ -19,6 +19,8 @@ from backend.utils.parsing_tools.srt_parser import *
 from backend.utils.zilliz_tools.zilliz_api import *
 from backend.utils.encoders import *
 from backend.utils.embedder import *
+from backend.db.models import Lecture, Subtitles
+from backend.utils.firebase_tools.firebase_api import *
 
 load_dotenv()
 
@@ -30,6 +32,7 @@ lecture_links = get_lessons(driver, PLAYLIST_LINK)
 print(f"Found {len(lecture_links)} lectures")
 
 conn = get_conn()
+db = get_db()
 
 for filename in os.listdir(download_dir):
     file_path = os.path.join(download_dir, filename)
@@ -68,7 +71,29 @@ for lecture in lecture_links:
                 embeddings.append(embed_text(chunk["content"]))
             
             upload_clips(conn, lecture_id, chunk_ids, embeddings)
-            
+            subtitles_list = []
+            for chunk, chunk_id in zip(chunks, chunk_ids):
+                subtitles_list.append(Subtitles(
+                    chunk_id=chunk_id,
+                    index=chunk["index"],
+                    subtitle=chunk["content"],
+                    start_time=chunk["start_time"],
+                    end_time=chunk["end_time"],
+                    seconds=chunk["seconds"],
+                    lecture_id=lecture_id   
+                ))
+
+            add_subtitles_batch(db, subtitles_list)
+                
+            add_lecture(
+                db,
+                Lecture(
+                    lecture_id=lecture_id,
+                    date=date,
+                    title=title,
+                    embed_link=embed_link
+                )
+            )
             # Success! Break out of retry loop
             break
 
