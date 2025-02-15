@@ -71,11 +71,22 @@ def get_lecture_batch(db, lecture_ids_list: list[int]):
     
     return result
 
-def get_clips_batch(db, clip_ids_list: list[int]):
-    clip_ids = []
-    for list in clip_ids_list:
-        for id in list:
-            clip_ids.append(id)
+def get_subtitle_metadata_batch(db, clip_ids_list: list[int]):
+    # Convert IDs to strings
+    lecture_refs = [db.collection("subtitles").document(str(id)) for id in clip_ids_list]
+
+    # Get all documents in a single request
+    docs = db.get_all(lecture_refs)
+    
+    # Create a dictionary mapping lecture_id to its data
+    result = {}
+
+    for doc in docs:
+        if doc.exists:
+            lecture_id = int(doc.id)
+            result[lecture_id] = doc.to_dict()
+    
+    return result
             
             
     

@@ -11,16 +11,15 @@ from backend.utils.firebase_tools.firebase_api import *
 import asyncio
 
 async def clip_query(conn, db, queries: List[str]):
+    # Does a batch search on a list of query strings - returns a 2D array of selected chunk IDs
     retrieved_chunks = await batch_clip_query(conn, queries)
 
-    clips = get(db, retrieved_chunks)
+    # Convering 2D array of chunk IDs into a One dimensional list only having unique chunk id values
+    unique_retrieved_chunks_ids = list({chunk for row in retrieved_chunks for chunk in row})
 
-    results = self.queryer.decide_subtitles(summaries, input)
-    indexes = results.indexes
-    reasons = results.reasons
-
-    output = []
-    for i, r in zip(indexes, reasons):
-        output.append((summaries[i], r))
-
-    return output
+    # Get the corresponding lecture ids from unique_retrieved_chunk_ids
+    
+    
+    # Query the firebase db with the chunk id values
+    clips = get_subtitle_metadata_batch(db, unique_retrieved_chunks_ids)
+    return clips
