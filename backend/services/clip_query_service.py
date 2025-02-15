@@ -29,7 +29,10 @@ async def clip_query(llm, conn, db, queries: List[str]):
         for chunk_id in chunks_list:
             chunk_json = clips_metadata[chunk_id]
             chunk_json["chunk_id"] = chunk_id
-            subtitle = Subtitle(chunk_json)
+            #print(chunk_json)
+            #subtitle = Subtitle.model_validate(chunk_json)
+            #subtitle = Subtitle(**chunk_json)
+            subtitle = Subtitle.model_validate(chunk_json)
             query_results.append(subtitle)
         batched_subtitles.append(query_results)
     
