@@ -41,6 +41,15 @@ def upload_clips(conn, lecture_id, chunk_ids, embeddings):
 
     print(data.decode("utf-8"))
 
+async def get_ids_from_chunks(chunks_list):
+    ids_list = []
+    for chunks in chunks_list:
+        ids = []
+        for chunk in chunks:
+            ids.append(chunk['id'])
+        ids_list.append(ids)
+    return ids_list
+
 async def batch_clip_query(conn, queries: List[str]):
     data = [embed_text(query) for query in queries]
 
@@ -62,4 +71,22 @@ async def batch_clip_query(conn, queries: List[str]):
     res = conn.getresponse()
     data = res.read()
 
-    print(data.decode("utf-8"))
+    count = 0
+    results = []
+    curr = []
+    json_data = json.loads(data.decode("utf-8"))['data']
+    for d in json_data:
+        count +=1
+        curr.append(d)
+        if count == 10:
+            results.append(curr)
+            curr = []
+            count = 0
+
+    if count > 0:
+        results.append(curr)
+
+    print(results)
+
+    result = await get_ids_from_chunks(results)
+    return result

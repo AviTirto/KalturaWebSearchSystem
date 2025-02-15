@@ -6,11 +6,14 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
 sys.path.insert(0, project_root)
 
 from backend.utils.zilliz_tools.zilliz_api import *
+from backend.utils.firebase_tools.firebase_api import *
 
 import asyncio
 
-async def query(conn, db, queries: List[str]):
-    subtitle_chunks_list = []
+async def clip_query(conn, db, queries: List[str]):
+    retrieved_chunks = await batch_clip_query(conn, queries)
+
+    clips = get_clips_batch(db, retrieved_chunks)
 
     results = self.queryer.decide_subtitles(summaries, input)
     indexes = results.indexes

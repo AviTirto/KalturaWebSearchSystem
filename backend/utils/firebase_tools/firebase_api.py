@@ -10,7 +10,7 @@ sys.path.insert(0, project_root)
 from backend.db.models import Lecture, Subtitles
 
 def get_db():
-    cred = credentials.Certificate("../../firebase_key.json")
+    cred = credentials.Certificate("../firebase_key.json")
     firebase_admin.initialize_app(cred)
     db = firestore.client()
     return db
@@ -49,5 +49,33 @@ def add_subtitles_batch(db, subtitles_list: list[Subtitles]):
         batch.set(doc_ref, subtitle_dict)
     
     batch.commit()
+
+def get_lecture_batch(db, lecture_ids_list: list[int]):
+    lecture_ids = []
+    for list in lecture_ids_list:
+        for id in list:
+            lecture_ids.append(id)
+    # Convert IDs to strings
+    lecture_refs = [db.collection("lectures").document(str(id)) for id in lecture_ids]
     
+    # Get all documents in a single request
+    docs = db.get_all(lecture_refs)
+    
+    # Create a dictionary mapping lecture_id to its data
+    result = {}
+
+    for doc in docs:
+        if doc.exists:
+            lecture_id = int(doc.id)
+            result[lecture_id] = doc.to_dict()
+    
+    return result
+
+def get_clips_batch(db, clip_ids_list: list[int]):
+    clip_ids = []
+    for list in clip_ids_list:
+        for id in list:
+            clip_ids.append(id)
+            
+            
     
