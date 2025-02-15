@@ -51,12 +51,7 @@ def add_subtitles_batch(db, subtitles_list: list[Subtitles]):
     batch.commit()
 
 def get_lecture_batch(db, lecture_ids_list: list[int]):
-    lecture_ids = []
-    for list in lecture_ids_list:
-        for id in list:
-            lecture_ids.append(id)
-    # Convert IDs to strings
-    lecture_refs = [db.collection("lectures").document(str(id)) for id in lecture_ids]
+    lecture_refs = [db.collection("lectures").document(str(id)) for id in lecture_ids_list]
     
     # Get all documents in a single request
     docs = db.get_all(lecture_refs)

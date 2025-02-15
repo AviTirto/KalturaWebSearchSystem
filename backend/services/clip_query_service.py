@@ -16,10 +16,18 @@ async def clip_query(conn, db, queries: List[str]):
 
     # Convering 2D array of chunk IDs into a One dimensional list only having unique chunk id values
     unique_retrieved_chunks_ids = list({chunk for row in retrieved_chunks for chunk in row})
-
-    # Get the corresponding lecture ids from unique_retrieved_chunk_ids
-    
     
     # Query the firebase db with the chunk id values
     clips = get_subtitle_metadata_batch(db, unique_retrieved_chunks_ids)
+
+    # Get the corresponding lecture ids from unique_retrieved_chunks
+    lecture_ids = []
+    for dic in clips:
+        lecture_ids.append(dic["lecture_id"])
+    
+    # Make list unique
+    lecture_ids = set(lecture_ids)
+
+    # Call get_lecture
+    lecture_metdata = get_lecture_batch(db, lecture_ids)
     return clips
