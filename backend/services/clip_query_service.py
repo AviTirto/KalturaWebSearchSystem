@@ -22,8 +22,8 @@ async def clip_query(conn, db, queries: List[str]):
 
     # Get the corresponding lecture ids from unique_retrieved_chunks
     lecture_ids = []
-    for dic in clips:
-        lecture_ids.append(clips[dic]["lecture_id"])
+    for json in clips.values():
+        lecture_ids.append(clips["lecture_id"])
     
     # Make list unique
     lecture_ids = set(lecture_ids)
