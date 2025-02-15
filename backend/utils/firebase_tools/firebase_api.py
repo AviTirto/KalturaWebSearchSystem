@@ -7,7 +7,7 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
 sys.path.insert(0, project_root)
 
-from backend.db.models import Lecture, Subtitles
+from backend.db.models import Lecture, Subtitle
 
 def get_db():
     cred = credentials.Certificate("../firebase_key.json")
@@ -22,7 +22,7 @@ def add_lecture(db, lecture: Lecture):
 
     db.collection("lectures").document(lecture.get_lecture_id_as_str()).set(lecture_dict)
 
-def add_subtitles(db, subtitles: Subtitles):
+def add_subtitles(db, subtitles: Subtitle):
     subtitle_dict = subtitles.model_dump()
     del subtitle_dict["chunk_id"]
 
@@ -39,7 +39,7 @@ def add_lectures_batch(db, lectures: list[Lecture]):
     
     batch.commit()
 
-def add_subtitles_batch(db, subtitles_list: list[Subtitles]):
+def add_subtitles_batch(db, subtitles_list: list[Subtitle]):
     batch = db.batch()
     
     for subtitles in subtitles_list:

@@ -32,7 +32,7 @@ async def clip_query(llm, conn, db, queries: List[str]):
             #print(chunk_json)
             #subtitle = Subtitle.model_validate(chunk_json)
             #subtitle = Subtitle(**chunk_json)
-            subtitle = Subtitle.model_validate(chunk_json)
+            subtitle = Subtitle.model_validate_json(chunk_json)
             query_results.append(subtitle)
         batched_subtitles.append(query_results)
     
