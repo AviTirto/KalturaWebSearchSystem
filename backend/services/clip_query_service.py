@@ -7,10 +7,12 @@ sys.path.insert(0, project_root)
 
 from backend.utils.zilliz_tools.zilliz_api import *
 from backend.utils.firebase_tools.firebase_api import *
+from backend.db.models import Lecture, Subtitle
+from backend.utils.gemini_tools.gemini_api import *
 
 import asyncio
 
-async def clip_query(conn, db, queries: List[str]):
+async def clip_query(llm, conn, db, queries: List[str]):
     # Does a batch search on a list of query strings - returns a 2D array of selected chunk IDs
     retrieved_chunks = await batch_clip_query(conn, queries)
 
@@ -18,16 +20,24 @@ async def clip_query(conn, db, queries: List[str]):
     unique_retrieved_chunks_ids = list({chunk for row in retrieved_chunks for chunk in row})
     
     # Query the firebase db with the chunk id values
-    clips = get_subtitle_metadata_batch(db, unique_retrieved_chunks_ids)
+    clips_metadata = get_subtitle_metadata_batch(db, unique_retrieved_chunks_ids)
 
-    # Get the corresponding lecture ids from unique_retrieved_chunks
-    lecture_ids = []
-    for json in clips.values():
-        lecture_ids.append(json["lecture_id"])
+    batched_subtitles = []
+
+    for chunks_list in retrieved_chunks:
+        query_results = []
+        for chunk_id in chunks_list:
+            chunk_json = clips_metadata[chunk_id]
+            chunk_json["chunk_id"] = chunk_id
+            subtitle = Subtitle(chunk_json)
+            query_results.append(subtitle)
+        batched_subtitles.append(query_results)
     
-    # Make list unique
-    lecture_ids = set(lecture_ids)
+    selections = await decide_subtitles_batch(llm, batched_subtitles, queries)
 
-    # Call get_lecture
-    lecture_metdata = get_lecture_batch(db, lecture_ids)
-    return clips
+    results = []
+    for selection, subtitles in zip(selections, batched_subtitles):
+        query_results = [(subtitles[index], reason) for index, reason in zip(selection.indexes, selection.reasons)]
+        results.append(query_results)
+
+    return results

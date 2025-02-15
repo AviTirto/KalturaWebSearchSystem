@@ -2,7 +2,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import List, Optional
 from pydantic import BaseModel
 
-class Subtitles(BaseModel):  
+class Subtitle(BaseModel):  
     chunk_id: int
     index: int
     subtitle: str
