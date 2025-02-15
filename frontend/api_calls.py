@@ -3,7 +3,7 @@ import aiohttp
 async def fetch_clips(query: str):
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "http://127.0.0.1:8000/clips",
+            "http://127.0.0.1:8000/search_clips",
             params={"query": query},
         ) as response:
             return await response.json()
@@ -11,7 +11,7 @@ async def fetch_clips(query: str):
 async def fetch_slides(query: str):
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "http://127.0.0.1:8000/slides",
+            "http://127.0.0.1:8000/search_slides",
             params={"query": query},
         ) as response:
             return await response.json()

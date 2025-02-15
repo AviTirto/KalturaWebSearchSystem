@@ -23,7 +23,11 @@ app = FastAPI()
 query_queue = asyncio.Queue()
 response_map: Dict[str, asyncio.Future] = {}
 batch_size = 10
-batch_timeout = 10
+batch_timeout = 1
+
+llm = get_llm()
+conn = get_conn()
+db = get_db()
 
 # Add CORS middleware
 app.add_middleware(
@@ -69,10 +73,6 @@ async def process_queries():
                     batch.append(query)
                 except asyncio.TimeoutError:
                     break
-
-            llm = get_llm()
-            conn = get_conn()
-            db = get_db()
             
             # Call the middleware function
             clip_results = await clip_query(llm, conn, db, batch)
