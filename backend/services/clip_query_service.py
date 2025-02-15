@@ -13,7 +13,7 @@ import asyncio
 async def clip_query(conn, db, queries: List[str]):
     retrieved_chunks = await batch_clip_query(conn, queries)
 
-    clips = get_clips_batch(db, retrieved_chunks)
+    clips = get(db, retrieved_chunks)
 
     results = self.queryer.decide_subtitles(summaries, input)
     indexes = results.indexes

@@ -86,7 +86,5 @@ async def batch_clip_query(conn, queries: List[str]):
     if count > 0:
         results.append(curr)
 
-    print(results)
-
     result = await get_ids_from_chunks(results)
     return result
