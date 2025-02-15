@@ -50,7 +50,7 @@ async def split_query_batch(llm, questions: List[str]):
 def format_subtitles(subtitles):
     output = ""
     for i, subtitle in enumerate(subtitles):
-        output += f'\n{i}) {subtitle["content"]}'
+        output += f'\n{i}) {subtitle.subtitle}'
     return output
 
 async def decide_subtitles_batch(llm, subtitles_list, questions: str):
