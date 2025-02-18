@@ -25,12 +25,14 @@ batch_size = 10
 batch_timeout = 1
 
 @asynccontextmanager
-def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI):
     global llm, conn, db
     llm = get_llm()
     conn = get_conn()
     db = get_db()
-    yield
+    
+    yield  # ✅ Now this is inside an async context manager
+    
     conn.close()  # Close DB connection
 
 app = FastAPI(lifespan=lifespan)
