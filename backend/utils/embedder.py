@@ -1,14 +1,9 @@
-from transformers import AutoTokenizer, AutoModel
+from sentence_transformers import SentenceTransformer
 import torch
-import asyncio
 
-model_name = "sentence-transformers/all-mpnet-base-v2"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModel.from_pretrained(model_name)
+model = SentenceTransformer('all-mpnet-base-v2')
 
 def embed_text(text):
-    inputs = tokenizer(text, return_tensors='pt', padding=True, truncation=True)
     with torch.no_grad():
-        outputs = model(**inputs)
-    cls_embedding = outputs.last_hidden_state[:, 0, :].squeeze().tolist()
-    return cls_embedding
+        embeddings = model.encode(text)
+    return embeddings.tolist()
