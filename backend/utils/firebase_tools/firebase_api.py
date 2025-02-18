@@ -4,13 +4,16 @@ import os
 import sys
 
 # Adjust path for project root
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+print("PROJECT ROOT: ", project_root)
 sys.path.insert(0, project_root)
 
 from backend.db.models import Lecture, Subtitle
 
 def get_db():
-    cred = credentials.Certificate("../firebase_key.json")
+    # Use the project_root that's already defined at the top of the file
+    firebase_key_path = os.path.join(project_root, "firebase_key.json")
+    cred = credentials.Certificate(firebase_key_path)
     firebase_admin.initialize_app(cred)
     db = firestore.client()
     return db

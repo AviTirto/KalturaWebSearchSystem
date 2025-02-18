@@ -16,4 +16,4 @@ COPY backend /app/backend
 EXPOSE 8000
 
 # Command to run the application
-CMD ["uvicorn", "backend.api.server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "3"]
+CMD ["uvicorn", "backend.api.server:app", "--host", "0.0.0.0", "--port", "8000"]

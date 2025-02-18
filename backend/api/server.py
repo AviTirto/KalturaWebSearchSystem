@@ -1,12 +1,10 @@
-from fastapi import FastAPI, BackgroundTasks, Query
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.cron import CronTrigger
 import re
 import asyncio
-import uuid
 from typing import List, Dict
-from contextlib import asynccontextmanager
+from dataclasses import dataclass
+from datetime import datetime
 
 import sys
 import os
@@ -19,31 +17,29 @@ from backend.utils.zilliz_tools.zilliz_api import get_conn
 from backend.utils.firebase_tools.firebase_api import get_db, get_lecture_batch
 from backend.utils.gemini_tools.gemini_api import get_llm
 
-query_queue = asyncio.Queue(maxsize=100)  # Limit queue size to prevent overload
-response_map: Dict[str, asyncio.Future] = {}
-batch_size = 10
-batch_timeout = 1
+# Configuration
+BATCH_SIZE = 10 
+BATCH_TIMEOUT = 0.1 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    global llm, conn, db
-    llm = get_llm()
-    conn = get_conn()
-    db = get_db()
-    
-    yield  # ✅ Now this is inside an async context manager
-    
-    conn.close()  # Close DB connection
+@dataclass
+class PendingRequest:
+    query: str
+    future: asyncio.Future
+    timestamp: datetime
 
-app = FastAPI(lifespan=lifespan)
+# Global state
+request_queue: asyncio.Queue[PendingRequest] = asyncio.Queue()
+processor_task = None
+
+app = FastAPI()
 
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins. Replace with specific domains in production.
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 def replace_start_time(input_string, replacement_number):
@@ -51,55 +47,102 @@ def replace_start_time(input_string, replacement_number):
     updated_string = re.sub(pattern, rf"\g<1>{replacement_number}", input_string)
     return updated_string
 
-@app.get("/search_clips")
-async def get_lecture_snippets(query: str):
-    request_id = str(uuid.uuid4())
-    future = asyncio.get_event_loop().create_future()
-    response_map[request_id] = future
+async def process_batch():
+    """Background task that processes requests in batches"""
+    # Initialize connections once for the processor
+    llm = get_llm()
+    conn = get_conn()
+    db = get_db()
     
-    await query_queue.put((request_id, query))
-    
-    response = await future
-    del response_map[request_id]
-    return response
-
-async def process_queries():
-    while True:
-        batch = []
-        request_ids = []
-        try:
-            first_request = await asyncio.wait_for(query_queue.get(), timeout=batch_timeout)
-            request_ids.append(first_request[0])
-            batch.append(first_request[1])
+    try:
+        while True:
+            batch: List[PendingRequest] = []
             
-            while len(batch) < batch_size:
+            # Get the first request
+            first_request = await request_queue.get()
+            batch.append(first_request)
+            
+            # Try to fill the batch
+            batch_start = datetime.now()
+            while len(batch) < BATCH_SIZE:
                 try:
-                    req_id, query = await asyncio.wait_for(query_queue.get(), timeout=batch_timeout)
-                    request_ids.append(req_id)
-                    batch.append(query)
+                    # Wait for more requests, but not too long
+                    request = await asyncio.wait_for(
+                        request_queue.get(), 
+                        timeout=BATCH_TIMEOUT
+                    )
+                    batch.append(request)
                 except asyncio.TimeoutError:
                     break
             
-            clip_results = await clip_query(llm, conn, db, batch)
-            lecture_ids = list({subtitle.lecture_id for response in clip_results for subtitle, _ in response})
-            lecture_metadata = await get_lecture_batch(db, lecture_ids)
-            
-            for req_id, query_results in zip(request_ids, clip_results):
-                response_json = []
-                for subtitle, explanation in query_results:
-                    embed_link = replace_start_time(lecture_metadata[subtitle.lecture_id]["embed_link"], subtitle.seconds)
-                    response_json.append({
-                        "start_time": subtitle.start_time,
-                        "end_time": subtitle.end_time,
-                        "embed_link": embed_link,
-                        "explanation": explanation
-                    })
+            # Process the batch
+            queries = [req.query for req in batch]
+            try:
+                clip_results = await clip_query(llm, conn, db, queries)
                 
-                if req_id in response_map:
-                    response_map[req_id].set_result(response_json)
-        except asyncio.TimeoutError:
-            continue
+                # Get all unique lecture IDs from the results
+                lecture_ids = list({
+                    subtitle.lecture_id 
+                    for response in clip_results 
+                    for subtitle, _ in response
+                })
+                lecture_metadata = await get_lecture_batch(db, lecture_ids)
+                
+                # Set results for each request in the batch
+                for request, results in zip(batch, clip_results):
+                    response_json = []
+                    for subtitle, explanation in results:
+                        embed_link = replace_start_time(
+                            lecture_metadata[subtitle.lecture_id]["embed_link"], 
+                            subtitle.seconds
+                        )
+                        response_json.append({
+                            "start_time": subtitle.start_time,
+                            "end_time": subtitle.end_time,
+                            "embed_link": embed_link,
+                            "explanation": explanation
+                        })
+                    request.future.set_result(response_json)
+                    
+            except Exception as e:
+                # If processing fails, set exception for all requests in batch
+                for request in batch:
+                    if not request.future.done():
+                        request.future.set_exception(e)
+            
+            # Mark tasks as done in the queue
+            for _ in batch:
+                request_queue.task_done()
+                
+    finally:
+        conn.close()
+
+@app.get("/search_clips")
+async def get_lecture_snippets(query: str):
+    # Create a future for this request
+    future = asyncio.get_running_loop().create_future()
+    request = PendingRequest(
+        query=query,
+        future=future,
+        timestamp=datetime.now()
+    )
+    
+    # Add to queue
+    await request_queue.put(request)
+    
+    # Wait for result
+    return await future
 
 @app.on_event("startup")
 async def startup_event():
-    asyncio.create_task(process_queries())
+    global processor_task
+    processor_task = asyncio.create_task(process_batch())
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    if processor_task:
+        processor_task.cancel()
+        try:
+            await processor_task
+        except asyncio.CancelledError:
+            pass
