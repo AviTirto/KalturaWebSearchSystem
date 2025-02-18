@@ -11,6 +11,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
 COPY backend /app/backend
+COPY firebase_key.json /app/firebase_key.json
+COPY .env /app/.env
+
+# Set environment variable for Python to prevent writing .pyc files
+ENV PYTHONDONTWRITEBYTECODE 1
+# Set environment variable to ensure output is sent straight to terminal without buffering
+ENV PYTHONUNBUFFERED 1
 
 # Expose the FastAPI default port
 EXPOSE 8000
