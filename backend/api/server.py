@@ -1,4 +1,3 @@
-# Server Imports
 from fastapi import FastAPI, BackgroundTasks, Query
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -7,6 +6,7 @@ import re
 import asyncio
 import uuid
 from typing import List, Dict
+from contextlib import asynccontextmanager
 
 import sys
 import os
@@ -19,15 +19,21 @@ from backend.utils.zilliz_tools.zilliz_api import get_conn
 from backend.utils.firebase_tools.firebase_api import get_db, get_lecture_batch
 from backend.utils.gemini_tools.gemini_api import get_llm
 
-app = FastAPI()
-query_queue = asyncio.Queue()
+query_queue = asyncio.Queue(maxsize=100)  # Limit queue size to prevent overload
 response_map: Dict[str, asyncio.Future] = {}
 batch_size = 10
 batch_timeout = 1
 
-llm = get_llm()
-conn = get_conn()
-db = get_db()
+@asynccontextmanager
+def lifespan(app: FastAPI):
+    global llm, conn, db
+    llm = get_llm()
+    conn = get_conn()
+    db = get_db()
+    yield
+    conn.close()  # Close DB connection
+
+app = FastAPI(lifespan=lifespan)
 
 # Add CORS middleware
 app.add_middleware(
@@ -39,22 +45,20 @@ app.add_middleware(
 )
 
 def replace_start_time(input_string, replacement_number):
-    # Regular expression to find the pattern `startTime` followed by any characters and then a `0`
     pattern = r"(startTime.*?A)0"
-    # Replace the matched 0 with the replacement_number
     updated_string = re.sub(pattern, rf"\g<1>{replacement_number}", input_string)
     return updated_string
 
 @app.get("/search_clips")
 async def get_lecture_snippets(query: str):
-    request_id = str(uuid.uuid4())  # Generate unique request identifier
+    request_id = str(uuid.uuid4())
     future = asyncio.get_event_loop().create_future()
     response_map[request_id] = future
     
-    await query_queue.put((request_id, query))  # Add query with its identifier
+    await query_queue.put((request_id, query))
     
-    response = await future  # Wait for response
-    del response_map[request_id]  # Cleanup
+    response = await future
+    del response_map[request_id]
     return response
 
 async def process_queries():
@@ -74,14 +78,10 @@ async def process_queries():
                 except asyncio.TimeoutError:
                     break
             
-            # Call the middleware function
             clip_results = await clip_query(llm, conn, db, batch)
-            
-            # Collect unique lecture IDs
             lecture_ids = list({subtitle.lecture_id for response in clip_results for subtitle, _ in response})
             lecture_metadata = await get_lecture_batch(db, lecture_ids)
             
-            # Process results for each query
             for req_id, query_results in zip(request_ids, clip_results):
                 response_json = []
                 for subtitle, explanation in query_results:
@@ -94,7 +94,7 @@ async def process_queries():
                     })
                 
                 if req_id in response_map:
-                    response_map[req_id].set_result(response_json)  # Send response back to the request
+                    response_map[req_id].set_result(response_json)
         except asyncio.TimeoutError:
             continue
 
