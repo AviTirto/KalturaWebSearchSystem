@@ -1,26 +1,35 @@
-FROM python:3.11-slim
+# Build stage
+FROM python:3.11-slim as builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy only the necessary files first (for better caching)
-COPY requirements.txt /app/
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
+# Copy and install requirements
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
+# Final stage
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy only necessary Python packages from builder
+COPY --from=builder /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
+COPY --from=builder /usr/local/bin/ /usr/local/bin/
+
+# Copy application code and config files
 COPY backend /app/backend
 COPY firebase_key.json /app/firebase_key.json
 COPY .env /app/.env
 
-# Set environment variable for Python to prevent writing .pyc files
+# Set Python environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
-# Set environment variable to ensure output is sent straight to terminal without buffering
 ENV PYTHONUNBUFFERED 1
 
-# Expose the FastAPI default port
 EXPOSE 8000
 
-# Command to run the application
 CMD ["uvicorn", "backend.api.server:app", "--host", "0.0.0.0", "--port", "8000"]
