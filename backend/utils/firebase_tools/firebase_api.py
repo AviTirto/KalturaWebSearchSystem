@@ -12,7 +12,7 @@ from backend.db.models import Lecture, Subtitle
 
 def get_db():
     # Use the project_root that's already defined at the top of the file
-    firebase_key_path = os.path.join(project_root, "firebase_key.json")
+    firebase_key_path = os.getenv('FIREBASE_KEY_PATH', os.path.join(project_root, "backend/firebase_key.json"))
     cred = credentials.Certificate(firebase_key_path)
     firebase_admin.initialize_app(cred)
     db = firestore.client()

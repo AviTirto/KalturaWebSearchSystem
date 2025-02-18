@@ -23,12 +23,14 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 
 # Copy application code and config files
 COPY backend /app/backend
-COPY firebase_key.json /app/firebase_key.json
-COPY .env /app/.env
 
 # Set Python environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
+# Update paths to point to the new config file locations
+ENV FIREBASE_KEY_PATH=/app/backend/firebase_key.json
+ENV ENV_FILE=/app/backend/.env
 
 EXPOSE 8000
 
