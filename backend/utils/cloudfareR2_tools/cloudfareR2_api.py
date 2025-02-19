@@ -1,6 +1,7 @@
 import os
 import boto3
 from dotenv import load_dotenv
+import io
 
 # Load environment variables
 load_dotenv()
@@ -35,7 +36,7 @@ def download_file(r2_client, object_key: str):
     try:
         # Get the file object from R2
         response = r2_client.get_object(Bucket=CLOUDFARE_R2_BUCKET_NAME, Key=object_key)
-        file_content = response['Body'].read()  # This contains the file data (as bytes)
+        file_content = io.BytesIO(response['Body'].read())  # This contains the file data (as bytes)
         return {"status": "success", "file_data": file_content}
     except Exception as e:
         return {"status": "error", "message": str(e)}
