@@ -29,10 +29,19 @@ class Slide(BaseModel):
     slide_id: int
     page_num: int
     text: str
-    lecture_id: int
+    ppt_id: int
 
-    def get_chunk_id_as_str(self):
-        return str(self.chunk_id)
+    def get_slide_id_as_str(self):
+        return str(self.slide_id)
     
-    def get_lecture_id_as_str(self):
-        return str(self.lecture_id)
+    def get_ppt_id_as_str(self):
+        return str(self.ppt_id)
+    
+class PPT(BaseModel):
+    ppt_id: int
+    title: str
+    path: str
+
+    def get_ppt_id_as_str(self):
+        return str(self.ppt_id)
+    

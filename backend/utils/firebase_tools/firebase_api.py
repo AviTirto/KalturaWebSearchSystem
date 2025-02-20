@@ -8,11 +8,15 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 print("PROJECT ROOT: ", project_root)
 sys.path.insert(0, project_root)
 
-from backend.db.models import Lecture, Subtitle
+from dotenv import load_dotenv
+from backend.db.models import Lecture, Subtitle, Slide, PPT
+
+load_dotenv()
 
 def get_db():
     # Use the project_root that's already defined at the top of the file
-    firebase_key_path = os.getenv('FIREBASE_KEY_PATH', os.path.join(project_root, "backend/firebase_key.json"))
+    firebase_key_path = os.path.join(project_root, os.getenv('FIREBASE_KEY_PATH'))
+    print("FIREBASE KEY PATH: ", firebase_key_path)
     cred = credentials.Certificate(firebase_key_path)
     firebase_admin.initialize_app(cred)
     db = firestore.client()
@@ -96,5 +100,15 @@ def add_slides_batch(db, slides: list[Slide]):
         batch.set(doc_ref, slide_dict)
     
     batch.commit()
-            
+
+def add_ppts_batch(db, ppts: list[PPT]):
+    batch = db.batch()
+    
+    for ppt in ppts:
+        ppt_dict = ppt.model_dump()
+        del ppt_dict["ppt_id"]
+        doc_ref = db.collection("ppts").document(ppt.get_ppt_id_as_str())
+        batch.set(doc_ref, ppt_dict)
+    
+    batch.commit()
     
