@@ -1,7 +1,8 @@
 import asyncio
 from typing import List
-from langchain.output_parsers import PydanticOutputParser
+from langchain.output_parsers import PydanticOutputParser, OutputFixingParser
 from langchain_core.prompts import PromptTemplate
+from langchain.schema import HumanMessage, SystemMessage
 from langchain_google_genai import (
     ChatGoogleGenerativeAI,
     HarmBlockThreshold,
@@ -14,7 +15,7 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 sys.path.insert(0, project_root)
 
-from backend.utils.gemini_tools.gemini_types import SubQuestions, Selection
+from backend.utils.gemini_tools.gemini_types import SubQuestions, Selection, OCRResult
 
 from dotenv import load_dotenv
 
@@ -25,6 +26,12 @@ def get_llm():
         model="gemini-1.5-flash-latest", 
         temperature=0,
         safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE},
+    )
+
+def get_ocr_llm():
+    return ChatGoogleGenerativeAI(
+        model="gemini-2.0-flash",
+        temperature=0
     )
 
 async def split_query_batch(llm, questions: List[str]):
@@ -73,6 +80,49 @@ async def decide_subtitles_batch(llm, subtitles_list, questions: str):
     )
 
     return [parser.parse(result.content) for result in results]
+
+async def ocr_batch(ocr_llm, images):
+    parser = OutputFixingParser.from_llm(
+        parser=PydanticOutputParser(pydantic_object=OCRResult),
+        llm=ocr_llm
+    )
+
+    # Prepare the batch input
+    formatted_queries = [
+        [
+            SystemMessage(
+                content=(
+                    "Extract text from this image into two PowerPoint slides. "
+                    "There are two slides per page. Avoid graph text and ensure only content from the PowerPoint is included.\n\n"
+                    "Return the output as a pure JSON object, without markdown formatting or code block syntax.\n"
+                    f"{parser.get_format_instructions()}"
+                )
+            ),
+            HumanMessage(
+                content=[
+                    {"type": "text", "text": "Extract text."}, 
+                    {"type": "image_url", "image_url": f"data:image/jpeg;base64,{image}"}
+                ]
+            )
+        ]
+        for image in images
+    ]
+
+    # Use the batch function to process all images
+    responses = ocr_llm.batch(formatted_queries)
+
+    # Process each response
+    results = []
+    for response in responses:
+        ocr_result = parser.parse(response.content)
+        results.append({
+            'result': ocr_result, 
+            'input_tokens': response.usage_metadata['input_tokens'], 
+            'output_tokens': response.usage_metadata['output_tokens']
+        })
+
+    return results
+
 
 # asyncio batching
 

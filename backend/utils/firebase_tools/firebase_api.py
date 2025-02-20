@@ -85,6 +85,16 @@ def get_subtitle_metadata_batch(db, clip_ids_list: list[int]):
             result[lecture_id] = doc.to_dict()
     
     return result
-            
+
+def add_slides_batch(db, slides: list[Slide]):
+    batch = db.batch()
+
+    for slide in slides:
+        slide_dict = slide.model_dump()
+        del slide_dict["slide_id"]
+        doc_ref = db.collection("slides").document(slide.get_slide_id_as_str())
+        batch.set(doc_ref, slide_dict)
+    
+    batch.commit()
             
     
