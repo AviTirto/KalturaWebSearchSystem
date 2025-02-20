@@ -1,7 +1,6 @@
 .env
 __pycache__
 .gitignore
-.Econ_301_PPT
 backend/.env
 backend/firebase_key.json
-*.pdf
+Econ_301_PPT/*.pdf
