@@ -41,6 +41,28 @@ def upload_clips(conn, lecture_id, chunk_ids, embeddings):
 
     print(data.decode("utf-8"))
 
+def upload_slides(conn, slides_ids, embeddings):
+    data = [{"slide_id": slide_id, "embedding": embedding}
+            for slide_id, embedding in zip(slides_ids, embeddings)]
+
+    payload = json.dumps({
+        "collectionName": "slides",
+        "data": data
+    })
+
+    headers = {
+        'Authorization': os.getenv("ZILLIZ_AUTH_TOKEN"),
+        'Accept': "application/json",
+        'Content-Type': "application/json"
+    }
+
+    conn.request("POST", "/v2/vectordb/entities/insert", body=payload, headers=headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    print(data.decode("utf-8"))
+
 async def get_ids_from_chunks(chunks_list):
     ids_list = []
     for chunks in chunks_list:
