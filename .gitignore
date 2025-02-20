@@ -4,3 +4,4 @@ __pycache__
 .Econ_301_PPT
 backend/.env
 backend/firebase_key.json
+*.pdf
