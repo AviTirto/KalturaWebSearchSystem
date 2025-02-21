@@ -1,22 +1,23 @@
 # University Subtitle RAG System
 
-This application uses a Retrieval-Augmented Generation (RAG) system to allow users to query relevant university lecture subtitles and retrieve accurate timestamped information. The data is scraped from publicly available university subtitle files, and the system leverages the power of generative models to provide specific and relevant information in response to user queries.
+This application serves as a knowledge base for professors, enabling them to query relevant university lecture subtitles and retrieve accurate, timestamped information. The data is scraped from publicly available university subtitle files, and the system leverages a Retrieval-Augmented Generation (RAG) model to provide specific and relevant information in response to user queries.
 
 ## Features
 - **Scraped Data**: The system scrapes subtitles from university lecture videos to gather relevant textual data.
+- **Knowledge Base**: The application organizes lecture subtitle data into a knowledge base, enabling professors to easily query and retrieve detailed course content.
 - **RAG System**: Uses a Retrieval-Augmented Generation model to find the most relevant parts of the lecture subtitle data based on a user’s query.
 - **Timestamped Results**: Returns results with the specific timestamps for the relevant segments in the lecture video.
 - **FastAPI Backend**: A robust and lightweight backend built using FastAPI to handle user queries and responses.
-- Streamlit Frontend: A simple, interactive frontend built using Streamlit for an easy-to-use interface.
+- **Streamlit Frontend**: A simple, interactive frontend built using Streamlit for an easy-to-use interface.
 
 ## Tech Stack
 - **Backend**: FastAPI
 - **Frontend**: Streamlit
-- **Database**: ChromaDB, SQLModel
+- **Database**: Milvus, Firebase, cloudfare R2
 - **Web Scraping**: Selenium
-- **Generative Models**: Geminis models for the RAG system
+- **LLM Agents**: Geminis models
 - **Containerization**: Docker (for deployment)
-- **Deployment**: Render
+- **Deployment**: Digital Oceoan
 
 ## Getting Started
 
@@ -43,12 +44,6 @@ pip install -r requirements.txt
 ```
 
 4. Set Up Enviorment Variables
-```
-LOCAL_SRT_PATH="your_srt_path
-LOCAL_DB_PATH=your_local_db_path
-GOOGLE_API_KEY=your_google_api_key
-GEMINI_API_KEY=your_gemini_api_key
-```
 
 # Running Locally
 1. Start the FastAPI server:
@@ -79,20 +74,20 @@ docker run -p 8000:8000 --env-file .env university-subtitle-rag-system
 3. **Response**: The system returns timestamped sections of the lecture that are most relevant to the query, enabling users to jump to the exact part of the lecture video.
 
 ## Deployment
-The application can be deployed on platforms like Render or any other cloud service that supports Docker.
+The application is deployed on DigitalOcean.
 
-### Deployment on Render
-1. Create a new Web Service on Render.
-2. Link the service to your Git repository.
-3. Set the Dockerfile as the build configuration.
-4. Add environment variables through Render’s dashboard (e.g., GOOGLE_API_KEY, GEMINI_API_KEY).
-5. Render will automatically build and deploy your container.
+### Deployment on Digital Oceaon
+1. Create a Droplet on DigitalOcean.
+2. Set up Docker and your environment on the Droplet.
+3. Push the Docker image to your DigitalOcean container registry (or any Docker-compatible registry).
+4. Use docker run command on the droplet.
 
 ## Acknowledgments
 - **FastAPI**: Fast, modern web framework for building APIs with Python 3.8+.
 - **Streamlit**: A great tool for building interactive frontends for machine learning apps.
 - **Selenium**: Used to scrape subtitles from university lecture videos.
-- **ChromaDB**: Used for efficient data storage and retrieval.
+- **Milvus**: Used for efficient data storage and querying.
+- **Firebase**: Used for metadata storage.
 - **Geminis Models**: Leveraged for the RAG system to provide relevant responses.
 
 
