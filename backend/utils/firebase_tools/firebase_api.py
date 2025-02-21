@@ -18,8 +18,16 @@ def get_db():
     firebase_key_path = os.path.join(project_root, os.getenv('FIREBASE_KEY_PATH'))
     print("FIREBASE KEY PATH: ", firebase_key_path)
     cred = credentials.Certificate(firebase_key_path)
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
+    
+    try:
+        # Check if the default app is already initialized
+        app = firebase_admin.get_app()
+    except ValueError:
+        # Initialize the app if it hasn't been initialized
+        app = firebase_admin.initialize_app(cred)
+    
+    # Return the Firestore client
+    db = firestore.client(app)
     return db
 
 def add_lecture(db, lecture: Lecture):
