@@ -15,7 +15,7 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 sys.path.insert(0, project_root)
 
-from backend.utils.gemini_tools.gemini_types import SubQuestions, Selection, OCRResult
+from backend.utils.gemini_tools.gemini_types import SubQuestions, Selection, SlideSelection, OCRResult
 
 from dotenv import load_dotenv
 
@@ -60,20 +60,47 @@ def format_subtitles(subtitles):
         output += f'\n{i}) {subtitle.subtitle}'
     return output
 
+def format_slides(slides):
+    output = ""
+    for i, slide in enumerate(slides):
+        output += f'\n{i}) {slide.text}'
+    return output
+
 async def decide_subtitles_batch(llm, subtitles_list, questions: str):
     parser = PydanticOutputParser(pydantic_object=Selection)
 
     prompt = PromptTemplate(
         template='''You are a producer of a news station. Your job is to look at the subtitles of clips and select the ones that best answer the question: {question}.
         Only choose relevant ones. If none directly answer the question then don't return anything.
-        Provide a short (maximum 100-word) explanation of why the subtitle answers the clip.
-        Here are the following clips along with their associated id: {subtitles}
+        Provide a short (maximum 100-word) explanation of why the subtitle answers the question.
+        Here are the following subtitles along with their associated id: {subtitles}
         {format_instructions}''',
         input_variables=["question", "subtitles"],
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
 
     formatted_queries = [prompt.format(question=question, subtitles=format_subtitles(subtitles)) for question, subtitles in zip(questions, subtitles_list)]
+
+    results= llm.batch(
+        formatted_queries
+    )
+
+    return [parser.parse(result.content) for result in results]
+
+async def decide_slides_batch(llm, slides_list, questions: str):
+    parser = PydanticOutputParser(pydantic_object=SlideSelection)
+
+    prompt = PromptTemplate(
+        template='''You are a presentor. Your job is to look at a set of slides and select the ones that best answer the question: {question}.
+        Only choose relevant ones. If none directly answer the question then don't return anything.
+        Provide a short (maximum 100-word) explanation of why the slide answers the question.
+        Here are the following clips along with their associated id: {slides}
+        {format_instructions}''',
+        input_variables=["question", "slides"],
+        partial_variables={"format_instructions": parser.get_format_instructions()},
+    )
+
+    formatted_queries = [prompt.format(question=question, slides = format_slides(slides)) for question, slides in zip(questions, slides_list)]
 
     results= llm.batch(
         formatted_queries

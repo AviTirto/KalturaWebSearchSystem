@@ -20,7 +20,7 @@ async def clip_query(llm, conn, db, queries: List[str]):
     unique_retrieved_chunks_ids = list({chunk for row in retrieved_chunks for chunk in row})
     
     # Query the firebase db with the chunk id values
-    clips_metadata = get_subtitle_metadata_batch(db, unique_retrieved_chunks_ids)
+    clips_metadata = await get_subtitle_metadata_batch(db, unique_retrieved_chunks_ids)
 
     batched_subtitles = []
 

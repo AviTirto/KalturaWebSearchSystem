@@ -57,6 +57,21 @@ def add_subtitles_batch(db, subtitles_list: list[Subtitle]):
     
     batch.commit()
 
+async def get_ppt_batch(db, ppt_ids: list[int]):
+    ppt_refs = [db.collection("ppts").document(str(id)) for id in ppt_ids]
+    
+    # Get all documents in a single request
+    docs = db.get_all(ppt_refs)
+    
+    result = {}
+
+    for doc in docs:
+        if doc.exists:
+            ppt_id = int(doc.id)
+            result[ppt_id] = doc.to_dict()
+    
+    return result
+
 async def get_lecture_batch(db, lecture_ids_list: list[int]):
     lecture_refs = [db.collection("lectures").document(str(id)) for id in lecture_ids_list]
     
@@ -73,7 +88,24 @@ async def get_lecture_batch(db, lecture_ids_list: list[int]):
     
     return result
 
-def get_subtitle_metadata_batch(db, clip_ids_list: list[int]):
+async def get_slide_metadata_batch(db, slide_ids: list[int]):
+    # Convert IDs to strings
+    slide_refs = [db.collection("slides").document(str(id)) for id in slide_ids]
+
+    # Get all documents in a single request
+    docs = db.get_all(slide_refs)
+    
+    # Create a dictionary mapping lecture_id to its data
+    result = {}
+
+    for doc in docs:
+        if doc.exists:
+            slide_id = int(doc.id)
+            result[slide_id] = doc.to_dict()
+    
+    return result
+
+async def get_subtitle_metadata_batch(db, clip_ids_list: list[int]):
     # Convert IDs to strings
     lecture_refs = [db.collection("subtitles").document(str(id)) for id in clip_ids_list]
 
