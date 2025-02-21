@@ -110,3 +110,42 @@ async def batch_clip_query(conn, queries: List[str]):
 
     result = await get_ids_from_chunks(results)
     return result
+
+async def batch_slides_query(conn, queries: List[str]):
+    data = [embed_text(query) for query in queries]
+
+    payload = json.dumps({
+        "collectionName": "slides",
+        "data": data,
+        "annsField": "embedding",
+        "limit": 10
+    })
+
+    headers = {
+        'Authorization': os.getenv("ZILLIZ_AUTH_TOKEN"),
+        'Accept': "application/json",
+        'Content-Type': "application/json"
+    }
+
+    conn.request("POST", "/v2/vectordb/entities/search", body=payload, headers=headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    count = 0
+    results = []
+    curr = []
+    json_data = json.loads(data.decode("utf-8"))['data']
+    for d in json_data:
+        count +=1
+        curr.append(d)
+        if count == 10:
+            results.append(curr)
+            curr = []
+            count = 0
+
+    if count > 0:
+        results.append(curr)
+
+    result = await get_ids_from_chunks(results)
+    return result
