@@ -72,8 +72,9 @@ async def decide_subtitles_batch(llm, subtitles_list, questions: str):
     prompt = PromptTemplate(
         template='''You are a producer of a news station. Your job is to look at the subtitles of clips and select the ones that best answer the question: {question}.
         Only choose relevant ones. If none directly answer the question then don't return anything.
-        Provide a short (maximum 100-word) explanation of why the subtitle answers the question. Do not include slide number
-        in this explanation. Here are the following subtitles along with their associated id: {subtitles}
+        Provide a short (maximum 100-word) explanation of why the subtitle answers the question. 
+        In the explanation do not explicity mention subtitle number, instead use phrases like "In this clip"
+        Here are the following subtitles along with their associated id: {subtitles}
         {format_instructions}''',
         input_variables=["question", "subtitles"],
         partial_variables={"format_instructions": parser.get_format_instructions()},
@@ -94,6 +95,7 @@ async def decide_slides_batch(llm, slides_list, questions: str):
         template='''You are a presentor. Your job is to look at a set of slides and select the ones that best answer the question: {question}.
         Only choose relevant ones. If none directly answer the question then don't return anything.
         Provide a short (maximum 100-word) explanation of why the slide answers the question.
+        In the explanation do not explicity mention slide number, instead use phrases like "In this slide"
         Here are the following clips along with their associated id: {slides}
         {format_instructions}''',
         input_variables=["question", "slides"],
