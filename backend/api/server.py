@@ -15,8 +15,9 @@ sys.path.insert(0, project_root)
 from backend.services.clip_query_service import clip_query
 from backend.services.slides_query_service import slide_query
 from backend.utils.zilliz_tools.zilliz_api import get_conn
-from backend.utils.firebase_tools.firebase_api import get_db, get_lecture_batch, get_ppt_batch
+from backend.utils.firebase_tools.firebase_api import get_db, get_lecture_batch, get_ppt_batch, postFeedback
 from backend.utils.gemini_tools.gemini_api import get_llm
+from backend.db.migrations import UserFeedback
 
 # Configuration
 BATCH_SIZE = 10 
@@ -240,3 +241,8 @@ async def shutdown_event():
             await slide_processor_task
         except asyncio.CancelledError:
             pass
+
+@app.post("/postFeedback")
+async def post_feedback(feedback: UserFeedback):
+    db = get_db()
+    postFeedback(db, feedback)

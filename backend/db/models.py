@@ -24,6 +24,12 @@ class Lecture(BaseModel):
 
     def get_lecture_id_as_str(self):
         return str(self.lecture_id)
+
+class UserFeedback(BaseModel):
+    question : str
+    thumbs_up_count : int
+    thumbs_down_count : int
+    total_count : int
     
 class Slide(BaseModel):  
     slide_id: int

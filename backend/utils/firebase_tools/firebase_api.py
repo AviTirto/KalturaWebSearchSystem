@@ -151,4 +151,7 @@ def add_ppts_batch(db, ppts: list[PPT]):
         batch.set(doc_ref, ppt_dict)
     
     batch.commit()
+
+async def postFeedback(db, feedback):
+    db.collection("feedback").add(feedback.dict()) 
     
