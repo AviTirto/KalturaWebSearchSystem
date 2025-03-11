@@ -155,9 +155,8 @@ def add_ppts_batch(db, ppts: list[PPT]):
     batch.commit()
 
 async def postFeedback(db, feedback):
-    validated_feedback = UserFeedback(**feedback.dict())
-    db.collection("feedback").add(validated_feedback.dict())
-    return validated_feedback
+    db.collection("feedback").add(feedback.dict())
+    return feedback
 
 
 ### ASYNCRONOUS ###
