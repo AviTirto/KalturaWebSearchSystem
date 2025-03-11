@@ -243,6 +243,6 @@ async def shutdown_event():
             pass
 
 @app.post("/postFeedback")
-async def post_feedback(feedback: UserFeedback):
+async def post_feedback(feedback):
     db = get_db()
     postFeedback(db, feedback)
