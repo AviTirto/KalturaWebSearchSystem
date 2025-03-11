@@ -243,13 +243,13 @@ async def shutdown_event():
             pass
 
 @app.post("/postFeedback")
-async def post_feedback(quesion, thumbs_up_count, thumbs_down_count, total_count):
+async def post_feedback(question, thumbs_up_count, thumbs_down_count, total_count):
     user_feedback = UserFeedback(
-        question=quesion,
+        question=question,
         thumbs_up_count=thumbs_up_count,
         thumbs_down_count = thumbs_down_count, 
         total_count = total_count
     )
 
     db = get_db()
-    postFeedback(db, user_feedback)
+    await postFeedback(db, user_feedback)
