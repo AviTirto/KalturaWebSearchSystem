@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import os
 import sys
+from backend.db.models import UserFeedback
 
 # Adjust path for project root
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
@@ -28,6 +29,7 @@ def get_db():
     
     # Return the Firestore client
     db = firestore.client(app)
+    #db = firestore.AsyncClient()
     return db
 
 def add_lecture(db, lecture: Lecture):
@@ -151,4 +153,104 @@ def add_ppts_batch(db, ppts: list[PPT]):
         batch.set(doc_ref, ppt_dict)
     
     batch.commit()
-    
+
+async def postFeedback(db, feedback):
+    validated_feedback = UserFeedback(**feedback.dict())
+    db.collection("feedback").add(validated_feedback.dict())
+    return validated_feedback
+
+
+### ASYNCRONOUS ###
+# import firebase_admin
+# from firebase_admin import credentials, firestore
+# import os
+# import sys
+# from backend.db.models import UserFeedback
+
+# # Adjust path for project root
+# project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+# print("PROJECT ROOT: ", project_root)
+# sys.path.insert(0, project_root)
+
+# from dotenv import load_dotenv
+# from backend.db.models import Lecture, Subtitle, Slide, PPT
+# from google.oauth2 import service_account
+
+# load_dotenv()
+
+# def get_db():
+#     firebase_key_path = os.path.join(project_root, os.getenv('FIREBASE_KEY_PATH'))
+#     cred = service_account.Credentials.from_service_account_file(firebase_key_path)
+#     return firestore.AsyncClient(credentials=cred)
+
+# async def add_lecture(db, lecture: Lecture):
+#     lecture_dict = lecture.model_dump()
+#     del lecture_dict["lecture_id"]
+#     await db.collection("lectures").document(lecture.get_lecture_id_as_str()).set(lecture_dict)
+
+# async def add_subtitles(db, subtitles: Subtitle):
+#     subtitle_dict = subtitles.model_dump()
+#     del subtitle_dict["chunk_id"]
+#     await db.collection("subtitles").document(subtitles.get_chunk_id_as_str()).set(subtitle_dict)
+
+# async def add_lectures_batch(db, lectures: list[Lecture]):
+#     batch = db.batch()
+#     for lecture in lectures:
+#         lecture_dict = lecture.model_dump()
+#         del lecture_dict["lecture_id"]
+#         doc_ref = db.collection("lectures").document(lecture.get_lecture_id_as_str())
+#         batch.set(doc_ref, lecture_dict)
+#     await batch.commit()
+
+# async def add_subtitles_batch(db, subtitles_list: list[Subtitle]):
+#     batch = db.batch()
+#     for subtitles in subtitles_list:
+#         subtitle_dict = subtitles.model_dump()
+#         del subtitle_dict["chunk_id"]
+#         doc_ref = db.collection("subtitles").document(subtitles.get_chunk_id_as_str())
+#         batch.set(doc_ref, subtitle_dict)
+#     await batch.commit()
+
+# async def get_ppt_batch(db, ppt_ids: list[int]):
+#     ppt_refs = [db.collection("ppts").document(str(id)) for id in ppt_ids]
+#     docs = await db.get_all(ppt_refs)
+#     return {int(doc.id): doc.to_dict() for doc in docs if doc.exists}
+
+# async def get_lecture_batch(db, lecture_ids_list: list[int]):
+#     lecture_refs = [db.collection("lectures").document(str(id)) for id in lecture_ids_list]
+#     docs = await db.get_all(lecture_refs)
+#     return {int(doc.id): doc.to_dict() for doc in docs if doc.exists}
+
+# async def get_slide_metadata_batch(db, slide_ids: list[int]):
+#     slide_refs = [db.collection("slides").document(str(id)) for id in slide_ids]
+#     docs = await db.get_all(slide_refs)
+#     return {int(doc.id): doc.to_dict() for doc in docs if doc.exists}
+
+# async def get_subtitle_metadata_batch(db, clip_ids_list: list[int]):
+#     subtitle_refs = [db.collection("subtitles").document(str(id)) for id in clip_ids_list]
+#     docs = await db.get_all(subtitle_refs)
+#     return {int(doc.id): doc.to_dict() for doc in docs if doc.exists}
+
+# async def add_slides_batch(db, slides: list[Slide]):
+#     batch = db.batch()
+#     for slide in slides:
+#         slide_dict = slide.model_dump()
+#         del slide_dict["slide_id"]
+#         doc_ref = db.collection("slides").document(slide.get_slide_id_as_str())
+#         batch.set(doc_ref, slide_dict)
+#     await batch.commit()
+
+# async def add_ppts_batch(db, ppts: list[PPT]):
+#     batch = db.batch()
+#     for ppt in ppts:
+#         ppt_dict = ppt.model_dump()
+#         del ppt_dict["ppt_id"]
+#         doc_ref = db.collection("ppts").document(ppt.get_ppt_id_as_str())
+#         batch.set(doc_ref, ppt_dict)
+#     await batch.commit()
+
+# async def postFeedback(db, feedback):
+#     validated_feedback = UserFeedback(**feedback.dict())
+#     await db.collection("feedback").add(validated_feedback.dict())
+#     return validated_feedback
+
