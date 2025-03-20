@@ -224,8 +224,23 @@ async def get_slide_snippets(query: str):
 @app.on_event("startup")
 async def startup_event():
     global processor_task, slide_processor_task
+
+    # Initialize connections early to avoid first-request failures
+    global llm, conn, db
+    llm = get_llm()
+    conn = get_conn()
+    db = get_db()
+
+    # Warm-up test query to ensure the connection is live
+    try:
+        _ = await clip_query(llm, conn, db, ["warm-up query"])
+    except Exception as e:
+        print(f"Warning: Warm-up query failed: {e}")
+
+    # Start background tasks
     processor_task = asyncio.create_task(process_clip_batch())
     slide_processor_task = asyncio.create_task(process_slide_batch())
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
@@ -243,13 +258,13 @@ async def shutdown_event():
             pass
 
 @app.post("/postFeedback")
-async def post_feedback(question, thumbs_up_count, thumbs_down_count, total_count):
+async def post_feedback(quesion, thumbs_up_count, thumbs_down_count, total_count):
     user_feedback = UserFeedback(
-        question=question,
+        question=quesion,
         thumbs_up_count=thumbs_up_count,
         thumbs_down_count = thumbs_down_count, 
         total_count = total_count
     )
 
     db = get_db()
-    await postFeedback(db, user_feedback)
+    postFeedback(db, user_feedback)
