@@ -18,6 +18,7 @@ from backend.utils.zilliz_tools.zilliz_api import get_conn
 from backend.utils.firebase_tools.firebase_api import get_db, get_lecture_batch, get_ppt_batch, postFeedback
 from backend.utils.gemini_tools.gemini_api import get_llm
 from backend.db.models import UserFeedback
+import time
 
 # Configuration
 BATCH_SIZE = 10 
@@ -56,9 +57,8 @@ def replace_start_time(input_string, replacement_number):
 async def process_clip_batch():
     """Background task that processes clip requests in batches"""
     # Initialize connections once for the processor
-    llm = get_llm()
-    conn = get_conn()
-    db = get_db()
+    global llm, conn, db
+    #await ensure_connections()
     
     try:
         while True:
@@ -126,9 +126,8 @@ async def process_clip_batch():
 async def process_slide_batch():
     """Background task that processes slide requests in batches"""
     # Initialize connections once for the processor
-    llm = get_llm()
-    conn = get_conn()
-    db = get_db()
+    global llm, conn, db 
+    #await ensure_connections()
     
     try:
         while True:
@@ -223,23 +222,48 @@ async def get_slide_snippets(query: str):
 
 @app.on_event("startup")
 async def startup_event():
-    global processor_task, slide_processor_task
-
-    # Initialize connections early to avoid first-request failures
     global llm, conn, db
+
     llm = get_llm()
     conn = get_conn()
     db = get_db()
 
-    # Warm-up test query to ensure the connection is live
+    # Start background tasks
+    global processor_task, slide_processor_task
+    processor_task = asyncio.create_task(process_clip_batch())
+    slide_processor_task = asyncio.create_task(process_slide_batch())
+
+    async def keep_alive():
+        while True:
+            try:
+                ensure_connections()
+                await clip_query(llm, conn, db, ["keep-alive query"])
+                #await slide_query(llm, conn, db, ["keep-alive query"])
+            except Exception as e:
+                print(f"Keep-alive query failed: {e}")
+            await asyncio.sleep(500)
+
+    asyncio.create_task(keep_alive())  # Start keep-alive task
+
+    await asyncio.sleep(1)  # Give some buffer time before first request
+
+    # Initial warm-up query
+    start_time = time.time()
     try:
         _ = await clip_query(llm, conn, db, ["warm-up query"])
+        print(f"Warm-up query completed in {time.time() - start_time:.2f} seconds")
     except Exception as e:
         print(f"Warning: Warm-up query failed: {e}")
 
-    # Start background tasks
-    processor_task = asyncio.create_task(process_clip_batch())
-    slide_processor_task = asyncio.create_task(process_slide_batch())
+async def ensure_connections():
+    global llm, conn, db
+    if not llm:
+        llm = get_llm()
+    if not conn or conn.is_closed():  # If your DB client supports `is_closed()`
+        conn = get_conn()
+    if not db:
+        db = get_db()
+
 
 
 @app.on_event("shutdown")
@@ -266,5 +290,6 @@ async def post_feedback(quesion, thumbs_up_count, thumbs_down_count, total_count
         total_count = total_count
     )
 
-    db = get_db()
+    global db
+    #await ensure_connections()
     postFeedback(db, user_feedback)
