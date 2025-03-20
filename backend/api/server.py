@@ -236,7 +236,7 @@ async def startup_event():
     async def keep_alive():
         while True:
             try:
-                ensure_connections()
+                await ensure_connections()
                 await clip_query(llm, conn, db, ["keep-alive query"])
                 #await slide_query(llm, conn, db, ["keep-alive query"])
             except Exception as e:
